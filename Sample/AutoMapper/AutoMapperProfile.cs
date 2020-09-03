@@ -1,12 +1,12 @@
 using AutoMapper;
 
-namespace Sample.API
+namespace TeachMe.API
 {
     public class AutoMapperProfile : Profile
     {
         public AutoMapperProfile()
         {
-            ExampleMapper.Map(this);
+            UsuarioMapper.Map(this);
         }
     }
 }

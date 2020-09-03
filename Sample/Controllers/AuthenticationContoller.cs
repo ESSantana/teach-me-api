@@ -1,16 +1,16 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Sample.Authorization;
+using TeachMe.Authorization;
 
-namespace Sample.API.Controllers
+namespace TeachMe.API.Controllers
 {
     [Route("api/auth")]
     [ApiController]
     public class AuthenticationContoller : ControllerBase
     {
-        private readonly ILogger<ExampleController> _logger;
-        public AuthenticationContoller(ILogger<ExampleController> logger)
+        private readonly ILogger<UsuarioController> _logger;
+        public AuthenticationContoller(ILogger<UsuarioController> logger)
         {
             _logger = logger;
         }

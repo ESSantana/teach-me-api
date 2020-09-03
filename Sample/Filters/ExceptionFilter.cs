@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Sample.Core.Exceptions;
-using Sample.Core.Resources;
+using TeachMe.Core.Exceptions;
+using TeachMe.Core.Resources;
 using System.Data.Common;
 using System.Net;
 
-namespace Sample.API.Filters
+namespace TeachMe.API.Filters
 {
     public class ExceptionFilter : IExceptionFilter
     {

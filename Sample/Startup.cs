@@ -16,15 +16,15 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
-using Sample.API;
-using Sample.API.Filters;
-using Sample.Authorization;
-using Sample.Core.Resources;
-using Sample.Core.Services;
-using Sample.Core.Services.Interfaces;
-using Sample.Repository.Context;
-using Sample.Repository.Repositories;
-using Sample.Repository.Repositories.Interfaces;
+using TeachMe.API;
+using TeachMe.API.Filters;
+using TeachMe.Authorization;
+using TeachMe.Core.Resources;
+using TeachMe.Core.Services;
+using TeachMe.Core.Services.Interfaces;
+using TeachMe.Repository.Context;
+using TeachMe.Repository.Repositories;
+using TeachMe.Repository.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -33,7 +33,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sample
+namespace TeachMe
 {
     public class Startup
     {

@@ -1,14 +1,14 @@
-﻿using Sample.Core.Entities;
+﻿using TeachMe.Core.Entities;
 using System.Collections.Generic;
 
-namespace Sample.Core.Services.Interfaces
+namespace TeachMe.Core.Services.Interfaces
 {
     public interface IExampleService
     {
-        List<ExampleEntity> Get();
-        ExampleEntity Get(long Id);
-        int Create(List<ExampleEntity> entities);
-        ExampleEntity Modify(ExampleEntity entity);
+        List<Usuario> Get();
+        Usuario Get(long Id);
+        int Create(List<Usuario> entities);
+        Usuario Modify(Usuario entity);
         int Delete(long Id);
     }
 }

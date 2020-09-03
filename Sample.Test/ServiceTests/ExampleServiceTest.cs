@@ -1,14 +1,14 @@
 ﻿using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
-using Sample.Core.Entities;
-using Sample.Core.Services;
-using Sample.Repository.Repositories.Interfaces;
-using Sample.Test.Configuration.Service;
+using TeachMe.Core.Entities;
+using TeachMe.Core.Services;
+using TeachMe.Repository.Repositories.Interfaces;
+using TeachMe.Test.Configuration.Service;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Sample.Test.ServiceTests
+namespace TeachMe.Test.ServiceTests
 {
     public class ExampleServiceTest
     {
@@ -23,8 +23,8 @@ namespace Sample.Test.ServiceTests
 
             repository.Setup(r => r.Get()).Returns(ExampleMockResult.Get());
             repository.Setup(r => r.Get(It.IsAny<long>())).Returns(ExampleMockResult.Get().First());
-            repository.Setup(r => r.Create(It.IsAny<List<ExampleEntity>>())).Returns(1);
-            repository.Setup(r => r.Modify(It.IsAny<ExampleEntity>())).Returns(ExampleMockResult.Get().First());
+            repository.Setup(r => r.Create(It.IsAny<List<Usuario>>())).Returns(1);
+            repository.Setup(r => r.Modify(It.IsAny<Usuario>())).Returns(ExampleMockResult.Get().First());
             repository.Setup(r => r.Delete(It.IsAny<long>())).Returns(1);
 
             service = new ExampleService(repository.Object, logger.Object);
@@ -70,9 +70,9 @@ namespace Sample.Test.ServiceTests
         [Test]
         public void CreateExample_ShouldReturn_NumberOfEntitiesCreated()
         {
-            var entry = new List<ExampleEntity>
+            var entry = new List<Usuario>
             {
-                new ExampleEntity
+                new Usuario
                 {
                     Name = "Mock Name",
                     Description = "Mock Description"
@@ -82,7 +82,7 @@ namespace Sample.Test.ServiceTests
 
             Assert.Multiple(() =>
             {
-                repository.Verify(r => r.Create(It.IsAny<List<ExampleEntity>>()), Times.Once);
+                repository.Verify(r => r.Create(It.IsAny<List<Usuario>>()), Times.Once);
                 Assert.NotZero(result);
             });
         }
@@ -90,9 +90,9 @@ namespace Sample.Test.ServiceTests
         [Test]
         public void CreateExample_WithoutName_ShouldReturn_Zero()
         {
-            var entry = new List<ExampleEntity>
+            var entry = new List<Usuario>
             {
-                new ExampleEntity
+                new Usuario
                 {
                     Description = "Mock Description"
                 }
@@ -101,7 +101,7 @@ namespace Sample.Test.ServiceTests
 
             Assert.Multiple(() =>
             {
-                repository.Verify(r => r.Create(It.IsAny<List<ExampleEntity>>()), Times.Never);
+                repository.Verify(r => r.Create(It.IsAny<List<Usuario>>()), Times.Never);
                 Assert.Zero(result);
             });
         }
@@ -121,7 +121,7 @@ namespace Sample.Test.ServiceTests
         [Test]
         public void DeleteExample_WithInvalidId_ShouldReturn_Zero()
         {
-            repository.Setup(x => x.Get(It.IsAny<long>())).Returns((ExampleEntity)null);
+            repository.Setup(x => x.Get(It.IsAny<long>())).Returns((Usuario)null);
 
             var result = service.Delete(3);
 
@@ -135,7 +135,7 @@ namespace Sample.Test.ServiceTests
         [Test]
         public void ModifyExample_WithoutId_ShouldReturn_Null()
         {
-            var entity = new ExampleEntity
+            var entity = new Usuario
             {
                 Name = "Mock Name",
                 Description = "Mock Description"
@@ -145,7 +145,7 @@ namespace Sample.Test.ServiceTests
 
             Assert.Multiple(() =>
             {
-                repository.Verify(r => r.Modify(It.IsAny<ExampleEntity>()), Times.Never);
+                repository.Verify(r => r.Modify(It.IsAny<Usuario>()), Times.Never);
                 Assert.Null(result);
             });
         }
@@ -153,9 +153,9 @@ namespace Sample.Test.ServiceTests
         [Test]
         public void ModifyExample_WithInvalidId_ShouldReturn_Null()
         {
-            repository.Setup(x => x.Get(It.IsAny<long>())).Returns((ExampleEntity)null);
+            repository.Setup(x => x.Get(It.IsAny<long>())).Returns((Usuario)null);
 
-            var entity = new ExampleEntity
+            var entity = new Usuario
             {
                 Id = 3,
                 Name = "Mock Name",
@@ -166,7 +166,7 @@ namespace Sample.Test.ServiceTests
 
             Assert.Multiple(() =>
             {
-                repository.Verify(r => r.Modify(It.IsAny<ExampleEntity>()), Times.Never);
+                repository.Verify(r => r.Modify(It.IsAny<Usuario>()), Times.Never);
                 Assert.Null(result);
             });
         }
@@ -174,7 +174,7 @@ namespace Sample.Test.ServiceTests
         [Test]
         public void ModifyExample_ShouldReturn_ExampleEntity()
         {
-            var entity = new ExampleEntity
+            var entity = new Usuario
             {
                 Id = 1,
                 Name = "Mock Name",
@@ -185,7 +185,7 @@ namespace Sample.Test.ServiceTests
 
             Assert.Multiple(() =>
             {
-                repository.Verify(r => r.Modify(It.IsAny<ExampleEntity>()), Times.Once);
+                repository.Verify(r => r.Modify(It.IsAny<Usuario>()), Times.Once);
                 Assert.NotNull(result);
             });
         }

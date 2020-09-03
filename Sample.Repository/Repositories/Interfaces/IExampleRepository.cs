@@ -1,14 +1,14 @@
-﻿using Sample.Core.Entities;
+﻿using TeachMe.Core.Entities;
 using System.Collections.Generic;
 
-namespace Sample.Repository.Repositories.Interfaces
+namespace TeachMe.Repository.Repositories.Interfaces
 {
     public interface IExampleRepository
     {
-        List<ExampleEntity> Get();
-        ExampleEntity Get(long Id);
-        int Create(List<ExampleEntity> entity);
-        ExampleEntity Modify(ExampleEntity entity);
+        List<Usuario> Get();
+        Usuario Get(long Id);
+        int Create(List<Usuario> entity);
+        Usuario Modify(Usuario entity);
         int Delete(long Id);
     }
 }

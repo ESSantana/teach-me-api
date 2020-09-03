@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 using NLog.Web;
 using System;
 
-namespace Sample
+namespace TeachMe
 {
     public class Program
     {

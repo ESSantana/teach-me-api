@@ -1,19 +1,19 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Sample.Core.Entities;
+using TeachMe.Core.Entities;
 using System;
 using System.Linq;
 using System.Reflection;
 
-namespace Sample.Repository.Context
+namespace TeachMe.Repository.Context
 {
     public class SampleDbContext : DbContext
     {
         public readonly DbOptions _dbOptions;
         public readonly ILogger<SampleDbContext> _logger;
 
-        public DbSet<ExampleEntity> ExampleEntities { get; set; }
+        public DbSet<Usuario> ExampleEntities { get; set; }
 
         public SampleDbContext(DbContextOptions<SampleDbContext> options, IOptionsMonitor<DbOptions> dbOptions, ILogger<SampleDbContext> logger) : base(options)
         {

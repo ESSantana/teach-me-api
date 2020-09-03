@@ -1,4 +1,4 @@
-﻿namespace Sample.Core.Resources
+﻿namespace TeachMe.Core.Resources
 {
     public interface IResourceLocalizer
     {

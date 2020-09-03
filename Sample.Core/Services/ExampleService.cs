@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Logging;
-using Sample.Core.Entities;
-using Sample.Core.Services.Interfaces;
-using Sample.Repository.Repositories.Interfaces;
+using TeachMe.Core.Entities;
+using TeachMe.Core.Services.Interfaces;
+using TeachMe.Repository.Repositories.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Sample.Core.Services
+namespace TeachMe.Core.Services
 {
     public class ExampleService : IExampleService
     {
@@ -19,7 +19,7 @@ namespace Sample.Core.Services
             _logger = logger;
         }
 
-        public List<ExampleEntity> Get()
+        public List<Usuario> Get()
         {
             _logger.LogDebug("Get All");
             var result = _repository.Get();
@@ -28,7 +28,7 @@ namespace Sample.Core.Services
             return result;
         }
 
-        public ExampleEntity Get(long Id)
+        public Usuario Get(long Id)
         {
             _logger.LogDebug("Get");
             if (Id < 1)
@@ -43,7 +43,7 @@ namespace Sample.Core.Services
             return result;
         }
 
-        public int Create(List<ExampleEntity> entities)
+        public int Create(List<Usuario> entities)
         {
             _logger.LogDebug("Create");
 
@@ -77,7 +77,7 @@ namespace Sample.Core.Services
             return result;
         }
 
-        public ExampleEntity Modify(ExampleEntity entity)
+        public Usuario Modify(Usuario entity)
         {
             _logger.LogDebug("Modify");
             if (entity.Id > 0)

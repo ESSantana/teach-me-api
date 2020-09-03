@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace Sample.Core.Exceptions
+namespace TeachMe.Core.Exceptions
 {
     public class CustomException : Exception
     {

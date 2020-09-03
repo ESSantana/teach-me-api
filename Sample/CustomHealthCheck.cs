@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
-using Sample.Core.Resources;
+using TeachMe.Core.Resources;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Sample.API
+namespace TeachMe.API
 {
     public class CustomHealthCheck : IHealthCheck
     {

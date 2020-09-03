@@ -1,13 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Sample.Core.Entities;
-using Sample.Repository.Context;
-using Sample.Repository.Repositories.Interfaces;
+using TeachMe.Core.Entities;
+using TeachMe.Repository.Context;
+using TeachMe.Repository.Repositories.Interfaces;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
 
-namespace Sample.Repository.Repositories
+namespace TeachMe.Repository.Repositories
 {
     public class ExampleRepository : IExampleRepository
     {
@@ -19,7 +19,7 @@ namespace Sample.Repository.Repositories
             _context = context;
             _logger = logger;
         }
-        public List<ExampleEntity> Get()
+        public List<Usuario> Get()
         {
             _logger.LogDebug("GetAll");
             try
@@ -39,7 +39,7 @@ namespace Sample.Repository.Repositories
             }
         }
 
-        public ExampleEntity Get(long Id)
+        public Usuario Get(long Id)
         {
             _logger.LogDebug("Get");
             try
@@ -59,7 +59,7 @@ namespace Sample.Repository.Repositories
             }
         }
 
-        public int Create(List<ExampleEntity> entities)
+        public int Create(List<Usuario> entities)
         {
             _logger.LogDebug("Create");
             try
@@ -102,7 +102,7 @@ namespace Sample.Repository.Repositories
             }
         }
 
-        public ExampleEntity Modify(ExampleEntity entity)
+        public Usuario Modify(Usuario entity)
         {
             _logger.LogDebug("Modify");
             try
@@ -118,7 +118,7 @@ namespace Sample.Repository.Repositories
 
                 return result == 1
                   ? actualEntity
-                  : new ExampleEntity();
+                  : new Usuario();
             }
             catch (DbException ex)
             {

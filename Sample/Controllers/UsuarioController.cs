@@ -2,23 +2,23 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Sample.API.Models.DTO;
-using Sample.Core.Entities;
-using Sample.Core.Services.Interfaces;
+using TeachMe.API.Models.DTO;
+using TeachMe.Core.Entities;
+using TeachMe.Core.Services.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Sample.API.Controllers
+namespace TeachMe.API.Controllers
 {
-    [Route("api/example")]
+    [Route("api/v1/usuario")]
     [ApiController]
-    public class ExampleController : ControllerBase
+    public class UsuarioController : ControllerBase
     {
-        private readonly ILogger<ExampleController> _logger;
+        private readonly ILogger<UsuarioController> _logger;
         private readonly IExampleService _service;
         private readonly IMapper _mapper;
 
-        public ExampleController(IExampleService service, ILogger<ExampleController> logger, IMapper mapper)
+        public UsuarioController(IExampleService service, ILogger<UsuarioController> logger, IMapper mapper)
         {
             _service = service;
             _logger = logger;
@@ -28,7 +28,7 @@ namespace Sample.API.Controllers
         [HttpGet]
         [Route("get")]
         [Authorize]
-        public ActionResult<List<ExampleDTO>> Get()
+        public ActionResult<List<UsuarioDTO>> Get()
         {
             _logger.LogDebug("Get All");
             var result = _service.Get();
@@ -36,14 +36,14 @@ namespace Sample.API.Controllers
             _logger.LogDebug($"Get All result: {result.Count}");
 
             return result.Count > 0
-                ? (ActionResult)Ok(result.Select(r => _mapper.Map<ExampleDTO>(r)).ToList())
+                ? (ActionResult)Ok(result.Select(r => _mapper.Map<UsuarioDTO>(r)).ToList())
                 : NoContent();
         }
 
         [HttpGet]
         [Route("get/{id}")]
         [Authorize]
-        public ActionResult<ExampleDTO> Get(long id)
+        public ActionResult<UsuarioDTO> Get(long id)
         {
             _logger.LogDebug("Get");
             var result = _service.Get(id);
@@ -51,16 +51,16 @@ namespace Sample.API.Controllers
             _logger.LogDebug($"Get result success? {result != null}");
 
             return result != null
-                ? (ActionResult)Ok(_mapper.Map<ExampleDTO>(result))
+                ? (ActionResult)Ok(_mapper.Map<UsuarioDTO>(result))
                 : NoContent();
         }
 
         [HttpPost]
         [Route("create")]
         [Authorize]
-        public ActionResult<object> Create(List<ExampleDTO> exampleDto)
+        public ActionResult<object> Create(List<UsuarioDTO> exampleDto)
         {
-            var exampleEntities = exampleDto.Select(e => _mapper.Map<ExampleEntity>(e)).ToList();
+            var exampleEntities = exampleDto.Select(e => _mapper.Map<Usuario>(e)).ToList();
 
             _logger.LogDebug("Create");
             var result = _service.Create(exampleEntities);
@@ -75,9 +75,9 @@ namespace Sample.API.Controllers
         [HttpPost]
         [Route("modify")]
         [Authorize]
-        public ActionResult<ExampleDTO> Modify(ExampleDTO exampleDto)
+        public ActionResult<UsuarioDTO> Modify(UsuarioDTO exampleDto)
         {
-            var exampleEntity = _mapper.Map<ExampleEntity>(exampleDto);
+            var exampleEntity = _mapper.Map<Usuario>(exampleDto);
 
             _logger.LogDebug("Modify");
             var result = _service.Modify(exampleEntity);
@@ -85,7 +85,7 @@ namespace Sample.API.Controllers
             _logger.LogDebug($"Modify success? {result != null}");
 
             return result != null
-                ? (ActionResult)Ok(_mapper.Map<ExampleDTO>(result))
+                ? (ActionResult)Ok(_mapper.Map<UsuarioDTO>(result))
                 : NoContent();
         }
 

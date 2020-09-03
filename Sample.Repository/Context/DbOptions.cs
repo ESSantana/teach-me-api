@@ -1,4 +1,4 @@
-﻿namespace Sample.Repository.Context
+﻿namespace TeachMe.Repository.Context
 {
     public class DbOptions
     {

@@ -1,4 +1,4 @@
-namespace Sample.Authorization
+namespace TeachMe.Authorization
 {
     public static class Settings
     {

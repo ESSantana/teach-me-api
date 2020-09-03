@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Localization;
 using System.Reflection;
 
-namespace Sample.Core.Resources
+namespace TeachMe.Core.Resources
 {
     public class ResourceLocalizer : IResourceLocalizer
     {

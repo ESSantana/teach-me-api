@@ -3,35 +3,35 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
-using Sample.API.Controllers;
-using Sample.API.Models.DTO;
-using Sample.Core.Entities;
-using Sample.Core.Services.Interfaces;
-using Sample.Test.Configuration.Service;
+using TeachMe.API.Controllers;
+using TeachMe.API.Models.DTO;
+using TeachMe.Core.Entities;
+using TeachMe.Core.Services.Interfaces;
+using TeachMe.Test.Configuration.Service;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Sample.Test.ControllerTests
+namespace TeachMe.Test.ControllerTests
 {
     public class ExampleControllerTest
     {
-        private ExampleController controller;
+        private UsuarioController controller;
         private Mock<IExampleService> service;
 
         [SetUp]
         public void Setup()
         {
             var mapper = new Mock<IMapper>();
-            var logger = new Mock<ILogger<ExampleController>>();
+            var logger = new Mock<ILogger<UsuarioController>>();
             service = new Mock<IExampleService>();
 
             service.Setup(r => r.Get()).Returns(ExampleMockResult.Get());
             service.Setup(r => r.Get(It.IsAny<long>())).Returns(ExampleMockResult.Get().First());
-            service.Setup(r => r.Create(It.IsAny<List<ExampleEntity>>())).Returns(1);
-            service.Setup(r => r.Modify(It.IsAny<ExampleEntity>())).Returns(ExampleMockResult.Get().First());
+            service.Setup(r => r.Create(It.IsAny<List<Usuario>>())).Returns(1);
+            service.Setup(r => r.Modify(It.IsAny<Usuario>())).Returns(ExampleMockResult.Get().First());
             service.Setup(r => r.Delete(It.IsAny<long>())).Returns(1);
 
-            controller = new ExampleController(service.Object, logger.Object, mapper.Object);
+            controller = new UsuarioController(service.Object, logger.Object, mapper.Object);
         }
 
         [Test]
@@ -50,7 +50,7 @@ namespace Sample.Test.ControllerTests
         [Test]
         public void Get_ShouldReturn_NoContentResult()
         {
-            service.Setup(r => r.Get()).Returns(new List<ExampleEntity>());
+            service.Setup(r => r.Get()).Returns(new List<Usuario>());
 
             var result = controller.Get();
 
@@ -78,7 +78,7 @@ namespace Sample.Test.ControllerTests
         [Test]
         public void GetByID_ShouldReturn_NoContentResult()
         {
-            service.Setup(r => r.Get(It.IsAny<long>())).Returns((ExampleEntity)null);
+            service.Setup(r => r.Get(It.IsAny<long>())).Returns((Usuario)null);
 
             var result = controller.Get(1);
 
@@ -93,9 +93,9 @@ namespace Sample.Test.ControllerTests
         [Test]
         public void Create_ShouldReturn_TotalResult()
         {
-            var entity = new List<ExampleDTO>
+            var entity = new List<UsuarioDTO>
             {
-                new ExampleDTO
+                new UsuarioDTO
                 {
                     Name = "Mock Name",
                     Description = "Mock Description"
@@ -106,7 +106,7 @@ namespace Sample.Test.ControllerTests
 
             Assert.Multiple(() =>
             {
-                service.Verify(s => s.Create(It.IsAny<List<ExampleEntity>>()), Times.Once);
+                service.Verify(s => s.Create(It.IsAny<List<Usuario>>()), Times.Once);
                 Assert.NotNull(result);
                 Assert.IsInstanceOf(typeof(OkObjectResult), result.Result);
             });
@@ -115,11 +115,11 @@ namespace Sample.Test.ControllerTests
         [Test]
         public void Create_ShouldReturn_NoContentResult()
         {
-            service.Setup(r => r.Create(It.IsAny<List<ExampleEntity>>())).Returns(0);
+            service.Setup(r => r.Create(It.IsAny<List<Usuario>>())).Returns(0);
 
-            var entity = new List<ExampleDTO>
+            var entity = new List<UsuarioDTO>
             {
-                new ExampleDTO
+                new UsuarioDTO
                 {
                     Name = "Mock Name",
                     Description = "Mock Description"
@@ -130,7 +130,7 @@ namespace Sample.Test.ControllerTests
 
             Assert.Multiple(() =>
             {
-                service.Verify(s => s.Create(It.IsAny<List<ExampleEntity>>()), Times.Once);
+                service.Verify(s => s.Create(It.IsAny<List<Usuario>>()), Times.Once);
                 Assert.NotNull(result);
                 Assert.IsInstanceOf(typeof(NoContentResult), result.Result);
             });
@@ -139,7 +139,7 @@ namespace Sample.Test.ControllerTests
         [Test]
         public void Modify_ShouldReturn_ExampleDTO()
         {
-            var entity = new ExampleDTO
+            var entity = new UsuarioDTO
             {
                 Id = 1,
                 Name = "Mock Name",
@@ -150,7 +150,7 @@ namespace Sample.Test.ControllerTests
 
             Assert.Multiple(() =>
             {
-                service.Verify(s => s.Modify(It.IsAny<ExampleEntity>()), Times.Once);
+                service.Verify(s => s.Modify(It.IsAny<Usuario>()), Times.Once);
                 Assert.NotNull(result);
                 Assert.IsInstanceOf(typeof(OkObjectResult), result.Result);
             });
@@ -159,9 +159,9 @@ namespace Sample.Test.ControllerTests
         [Test]
         public void Modify_ShouldReturn_NoContentResult()
         {
-            service.Setup(r => r.Modify(It.IsAny<ExampleEntity>())).Returns((ExampleEntity) null);
+            service.Setup(r => r.Modify(It.IsAny<Usuario>())).Returns((Usuario) null);
 
-            var entity = new ExampleDTO
+            var entity = new UsuarioDTO
             {
                 Id = 1,
                 Name = "Mock Name",
@@ -172,7 +172,7 @@ namespace Sample.Test.ControllerTests
 
             Assert.Multiple(() =>
             {
-                service.Verify(s => s.Modify(It.IsAny<ExampleEntity>()), Times.Once);
+                service.Verify(s => s.Modify(It.IsAny<Usuario>()), Times.Once);
                 Assert.NotNull(result);
                 Assert.IsInstanceOf(typeof(NoContentResult), result.Result);
             });

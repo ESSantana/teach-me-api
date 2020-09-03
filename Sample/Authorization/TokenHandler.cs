@@ -3,7 +3,7 @@ using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 
-namespace Sample.Authorization
+namespace TeachMe.Authorization
 {
     public static class TokenHandler
     {

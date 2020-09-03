@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Sample.Core.Entities;
-using Sample.Repository.Context;
+using TeachMe.Core.Entities;
+using TeachMe.Repository.Context;
 
-namespace Sample.Repository.Entities.EntityMapping
+namespace TeachMe.Repository.Entities.EntityMapping
 {
-    public class ExampleEntityMap : IEntityTypeConfiguration<ExampleEntity>
+    public class ExampleEntityMap : IEntityTypeConfiguration<Usuario>
     {
         public readonly DbOptions _dbOptions;
 
@@ -14,7 +14,7 @@ namespace Sample.Repository.Entities.EntityMapping
             _dbOptions = dbOptions;
         }
 
-        public void Configure(EntityTypeBuilder<ExampleEntity> builder)
+        public void Configure(EntityTypeBuilder<Usuario> builder)
         {
             builder.ToTable("Example");
 

@@ -14,9 +14,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Sample.Core\Sample.Core.csproj" />
-    <ProjectReference Include="..\Sample.Repository\Sample.Repository.csproj" />
-    <ProjectReference Include="..\Sample\Sample.API.csproj" />
+    <ProjectReference Include="..\Sample.Core\TeachMe.Core.csproj" />
+    <ProjectReference Include="..\Sample.Repository\TeachMe.Repository.csproj" />
+    <ProjectReference Include="..\Sample\TeachMe.API.csproj" />
   </ItemGroup>
 
 </Project>
