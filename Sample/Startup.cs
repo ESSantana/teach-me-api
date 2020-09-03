@@ -130,12 +130,12 @@ namespace TeachMe
             services.AddHealthChecks()
                 .AddCheck<CustomHealthCheck>("applicationHealth", tags: new[] { "app_tag" });
 
-            services.AddDbContext<SampleDbContext>(opt => opt.UseMySql(Configuration.GetConnectionString("DevConnection")));
-            services.AddScoped<SampleDbContext>();
+            services.AddDbContext<TeachDbContext>(opt => opt.UseMySql(Configuration.GetConnectionString("DevConnection")));
+            services.AddScoped<TeachDbContext>();
 
             services.AddTransient<IResourceLocalizer, ResourceLocalizer>();
-            services.AddTransient<IExampleRepository, ExampleRepository>();
-            services.AddTransient<IExampleService, ExampleService>();
+            services.AddTransient<IUsuarioRepositorio, UsuarioRepositorio>();
+            services.AddTransient<IUsuarioServico, UsuarioServico>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
