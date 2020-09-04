@@ -10,6 +10,7 @@ using TeachMe.Core.Services.Interfaces;
 using TeachMe.Test.Configuration.Service;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace TeachMe.Test.ControllerTests
 {
@@ -27,7 +28,7 @@ namespace TeachMe.Test.ControllerTests
 
             service.Setup(r => r.ObterTodos()).Returns(ExampleMockResult.Get());
             service.Setup(r => r.ObterPorId(It.IsAny<long>())).Returns(ExampleMockResult.Get().First());
-            service.Setup(r => r.Cadastrar(It.IsAny<List<Usuario>>())).Returns(1);
+            service.Setup(r => r.Cadastrar(It.IsAny<Usuario>())).Returns(1);
             service.Setup(r => r.Alterar(It.IsAny<Usuario>())).Returns(ExampleMockResult.Get().First());
             service.Setup(r => r.Excluir(It.IsAny<long>())).Returns(1);
 
@@ -93,20 +94,24 @@ namespace TeachMe.Test.ControllerTests
         [Test]
         public void Create_ShouldReturn_TotalResult()
         {
-            var entity = new List<UsuarioDTO>
+            var usuario = new UsuarioDTO
             {
-                new UsuarioDTO
-                {
-                    Name = "Mock Name",
-                    Description = "Mock Description"
-                }
+                Id = 1,
+                Nome = "Nome Mock 1",
+                Email = "example1@mail.com",
+                Senha = "SenhaSegura",
+                DataNascimento = new DateTime(1990, 01, 01),
+                NuDocumento = "111111111111",
+                Telefone = "71999887744",
+                TipoDocumento = "CPF",
+                Escolaridade = "Escolaridade Mock 1"
             };
 
-            var result = controller.Cadastrar(entity);
+            var result = controller.Cadastrar(usuario);
 
             Assert.Multiple(() =>
             {
-                service.Verify(s => s.Cadastrar(It.IsAny<List<Usuario>>()), Times.Once);
+                service.Verify(s => s.Cadastrar(It.IsAny<Usuario>()), Times.Once);
                 Assert.NotNull(result);
                 Assert.IsInstanceOf(typeof(OkObjectResult), result.Result);
             });
@@ -115,22 +120,25 @@ namespace TeachMe.Test.ControllerTests
         [Test]
         public void Create_ShouldReturn_NoContentResult()
         {
-            service.Setup(r => r.Cadastrar(It.IsAny<List<Usuario>>())).Returns(0);
+            service.Setup(r => r.Cadastrar(It.IsAny<Usuario>())).Returns(0);
 
-            var entity = new List<UsuarioDTO>
+            var entity = new UsuarioDTO
             {
-                new UsuarioDTO
-                {
-                    Name = "Mock Name",
-                    Description = "Mock Description"
-                }
+                Nome = "Nome Mock 1",
+                Email = "example1@mail.com",
+                Senha = "SenhaSegura",
+                DataNascimento = new DateTime(1990, 01, 01),
+                NuDocumento = "111111111111",
+                Telefone = "71999887744",
+                TipoDocumento = "CPF",
+                Escolaridade = "Escolaridade Mock 1"
             };
 
             var result = controller.Cadastrar(entity);
 
             Assert.Multiple(() =>
             {
-                service.Verify(s => s.Cadastrar(It.IsAny<List<Usuario>>()), Times.Once);
+                service.Verify(s => s.Cadastrar(It.IsAny<Usuario>()), Times.Once);
                 Assert.NotNull(result);
                 Assert.IsInstanceOf(typeof(NoContentResult), result.Result);
             });
@@ -139,14 +147,20 @@ namespace TeachMe.Test.ControllerTests
         [Test]
         public void Modify_ShouldReturn_ExampleDTO()
         {
-            var entity = new UsuarioDTO
+            var usuario = new UsuarioDTO
             {
                 Id = 1,
-                Name = "Mock Name",
-                Description = "Mock Description"
+                Nome = "Nome Mock 1",
+                Email = "example1@mail.com",
+                Senha = "SenhaSegura",
+                DataNascimento = new DateTime(1990, 01, 01),
+                NuDocumento = "111111111111",
+                Telefone = "71999887744",
+                TipoDocumento = "CPF",
+                Escolaridade = "Escolaridade Mock 1"
             };
 
-            var result = controller.Alterar(entity);
+            var result = controller.Alterar(usuario);
 
             Assert.Multiple(() =>
             {
@@ -161,14 +175,20 @@ namespace TeachMe.Test.ControllerTests
         {
             service.Setup(r => r.Alterar(It.IsAny<Usuario>())).Returns((Usuario) null);
 
-            var entity = new UsuarioDTO
+            var usuario = new UsuarioDTO
             {
                 Id = 1,
-                Name = "Mock Name",
-                Description = "Mock Description"
+                Nome = "Nome Mock 1",
+                Email = "example1@mail.com",
+                Senha = "SenhaSegura",
+                DataNascimento = new DateTime(1990, 01, 01),
+                NuDocumento = "111111111111",
+                Telefone = "71999887744",
+                TipoDocumento = "CPF",
+                Escolaridade = "Escolaridade Mock 1"
             };
 
-            var result = controller.Alterar(entity);
+            var result = controller.Alterar(usuario);
 
             Assert.Multiple(() =>
             {
@@ -188,21 +208,6 @@ namespace TeachMe.Test.ControllerTests
                 service.Verify(s => s.Excluir(It.IsAny<long>()), Times.Once);
                 Assert.NotNull(result);
                 Assert.IsInstanceOf(typeof(OkObjectResult), result.Result);
-            });
-        }
-
-        [Test]
-        public void Delete_ShouldReturn_NoContentResult()
-        {
-            service.Setup(r => r.Excluir(It.IsAny<long>())).Returns(0);
-
-            var result = controller.Excluir(1);
-
-            Assert.Multiple(() =>
-            {
-                service.Verify(s => s.Excluir(It.IsAny<long>()), Times.Once);
-                Assert.NotNull(result);
-                Assert.IsInstanceOf(typeof(NoContentResult), result.Result);
             });
         }
     }

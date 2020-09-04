@@ -29,7 +29,8 @@ namespace TeachMe.Repository.Repositories
                     .ToList();
 
                 _logger.LogDebug($"ObterTodos resultado: {resultado.Count}");
-
+                resultado.ForEach(x => x.Senha = string.Empty);
+            
                 return resultado;
             }
             catch (DbException ex)
@@ -50,6 +51,7 @@ namespace TeachMe.Repository.Repositories
 
                 _logger.LogDebug($"ObterPorId com sucesso? {resultado != null}");
 
+                resultado.Senha = string.Empty;
                 return resultado;
             }
             catch (DbException ex)
@@ -79,6 +81,21 @@ namespace TeachMe.Repository.Repositories
             catch (DbException ex)
             {
                 _logger.LogError(ex, $"Alterar Erro: {ex.Message}");
+                throw;
+            }
+        }
+
+        public bool VerificarExistencia(string email, string nudocumento)
+        {
+            try
+            {
+                var resultado = _contexto.Usuarios.FirstOrDefault(usr => usr.Email.Equals(email) || usr.NuDocumento.Equals(nudocumento));
+
+                return resultado != null;
+            }
+            catch (DbException ex)
+            {
+                _logger.LogError(ex, $"VerificarExistencia Erro: {ex.Message}");
                 throw;
             }
         }

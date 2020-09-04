@@ -1,5 +1,6 @@
-﻿using TeachMe.Core.Entities;
+﻿using System;
 using System.Collections.Generic;
+using TeachMe.Core.Entities;
 
 namespace TeachMe.Test.Configuration.Service
 {
@@ -12,20 +13,38 @@ namespace TeachMe.Test.Configuration.Service
                 new Usuario
                 {
                     Id = 1,
-                    Name = "Example Mock Name 1",
-                    Description = "Example Mock Description 1"
+                    Nome = "Nome Mock 1",
+                    Email="example1@mail.com",
+                    Senha="SenhaSegura",
+                    DataNascimento= new DateTime(1990,01,01),
+                    NuDocumento="111111111111",
+                    Telefone="71999887744",
+                    TipoDocumento = "CPF",
+                    Escolaridade = "Escolaridade Mock 1"
                 },
                 new Usuario
                 {
                     Id = 2,
-                    Name = "Example Mock Name 2",
-                    Description = "Example Mock Description 2"
+                    Nome = "Nome Mock 2",
+                    Email="example2@mail.com",
+                    Senha="SenhaSegura",
+                    DataNascimento= new DateTime(1990,01,01),
+                    NuDocumento="111111111111",
+                    Telefone="71999887744",
+                    TipoDocumento = "CPF",
+                    Escolaridade = "Escolaridade Mock 2"
                 },
                 new Usuario
                 {
                     Id = 3,
-                    Name = "Example Mock Name 3",
-                    Description = "Example Mock Description 3"
+                    Nome = "Nome Mock 3",
+                    Email="example3@mail.com",
+                    Senha="SenhaSegura",
+                    DataNascimento= new DateTime(1990,01,01),
+                    NuDocumento="111111111111",
+                    Telefone="71999887744",
+                    TipoDocumento = "CPF",
+                    Escolaridade = "Escolaridade Mock 3"
                 }
             };
         }

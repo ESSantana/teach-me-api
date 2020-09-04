@@ -132,4 +132,7 @@
   <data name="UNHEALTHY_STATUS" xml:space="preserve">
     <value>A aplicação está com problemas</value>
   </data>
+  <data name="USER_EXISTING" xml:space="preserve">
+    <value>Documento ou email já cadastrado, caso necessário solicite uma nova senha.</value>
+  </data>
 </root>

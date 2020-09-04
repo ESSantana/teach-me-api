@@ -48,7 +48,7 @@ namespace TeachMe
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc()
-                .AddFluentValidation(fvc => fvc.RegisterValidatorsFromAssembly(Assembly.Load("Sample.API")))
+                .AddFluentValidation(fvc => fvc.RegisterValidatorsFromAssembly(Assembly.Load("TeachMe.API")))
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
                 .AddDataAnnotationsLocalization(options =>
                 {
@@ -80,6 +80,8 @@ namespace TeachMe
 
                     options.RequestCultureProviders.Insert(0, new QueryStringRequestCultureProvider());
                 });
+
+            services.Configure<DbOptions>(Configuration.GetSection("DbOptions"));
 
             services.AddControllers();
             services.AddCors();

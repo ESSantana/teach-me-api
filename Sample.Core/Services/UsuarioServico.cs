@@ -1,22 +1,28 @@
-﻿using Microsoft.EntityFrameworkCore.Internal;
-using Microsoft.Extensions.Logging;
-using TeachMe.Core.Entities;
-using TeachMe.Core.Services.Interfaces;
-using TeachMe.Repository.Repositories.Interfaces;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
+using TeachMe.Core.Entities;
+using TeachMe.Core.Exceptions;
+using TeachMe.Core.Resources;
+using TeachMe.Core.Services.Interfaces;
+using TeachMe.Repository.Repositories.Interfaces;
 
 namespace TeachMe.Core.Services
 {
     public class UsuarioServico : IUsuarioServico
     {
         private readonly ILogger<UsuarioServico> _logger;
+        private readonly IResourceLocalizer _resource;
         private readonly IUsuarioRepositorio _repositorio;
 
-        public UsuarioServico(IUsuarioRepositorio repositorio, ILogger<UsuarioServico> logger)
+        public UsuarioServico(IUsuarioRepositorio repositorio, ILogger<UsuarioServico> logger, IResourceLocalizer resource)
         {
             _repositorio = repositorio;
             _logger = logger;
+            _resource = resource;
         }
 
         public List<Usuario> ObterTodos()
@@ -47,8 +53,17 @@ namespace TeachMe.Core.Services
         public int Cadastrar(Usuario usuario)
         {
             _logger.LogDebug("Cadastrar");
-            //TO DO: Validação de cadastro existente
-            
+
+            var usuarioCadastrado = _repositorio.VerificarExistencia(usuario.Email, usuario.NuDocumento);
+
+            if (usuarioCadastrado)
+            {
+                _logger.LogDebug("Usuário já cadastrado");
+                throw new BusinessException(_resource.GetString("USER_EXISTING"));
+            }
+
+            usuario.Senha = EncriptarSenha(usuario.Senha);
+
             var resultado = _repositorio.Cadastrar(usuario);
 
             _logger.LogDebug($"Cadastrar: {resultado} usuário cadastrado");
@@ -88,6 +103,8 @@ namespace TeachMe.Core.Services
                     return null;
                 }
 
+                usuario.Senha = EncriptarSenha(usuario.Senha);
+
                 var resultado = _repositorio.Alterar(usuario);
                 _logger.LogDebug($"Alterado com sucesso? {!string.IsNullOrEmpty(resultado.Nome)}");
 
@@ -97,6 +114,15 @@ namespace TeachMe.Core.Services
             //TO DO: Substituir por lançamento de exceção
             _logger.LogWarning("ID Inválido");
             return null;
+        }
+
+        private string EncriptarSenha(string senha)
+        {
+            var encriptador = SHA256.Create();
+
+            var hash = encriptador.ComputeHash(Encoding.ASCII.GetBytes(senha)).ToList();
+
+            return string.Join("", hash.Select(x => x.ToString("X2")).ToList()).ToLower();
         }
     }
 }

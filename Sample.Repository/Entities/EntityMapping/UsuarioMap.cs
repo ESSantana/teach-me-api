@@ -22,19 +22,18 @@ namespace TeachMe.Repository.Entities.EntityMapping
 
             builder.Property(x => x.Id)
                 .IsRequired()
-                .HasColumnName("ID");
+                .HasColumnName("USUARIO_ID");
 
             builder.Property(x => x.Nome)
                 .HasColumnName("NOME")
-                .HasMaxLength(50);
+                .HasMaxLength(80);
 
             builder.Property(x => x.DataNascimento)
-                .HasColumnName("DATA_NASCIMENTO")
-                .HasMaxLength(255);
+                .HasColumnName("DATA_NASCIMENTO");
 
             builder.Property(x => x.Email)
                 .HasColumnName("EMAIL")
-                .HasMaxLength(255);
+                .HasMaxLength(100);
 
             builder.Property(x => x.Senha)
                 .HasColumnName("SENHA")
@@ -42,19 +41,19 @@ namespace TeachMe.Repository.Entities.EntityMapping
 
             builder.Property(x => x.Telefone)
                 .HasColumnName("TELEFONE")
-                .HasMaxLength(255);
+                .HasMaxLength(11);
 
             builder.Property(x => x.Escolaridade)
                 .HasColumnName("ESCOLARIDADE")
-                .HasMaxLength(255);
+                .HasMaxLength(100);
 
             builder.Property(x => x.NuDocumento)
                 .HasColumnName("NU_DOCUMENTO")
-                .HasMaxLength(255);
+                .HasMaxLength(11);
 
             builder.Property(x => x.TipoDocumento)
                 .HasColumnName("TIPO_DOCUMENTO")
-                .HasMaxLength(255);
+                .HasMaxLength(3);
         }
     }
 }

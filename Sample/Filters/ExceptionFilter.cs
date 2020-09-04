@@ -27,7 +27,7 @@ namespace TeachMe.API.Filters
                 result = new { context.Exception.Message };
             }
 
-            if (context.Exception.GetType() == typeof(CustomException))
+            if (context.Exception.GetType() == typeof(BusinessException))
             {
                 status = HttpStatusCode.BadRequest;
                 result = new { context.Exception.Message };
