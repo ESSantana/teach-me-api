@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
@@ -25,6 +24,24 @@ namespace TeachMe.Core.Services
             _resource = resource;
         }
 
+        public Usuario Login(string email, string senha)
+        {
+            _logger.LogDebug("Login");
+
+            var emailParticionado = email.Split("@");
+
+            //TO DO: Substituir por ReGex
+            if (emailParticionado.Length == 2 && emailParticionado[1].Split(".").Length == 2 && !string.IsNullOrEmpty(senha))
+            {
+                var resultado = _repositorio.Login(email, EncriptarSenha(senha));
+
+                _logger.LogDebug($"Login: usuário existente? {resultado != null}");
+                return resultado;
+            }
+
+            throw new BusinessException(_resource.GetString("MISSING_PARAM"));
+        }
+
         public List<Usuario> ObterTodos()
         {
             _logger.LogDebug("ObterTodos");
@@ -39,9 +56,7 @@ namespace TeachMe.Core.Services
             _logger.LogDebug("ObterPorId");
             if (Id < 1)
             {
-                //TO DO: Substituir por lançamento de exceção
-                _logger.LogWarning("ID Inválido");
-                return null;
+                throw new BusinessException(_resource.GetString("INVALID_ID"));
             }
 
             var resultado = _repositorio.ObterPorId(Id);
@@ -78,9 +93,8 @@ namespace TeachMe.Core.Services
 
             if (usuarioParaDeletar == null)
             {
-                //TO DO: Substituir por lançamento de exceção
-                _logger.LogWarning("ID inválido");
-                return 0;
+                _logger.LogWarning("ID Inválido");
+                throw new BusinessException(_resource.GetString("INVALID_ID"));
             }
 
             var resultado = _repositorio.Excluir(Id);
@@ -92,28 +106,28 @@ namespace TeachMe.Core.Services
         public Usuario Alterar(Usuario usuario)
         {
             _logger.LogDebug("Alterar");
-            if (usuario.Id > 0)
+
+            if (usuario.Id < 1)
             {
-                var usuarioAtual = ObterPorId(usuario.Id);
-
-                if (usuarioAtual == null)
-                {
-                    //TO DO: Substituir por lançamento de exceção
-                    _logger.LogWarning("ID Inválido");
-                    return null;
-                }
-
-                usuario.Senha = EncriptarSenha(usuario.Senha);
-
-                var resultado = _repositorio.Alterar(usuario);
-                _logger.LogDebug($"Alterado com sucesso? {!string.IsNullOrEmpty(resultado.Nome)}");
-
-                return resultado;
+                _logger.LogWarning("ID Inválido");
+                throw new BusinessException(_resource.GetString("INVALID_ID"));
             }
 
-            //TO DO: Substituir por lançamento de exceção
-            _logger.LogWarning("ID Inválido");
-            return null;
+            var usuarioAtual = ObterPorId(usuario.Id);
+
+            if (usuarioAtual == null)
+            {
+                _logger.LogWarning("ID Inválido");
+                throw new BusinessException(_resource.GetString("INVALID_ID"));
+            }
+
+            usuario.Senha = EncriptarSenha(usuario.Senha);
+
+            var resultado = _repositorio.Alterar(usuario);
+            _logger.LogDebug($"Alterado com sucesso? {!string.IsNullOrEmpty(resultado.Nome)}");
+
+            return resultado;
+
         }
 
         private string EncriptarSenha(string senha)

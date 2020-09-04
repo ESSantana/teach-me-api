@@ -5,6 +5,7 @@ namespace TeachMe.Repository.Repositories.Interfaces
 {
     public interface IUsuarioRepositorio
     {
+        Usuario Login(string email, string senha);
         List<Usuario> ObterTodos();
         Usuario ObterPorId(long Id);
         int Cadastrar(Usuario usuario);

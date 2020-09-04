@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -19,6 +20,26 @@ namespace TeachMe.Repository.Repositories
             _contexto = contexto;
             _logger = logger;
         }
+
+        public Usuario Login(string email, string senha)
+        {
+            try
+            {
+                var resultado = _contexto.Usuarios.FirstOrDefault(usr => usr.Email.Equals(email) && usr.Senha.Equals(senha));
+
+                if(resultado != null){
+                    resultado.Senha = string.Empty;
+                }
+
+                return resultado;
+            }
+            catch (DbException ex)
+            {
+                _logger.LogError(ex, $"VerificarExistencia Erro: {ex.Message}");
+                throw;
+            }
+        }
+
         public List<Usuario> ObterTodos()
         {
             _logger.LogDebug("ObterTodos");

@@ -13,5 +13,6 @@ namespace TeachMe.API.Models.DTO
         public string Escolaridade { get; set; }
         public string TipoDocumento { get; set; }
         public string NuDocumento { get; set; }
+        public string Token { get; set; }
     }
 }
