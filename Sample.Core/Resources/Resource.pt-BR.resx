@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="FIELD_FORMAT" xml:space="preserve">
-    <value>O formato do {0} campo é inválido</value>
+    <value>O formato do campo {0} é inválido</value>
   </data>
   <data name="FIELD_REQUIRED" xml:space="preserve">
     <value>O campo {0} é obrigatório</value>
@@ -126,10 +126,19 @@
   <data name="HEALTHY_STATUS" xml:space="preserve">
     <value>A aplicação está ok</value>
   </data>
+  <data name="INVALID_ID" xml:space="preserve">
+    <value>Id inválido</value>
+  </data>
+  <data name="MISSING_PARAM" xml:space="preserve">
+    <value>Preencha todos os campos obrigatórios</value>
+  </data>
   <data name="SIZE_RULE" xml:space="preserve">
     <value>O campo {0} deve ter tamanho menor ou igual a {1} caracteres</value>
   </data>
   <data name="UNHEALTHY_STATUS" xml:space="preserve">
     <value>A aplicação está com problemas</value>
+  </data>
+  <data name="USER_EXISTING" xml:space="preserve">
+    <value>Documento ou email já cadastrado, caso necessário solicite uma nova senha.</value>
   </data>
 </root>

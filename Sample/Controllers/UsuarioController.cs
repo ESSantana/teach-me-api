@@ -2,11 +2,11 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System.Linq;
 using TeachMe.API.Models.DTO;
 using TeachMe.Core.Entities;
 using TeachMe.Core.Services.Interfaces;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace TeachMe.API.Controllers
 {
@@ -15,93 +15,91 @@ namespace TeachMe.API.Controllers
     public class UsuarioController : ControllerBase
     {
         private readonly ILogger<UsuarioController> _logger;
-        private readonly IExampleService _service;
+        private readonly IUsuarioServico _servico;
         private readonly IMapper _mapper;
 
-        public UsuarioController(IExampleService service, ILogger<UsuarioController> logger, IMapper mapper)
+        public UsuarioController(IUsuarioServico servico, ILogger<UsuarioController> logger, IMapper mapper)
         {
-            _service = service;
+            _servico = servico;
             _logger = logger;
             _mapper = mapper;
         }
 
         [HttpGet]
-        [Route("get")]
+        [Route("obterTodos")]
         [Authorize]
-        public ActionResult<List<UsuarioDTO>> Get()
+        public ActionResult<List<UsuarioDTO>> ObterTodos()
         {
-            _logger.LogDebug("Get All");
-            var result = _service.Get();
+            _logger.LogDebug("ObterTodos");
+            var resultado = _servico.ObterTodos();
 
-            _logger.LogDebug($"Get All result: {result.Count}");
+            _logger.LogDebug($"ObterTodos resultado: {resultado.Count} usuário(s)");
 
-            return result.Count > 0
-                ? (ActionResult)Ok(result.Select(r => _mapper.Map<UsuarioDTO>(r)).ToList())
+            return resultado.Count > 0
+                ? (ActionResult)Ok(resultado.Select(r => _mapper.Map<UsuarioDTO>(r)).ToList())
                 : NoContent();
         }
 
         [HttpGet]
-        [Route("get/{id}")]
+        [Route("obter/{id}")]
         [Authorize]
-        public ActionResult<UsuarioDTO> Get(long id)
+        public ActionResult<UsuarioDTO> Obter(long id)
         {
-            _logger.LogDebug("Get");
-            var result = _service.Get(id);
+            _logger.LogDebug("Obter");
+            var resultado = _servico.ObterPorId(id);
 
-            _logger.LogDebug($"Get result success? {result != null}");
+            _logger.LogDebug($"Obter usuário com sucesso? {resultado != null}");
 
-            return result != null
-                ? (ActionResult)Ok(_mapper.Map<UsuarioDTO>(result))
+            return resultado != null
+                ? (ActionResult)Ok(_mapper.Map<UsuarioDTO>(resultado))
                 : NoContent();
         }
 
         [HttpPost]
-        [Route("create")]
+        [Route("cadastrar")]
         [Authorize]
-        public ActionResult<object> Create(List<UsuarioDTO> exampleDto)
+        public ActionResult<object> Cadastrar(UsuarioDTO usuarioDto)
         {
-            var exampleEntities = exampleDto.Select(e => _mapper.Map<Usuario>(e)).ToList();
+            var usuario = _mapper.Map<Usuario>(usuarioDto);
 
-            _logger.LogDebug("Create");
-            var result = _service.Create(exampleEntities);
+            _logger.LogDebug("Cadastrar");
+            var resultado = _servico.Cadastrar(usuario);
 
-            _logger.LogDebug($"Create: {result} entities created");
+            _logger.LogDebug($"Cadastrar: {resultado} usuário cadastrado");
 
-            return result > 0
-                ? (ActionResult)Ok(new { TotalResult = result })
+            return resultado > 0
+                ? (ActionResult)Ok(new { UsuarioCadastrado = resultado > 0 })
                 : NoContent();
         }
 
         [HttpPost]
-        [Route("modify")]
+        [Route("alterar")]
         [Authorize]
-        public ActionResult<UsuarioDTO> Modify(UsuarioDTO exampleDto)
+        public ActionResult<UsuarioDTO> Alterar(UsuarioDTO usuarioDto)
         {
-            var exampleEntity = _mapper.Map<Usuario>(exampleDto);
+            var exampleEntity = _mapper.Map<Usuario>(usuarioDto);
 
-            _logger.LogDebug("Modify");
-            var result = _service.Modify(exampleEntity);
+            _logger.LogDebug("Alterar");
+            var resultado = _servico.Alterar(exampleEntity);
 
-            _logger.LogDebug($"Modify success? {result != null}");
+            _logger.LogDebug($"Alterado com sucesso? {resultado != null}");
 
-            return result != null
-                ? (ActionResult)Ok(_mapper.Map<UsuarioDTO>(result))
+            return resultado != null
+                ? (ActionResult)Ok(_mapper.Map<UsuarioDTO>(resultado))
                 : NoContent();
         }
 
         [HttpDelete]
-        [Route("delete/{id}")]
+        [Route("excluir/{id}")]
         [Authorize]
-        public ActionResult<object> Delete(long id)
+        public ActionResult<object> Excluir(long id)
         {
-            _logger.LogDebug("Delete");
-            var result = _service.Delete(id);
+            _logger.LogDebug("Excluir");
+            var resultado = _servico.Excluir(id);
 
-            _logger.LogDebug($"Delete: {result} entities deleted");
+            _logger.LogDebug($"Excluir: {resultado} cadastro de usuário deletado");
 
-            return result > 0
-                ? (ActionResult)Ok(new { TotalDeleted = result })
-                : NoContent();
+            return Ok(new { UsuarioDeletado = resultado > 0 });
         }
     }
 }

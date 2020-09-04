@@ -1,7 +1,10 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using TeachMe.API.Models.DTO;
 using TeachMe.Authorization;
+using TeachMe.Core.Services.Interfaces;
 
 namespace TeachMe.API.Controllers
 {
@@ -10,23 +13,33 @@ namespace TeachMe.API.Controllers
     public class AuthenticationContoller : ControllerBase
     {
         private readonly ILogger<UsuarioController> _logger;
-        public AuthenticationContoller(ILogger<UsuarioController> logger)
+        private readonly IUsuarioServico _servico;
+        private readonly IMapper _mapper;
+        public AuthenticationContoller(IMapper mapper, ILogger<UsuarioController> logger, IUsuarioServico servico)
         {
+            _mapper = mapper;
             _logger = logger;
+            _servico = servico;
         }
 
         [HttpGet]
+        [Route("login")]
         [AllowAnonymous]
-        public ActionResult<User> Authenticate()
+        public ActionResult<UsuarioDTO> Login([FromHeader] string email, [FromHeader] string senha)
         {
             _logger.LogDebug("Authenticate");
 
-            var token = TokenHandler.GenerateToken();
-            var userAuthentication = new User { Token = token };
+            var usuario = _servico.Login(email, senha);
 
-            _logger.LogDebug("Token value: " + token);
+            if (usuario == null)
+            {
+                return new NoContentResult();
+            }
 
-            return userAuthentication;
+            var usuarioAutenticado = TokenHandler.GenerateToken(_mapper.Map<UsuarioDTO>(usuario));
+
+            _logger.LogDebug("Usuário autenticado");
+            return usuarioAutenticado;
         }
 
         [HttpGet]

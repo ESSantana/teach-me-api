@@ -7,62 +7,65 @@ using TeachMe.Repository.Repositories.Interfaces;
 using TeachMe.Test.Configuration.Service;
 using System.Collections.Generic;
 using System.Linq;
+using System;
+using TeachMe.Core.Resources;
 
 namespace TeachMe.Test.ServiceTests
 {
     public class ExampleServiceTest
     {
-        private Mock<IExampleRepository> repository;
-        private ExampleService service;
+        private Mock<IUsuarioRepositorio> repository;
+        private UsuarioServico service;
 
         [SetUp]
         public void Setup()
         {
-            var logger = new Mock<ILogger<ExampleService>>();
-            repository = new Mock<IExampleRepository>();
+            var logger = new Mock<ILogger<UsuarioServico>>();
+            var resource = new Mock<IResourceLocalizer>();
+            repository = new Mock<IUsuarioRepositorio>();
 
-            repository.Setup(r => r.Get()).Returns(ExampleMockResult.Get());
-            repository.Setup(r => r.Get(It.IsAny<long>())).Returns(ExampleMockResult.Get().First());
-            repository.Setup(r => r.Create(It.IsAny<List<Usuario>>())).Returns(1);
-            repository.Setup(r => r.Modify(It.IsAny<Usuario>())).Returns(ExampleMockResult.Get().First());
-            repository.Setup(r => r.Delete(It.IsAny<long>())).Returns(1);
+            repository.Setup(r => r.ObterTodos()).Returns(ExampleMockResult.Get());
+            repository.Setup(r => r.ObterPorId(It.IsAny<long>())).Returns(ExampleMockResult.Get().First());
+            repository.Setup(r => r.Cadastrar(It.IsAny<Usuario>())).Returns(1);
+            repository.Setup(r => r.Alterar(It.IsAny<Usuario>())).Returns(ExampleMockResult.Get().First());
+            repository.Setup(r => r.Excluir(It.IsAny<long>())).Returns(1);
 
-            service = new ExampleService(repository.Object, logger.Object);
+            service = new UsuarioServico(repository.Object, logger.Object, resource.Object);
         }
 
         [Test]
         public void GetExamples_ShouldReturn_ListOfExampleEntity()
         {
-            var result = service.Get();
+            var result = service.ObterTodos();
 
             Assert.Multiple(() =>
             {
-                repository.Verify(r => r.Get(), Times.Once);
+                repository.Verify(r => r.ObterTodos(), Times.Once);
                 Assert.NotZero(result.Count);
-                Assert.True(result.All(x => !string.IsNullOrEmpty(x.Name)));
+                Assert.True(result.All(x => !string.IsNullOrEmpty(x.Nome)));
             });
         }
 
         [Test]
         public void GetExampleById_ShouldReturn_ExampleEntity()
         {
-            var result = service.Get(1);
+            var result = service.ObterPorId(1);
 
             Assert.Multiple(() =>
             {
-                repository.Verify(r => r.Get(It.IsAny<long>()), Times.Once);
-                Assert.True(!string.IsNullOrEmpty(result.Name));
+                repository.Verify(r => r.ObterPorId(It.IsAny<long>()), Times.Once);
+                Assert.True(!string.IsNullOrEmpty(result.Nome));
             });
         }
 
         [Test]
         public void GetExampleById_WithInvalidId_ShouldReturn_Null()
         {
-            var result = service.Get(-1);
+            var result = service.ObterPorId(-1);
 
             Assert.Multiple(() =>
             {
-                repository.Verify(r => r.Get(It.IsAny<long>()), Times.Never);
+                repository.Verify(r => r.ObterPorId(It.IsAny<long>()), Times.Never);
                 Assert.Null(result);
             });
         }
@@ -70,50 +73,55 @@ namespace TeachMe.Test.ServiceTests
         [Test]
         public void CreateExample_ShouldReturn_NumberOfEntitiesCreated()
         {
-            var entry = new List<Usuario>
+            var entry = new Usuario
             {
-                new Usuario
-                {
-                    Name = "Mock Name",
-                    Description = "Mock Description"
-                }
+                Nome = "Nome Mock 1",
+                Email = "example1@mail.com",
+                Senha = "SenhaSegura",
+                DataNascimento = new DateTime(1990, 01, 01),
+                NuDocumento = "111111111111",
+                Telefone = "71999887744",
+                TipoDocumento = "CPF",
+                Escolaridade = "Escolaridade Mock 1"
+
             };
-            var result = service.Create(entry);
+
+            var result = service.Cadastrar(entry);
 
             Assert.Multiple(() =>
             {
-                repository.Verify(r => r.Create(It.IsAny<List<Usuario>>()), Times.Once);
+                repository.Verify(r => r.Cadastrar(It.IsAny<Usuario>()), Times.Once);
                 Assert.NotZero(result);
             });
         }
 
-        [Test]
-        public void CreateExample_WithoutName_ShouldReturn_Zero()
-        {
-            var entry = new List<Usuario>
-            {
-                new Usuario
-                {
-                    Description = "Mock Description"
-                }
-            };
-            var result = service.Create(entry);
+        //[Test]
+        //public void CreateExample_WithoutName_ShouldReturn_Zero()
+        //{
+        //    var entry = new List<Usuario>
+        //    {
+        //        new Usuario
+        //        {
+        //            Description = "Mock Description"
+        //        }
+        //    };
+        //    var result = service.Cadastrar(entry);
 
-            Assert.Multiple(() =>
-            {
-                repository.Verify(r => r.Create(It.IsAny<List<Usuario>>()), Times.Never);
-                Assert.Zero(result);
-            });
-        }
+        //    Assert.Multiple(() =>
+        //    {
+        //        repository.Verify(r => r.Cadastrar(It.IsAny<Usuario>()), Times.Never);
+        //        Assert.Zero(result);
+        //    });
+        //}
 
         [Test]
         public void DeleteExample_ShouldReturn_NumberOfEntitiesDeleted()
         {
-            var result = service.Delete(1);
+            var result = service.Excluir(1);
 
             Assert.Multiple(() =>
             {
-                repository.Verify(r => r.Delete(It.IsAny<long>()), Times.Once);
+                repository.Verify(r => r.Excluir(It.IsAny<long>()), Times.Once);
                 Assert.NotZero(result);
             });
         }
@@ -121,13 +129,13 @@ namespace TeachMe.Test.ServiceTests
         [Test]
         public void DeleteExample_WithInvalidId_ShouldReturn_Zero()
         {
-            repository.Setup(x => x.Get(It.IsAny<long>())).Returns((Usuario)null);
+            repository.Setup(x => x.ObterPorId(It.IsAny<long>())).Returns((Usuario)null);
 
-            var result = service.Delete(3);
+            var result = service.Excluir(3);
 
             Assert.Multiple(() =>
             {
-                repository.Verify(r => r.Delete(It.IsAny<long>()), Times.Never);
+                repository.Verify(r => r.Excluir(It.IsAny<long>()), Times.Never);
                 Assert.Zero(result);
             });
         }
@@ -135,17 +143,23 @@ namespace TeachMe.Test.ServiceTests
         [Test]
         public void ModifyExample_WithoutId_ShouldReturn_Null()
         {
-            var entity = new Usuario
+            var usuario = new Usuario
             {
-                Name = "Mock Name",
-                Description = "Mock Description"
+                Nome = "Nome Mock 1",
+                Email = "example1@mail.com",
+                Senha = "SenhaSegura",
+                DataNascimento = new DateTime(1990, 01, 01),
+                NuDocumento = "111111111111",
+                Telefone = "71999887744",
+                TipoDocumento = "CPF",
+                Escolaridade = "Escolaridade Mock 1"
             };
 
-            var result = service.Modify(entity);
+            var result = service.Alterar(usuario);
 
             Assert.Multiple(() =>
             {
-                repository.Verify(r => r.Modify(It.IsAny<Usuario>()), Times.Never);
+                repository.Verify(r => r.Alterar(It.IsAny<Usuario>()), Times.Never);
                 Assert.Null(result);
             });
         }
@@ -153,20 +167,26 @@ namespace TeachMe.Test.ServiceTests
         [Test]
         public void ModifyExample_WithInvalidId_ShouldReturn_Null()
         {
-            repository.Setup(x => x.Get(It.IsAny<long>())).Returns((Usuario)null);
+            repository.Setup(x => x.ObterPorId(It.IsAny<long>())).Returns((Usuario)null);
 
-            var entity = new Usuario
+            var usuario = new Usuario
             {
-                Id = 3,
-                Name = "Mock Name",
-                Description = "Mock Description"
+                Id = 7,
+                Nome = "Nome Mock 1",
+                Email = "example1@mail.com",
+                Senha = "SenhaSegura",
+                DataNascimento = new DateTime(1990, 01, 01),
+                NuDocumento = "111111111111",
+                Telefone = "71999887744",
+                TipoDocumento = "CPF",
+                Escolaridade = "Escolaridade Mock 1"
             };
 
-            var result = service.Modify(entity);
+            var result = service.Alterar(usuario);
 
             Assert.Multiple(() =>
             {
-                repository.Verify(r => r.Modify(It.IsAny<Usuario>()), Times.Never);
+                repository.Verify(r => r.Alterar(It.IsAny<Usuario>()), Times.Never);
                 Assert.Null(result);
             });
         }
@@ -174,18 +194,24 @@ namespace TeachMe.Test.ServiceTests
         [Test]
         public void ModifyExample_ShouldReturn_ExampleEntity()
         {
-            var entity = new Usuario
+            var usuario = new Usuario
             {
                 Id = 1,
-                Name = "Mock Name",
-                Description = "Mock Description"
+                Nome = "Nome Mock 1",
+                Email = "example1@mail.com",
+                Senha = "SenhaSegura",
+                DataNascimento = new DateTime(1990, 01, 01),
+                NuDocumento = "111111111111",
+                Telefone = "71999887744",
+                TipoDocumento = "CPF",
+                Escolaridade = "Escolaridade Mock 1"
             };
 
-            var result = service.Modify(entity);
+            var result = service.Alterar(usuario);
 
             Assert.Multiple(() =>
             {
-                repository.Verify(r => r.Modify(It.IsAny<Usuario>()), Times.Once);
+                repository.Verify(r => r.Alterar(It.IsAny<Usuario>()), Times.Once);
                 Assert.NotNull(result);
             });
         }

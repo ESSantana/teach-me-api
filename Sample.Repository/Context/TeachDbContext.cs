@@ -8,14 +8,14 @@ using System.Reflection;
 
 namespace TeachMe.Repository.Context
 {
-    public class SampleDbContext : DbContext
+    public class TeachDbContext : DbContext
     {
         public readonly DbOptions _dbOptions;
-        public readonly ILogger<SampleDbContext> _logger;
+        public readonly ILogger<TeachDbContext> _logger;
 
-        public DbSet<Usuario> ExampleEntities { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; }
 
-        public SampleDbContext(DbContextOptions<SampleDbContext> options, IOptionsMonitor<DbOptions> dbOptions, ILogger<SampleDbContext> logger) : base(options)
+        public TeachDbContext(DbContextOptions<TeachDbContext> options, IOptionsMonitor<DbOptions> dbOptions, ILogger<TeachDbContext> logger) : base(options)
         {
             _dbOptions = dbOptions.CurrentValue;
             _logger = logger;

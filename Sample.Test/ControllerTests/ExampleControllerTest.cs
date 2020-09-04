@@ -10,26 +10,27 @@ using TeachMe.Core.Services.Interfaces;
 using TeachMe.Test.Configuration.Service;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace TeachMe.Test.ControllerTests
 {
     public class ExampleControllerTest
     {
         private UsuarioController controller;
-        private Mock<IExampleService> service;
+        private Mock<IUsuarioServico> service;
 
         [SetUp]
         public void Setup()
         {
             var mapper = new Mock<IMapper>();
             var logger = new Mock<ILogger<UsuarioController>>();
-            service = new Mock<IExampleService>();
+            service = new Mock<IUsuarioServico>();
 
-            service.Setup(r => r.Get()).Returns(ExampleMockResult.Get());
-            service.Setup(r => r.Get(It.IsAny<long>())).Returns(ExampleMockResult.Get().First());
-            service.Setup(r => r.Create(It.IsAny<List<Usuario>>())).Returns(1);
-            service.Setup(r => r.Modify(It.IsAny<Usuario>())).Returns(ExampleMockResult.Get().First());
-            service.Setup(r => r.Delete(It.IsAny<long>())).Returns(1);
+            service.Setup(r => r.ObterTodos()).Returns(ExampleMockResult.Get());
+            service.Setup(r => r.ObterPorId(It.IsAny<long>())).Returns(ExampleMockResult.Get().First());
+            service.Setup(r => r.Cadastrar(It.IsAny<Usuario>())).Returns(1);
+            service.Setup(r => r.Alterar(It.IsAny<Usuario>())).Returns(ExampleMockResult.Get().First());
+            service.Setup(r => r.Excluir(It.IsAny<long>())).Returns(1);
 
             controller = new UsuarioController(service.Object, logger.Object, mapper.Object);
         }
@@ -37,11 +38,11 @@ namespace TeachMe.Test.ControllerTests
         [Test]
         public void Get_ShouldReturn_ListOfExampleDTO()
         {
-            var result = controller.Get();
+            var result = controller.ObterTodos();
 
             Assert.Multiple(() =>
             {
-                service.Verify(s => s.Get(), Times.Once);
+                service.Verify(s => s.ObterTodos(), Times.Once);
                 Assert.NotNull(result);
                 Assert.IsInstanceOf(typeof(OkObjectResult), result.Result);
             });
@@ -50,13 +51,13 @@ namespace TeachMe.Test.ControllerTests
         [Test]
         public void Get_ShouldReturn_NoContentResult()
         {
-            service.Setup(r => r.Get()).Returns(new List<Usuario>());
+            service.Setup(r => r.ObterTodos()).Returns(new List<Usuario>());
 
-            var result = controller.Get();
+            var result = controller.ObterTodos();
 
             Assert.Multiple(() =>
             {
-                service.Verify(s => s.Get(), Times.Once);
+                service.Verify(s => s.ObterTodos(), Times.Once);
                 Assert.NotNull(result);
                 Assert.IsInstanceOf(typeof(NoContentResult), result.Result);
             });
@@ -65,11 +66,11 @@ namespace TeachMe.Test.ControllerTests
         [Test]
         public void GetById_ShouldReturn_ExampleDTO()
         {
-            var result = controller.Get(1);
+            var result = controller.Obter(1);
 
             Assert.Multiple(() =>
             {
-                service.Verify(s => s.Get(It.IsAny<long>()), Times.Once);
+                service.Verify(s => s.ObterPorId(It.IsAny<long>()), Times.Once);
                 Assert.NotNull(result);
                 Assert.IsInstanceOf(typeof(OkObjectResult), result.Result);
             });
@@ -78,13 +79,13 @@ namespace TeachMe.Test.ControllerTests
         [Test]
         public void GetByID_ShouldReturn_NoContentResult()
         {
-            service.Setup(r => r.Get(It.IsAny<long>())).Returns((Usuario)null);
+            service.Setup(r => r.ObterPorId(It.IsAny<long>())).Returns((Usuario)null);
 
-            var result = controller.Get(1);
+            var result = controller.Obter(1);
 
             Assert.Multiple(() =>
             {
-                service.Verify(s => s.Get(It.IsAny<long>()), Times.Once);
+                service.Verify(s => s.ObterPorId(It.IsAny<long>()), Times.Once);
                 Assert.NotNull(result);
                 Assert.IsInstanceOf(typeof(NoContentResult), result.Result);
             });
@@ -93,20 +94,24 @@ namespace TeachMe.Test.ControllerTests
         [Test]
         public void Create_ShouldReturn_TotalResult()
         {
-            var entity = new List<UsuarioDTO>
+            var usuario = new UsuarioDTO
             {
-                new UsuarioDTO
-                {
-                    Name = "Mock Name",
-                    Description = "Mock Description"
-                }
+                Id = 1,
+                Nome = "Nome Mock 1",
+                Email = "example1@mail.com",
+                Senha = "SenhaSegura",
+                DataNascimento = new DateTime(1990, 01, 01),
+                NuDocumento = "111111111111",
+                Telefone = "71999887744",
+                TipoDocumento = "CPF",
+                Escolaridade = "Escolaridade Mock 1"
             };
 
-            var result = controller.Create(entity);
+            var result = controller.Cadastrar(usuario);
 
             Assert.Multiple(() =>
             {
-                service.Verify(s => s.Create(It.IsAny<List<Usuario>>()), Times.Once);
+                service.Verify(s => s.Cadastrar(It.IsAny<Usuario>()), Times.Once);
                 Assert.NotNull(result);
                 Assert.IsInstanceOf(typeof(OkObjectResult), result.Result);
             });
@@ -115,22 +120,25 @@ namespace TeachMe.Test.ControllerTests
         [Test]
         public void Create_ShouldReturn_NoContentResult()
         {
-            service.Setup(r => r.Create(It.IsAny<List<Usuario>>())).Returns(0);
+            service.Setup(r => r.Cadastrar(It.IsAny<Usuario>())).Returns(0);
 
-            var entity = new List<UsuarioDTO>
+            var entity = new UsuarioDTO
             {
-                new UsuarioDTO
-                {
-                    Name = "Mock Name",
-                    Description = "Mock Description"
-                }
+                Nome = "Nome Mock 1",
+                Email = "example1@mail.com",
+                Senha = "SenhaSegura",
+                DataNascimento = new DateTime(1990, 01, 01),
+                NuDocumento = "111111111111",
+                Telefone = "71999887744",
+                TipoDocumento = "CPF",
+                Escolaridade = "Escolaridade Mock 1"
             };
 
-            var result = controller.Create(entity);
+            var result = controller.Cadastrar(entity);
 
             Assert.Multiple(() =>
             {
-                service.Verify(s => s.Create(It.IsAny<List<Usuario>>()), Times.Once);
+                service.Verify(s => s.Cadastrar(It.IsAny<Usuario>()), Times.Once);
                 Assert.NotNull(result);
                 Assert.IsInstanceOf(typeof(NoContentResult), result.Result);
             });
@@ -139,18 +147,24 @@ namespace TeachMe.Test.ControllerTests
         [Test]
         public void Modify_ShouldReturn_ExampleDTO()
         {
-            var entity = new UsuarioDTO
+            var usuario = new UsuarioDTO
             {
                 Id = 1,
-                Name = "Mock Name",
-                Description = "Mock Description"
+                Nome = "Nome Mock 1",
+                Email = "example1@mail.com",
+                Senha = "SenhaSegura",
+                DataNascimento = new DateTime(1990, 01, 01),
+                NuDocumento = "111111111111",
+                Telefone = "71999887744",
+                TipoDocumento = "CPF",
+                Escolaridade = "Escolaridade Mock 1"
             };
 
-            var result = controller.Modify(entity);
+            var result = controller.Alterar(usuario);
 
             Assert.Multiple(() =>
             {
-                service.Verify(s => s.Modify(It.IsAny<Usuario>()), Times.Once);
+                service.Verify(s => s.Alterar(It.IsAny<Usuario>()), Times.Once);
                 Assert.NotNull(result);
                 Assert.IsInstanceOf(typeof(OkObjectResult), result.Result);
             });
@@ -159,20 +173,26 @@ namespace TeachMe.Test.ControllerTests
         [Test]
         public void Modify_ShouldReturn_NoContentResult()
         {
-            service.Setup(r => r.Modify(It.IsAny<Usuario>())).Returns((Usuario) null);
+            service.Setup(r => r.Alterar(It.IsAny<Usuario>())).Returns((Usuario) null);
 
-            var entity = new UsuarioDTO
+            var usuario = new UsuarioDTO
             {
                 Id = 1,
-                Name = "Mock Name",
-                Description = "Mock Description"
+                Nome = "Nome Mock 1",
+                Email = "example1@mail.com",
+                Senha = "SenhaSegura",
+                DataNascimento = new DateTime(1990, 01, 01),
+                NuDocumento = "111111111111",
+                Telefone = "71999887744",
+                TipoDocumento = "CPF",
+                Escolaridade = "Escolaridade Mock 1"
             };
 
-            var result = controller.Modify(entity);
+            var result = controller.Alterar(usuario);
 
             Assert.Multiple(() =>
             {
-                service.Verify(s => s.Modify(It.IsAny<Usuario>()), Times.Once);
+                service.Verify(s => s.Alterar(It.IsAny<Usuario>()), Times.Once);
                 Assert.NotNull(result);
                 Assert.IsInstanceOf(typeof(NoContentResult), result.Result);
             });
@@ -181,28 +201,13 @@ namespace TeachMe.Test.ControllerTests
         [Test]
         public void Delete_ShouldReturn_TotalDeleted()
         {
-            var result = controller.Delete(1);
+            var result = controller.Excluir(1);
 
             Assert.Multiple(() =>
             {
-                service.Verify(s => s.Delete(It.IsAny<long>()), Times.Once);
+                service.Verify(s => s.Excluir(It.IsAny<long>()), Times.Once);
                 Assert.NotNull(result);
                 Assert.IsInstanceOf(typeof(OkObjectResult), result.Result);
-            });
-        }
-
-        [Test]
-        public void Delete_ShouldReturn_NoContentResult()
-        {
-            service.Setup(r => r.Delete(It.IsAny<long>())).Returns(0);
-
-            var result = controller.Delete(1);
-
-            Assert.Multiple(() =>
-            {
-                service.Verify(s => s.Delete(It.IsAny<long>()), Times.Once);
-                Assert.NotNull(result);
-                Assert.IsInstanceOf(typeof(NoContentResult), result.Result);
             });
         }
     }

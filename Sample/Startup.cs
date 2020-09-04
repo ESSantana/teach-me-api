@@ -48,7 +48,7 @@ namespace TeachMe
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc()
-                .AddFluentValidation(fvc => fvc.RegisterValidatorsFromAssembly(Assembly.Load("Sample.API")))
+                .AddFluentValidation(fvc => fvc.RegisterValidatorsFromAssembly(Assembly.Load("TeachMe.API")))
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
                 .AddDataAnnotationsLocalization(options =>
                 {
@@ -80,6 +80,8 @@ namespace TeachMe
 
                     options.RequestCultureProviders.Insert(0, new QueryStringRequestCultureProvider());
                 });
+
+            services.Configure<DbOptions>(Configuration.GetSection("DbOptions"));
 
             services.AddControllers();
             services.AddCors();
@@ -130,12 +132,12 @@ namespace TeachMe
             services.AddHealthChecks()
                 .AddCheck<CustomHealthCheck>("applicationHealth", tags: new[] { "app_tag" });
 
-            services.AddDbContext<SampleDbContext>(opt => opt.UseMySql(Configuration.GetConnectionString("DevConnection")));
-            services.AddScoped<SampleDbContext>();
+            services.AddDbContext<TeachDbContext>(opt => opt.UseMySql(Configuration.GetConnectionString("DevConnection")));
+            services.AddScoped<TeachDbContext>();
 
             services.AddTransient<IResourceLocalizer, ResourceLocalizer>();
-            services.AddTransient<IExampleRepository, ExampleRepository>();
-            services.AddTransient<IExampleService, ExampleService>();
+            services.AddTransient<IUsuarioRepositorio, UsuarioRepositorio>();
+            services.AddTransient<IUsuarioServico, UsuarioServico>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
