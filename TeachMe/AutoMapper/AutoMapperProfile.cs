@@ -9,6 +9,7 @@ namespace TeachMe.API
         {
             UsuarioMapper.Map(this);
             CargoMapper.Map(this);
+            DisciplinaMapper.Map(this);
         }
     }
 }

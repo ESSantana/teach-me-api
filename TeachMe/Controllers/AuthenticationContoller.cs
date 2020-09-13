@@ -8,7 +8,7 @@ using TeachMe.Core.Services.Interfaces;
 
 namespace TeachMe.API.Controllers
 {
-    [Route("api/auth")]
+    [Route("api/v1/auth")]
     [ApiController]
     public class AuthenticationContoller : ControllerBase
     {

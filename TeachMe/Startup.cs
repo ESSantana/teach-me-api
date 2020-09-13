@@ -16,6 +16,13 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
 using TeachMe.API;
 using TeachMe.API.Filters;
 using TeachMe.Authorization;
@@ -25,13 +32,6 @@ using TeachMe.Core.Services.Interfaces;
 using TeachMe.Repository.Context;
 using TeachMe.Repository.Repositories;
 using TeachMe.Repository.Repositories.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TeachMe
 {
@@ -131,15 +131,22 @@ namespace TeachMe
 
             services.AddHealthChecks()
                 .AddCheck<CustomHealthCheck>("applicationHealth", tags: new[] { "app_tag" });
-
             services.AddDbContext<TeachDbContext>(opt => opt.UseMySql(Configuration.GetConnectionString("DevConnection")));
-            services.AddScoped<TeachDbContext>();
 
+            #region Injeção de Dependência
+
+            services.AddScoped<TeachDbContext>();
             services.AddTransient<IResourceLocalizer, ResourceLocalizer>();
             services.AddTransient<IUsuarioRepositorio, UsuarioRepositorio>();
             services.AddTransient<IUsuarioServico, UsuarioServico>();
             services.AddTransient<ICargoRepositorio, CargoRepositorio>();
             services.AddTransient<ICargoServico, CargoServico>();
+            services.AddTransient<IDisciplinaRepositorio, DisciplinaRepositorio>();
+            services.AddTransient<IDisciplinaServico, DisciplinaServico>(); 
+            services.AddTransient<IProfessorRepositorio, ProfessorRepositorio>(); 
+            services.AddTransient<IProfessorServico, ProfessorServico>(); 
+
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

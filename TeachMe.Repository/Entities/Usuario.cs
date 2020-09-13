@@ -1,9 +1,29 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace TeachMe.Repository.Entities
 {
     public class Usuario
     {
+        public Usuario()
+        {
+                
+        }
+
+        public Usuario(Usuario usuario) : this()
+        {
+            Id = usuario.Id;
+            Nome = usuario.Nome;
+            DataNascimento = usuario.DataNascimento;
+            Email = usuario.Email;
+            Senha = usuario.Senha;
+            Telefone = usuario.Telefone;
+            Escolaridade = usuario.Escolaridade;
+            TipoDocumento = usuario.TipoDocumento;
+            NuDocumento = usuario.NuDocumento;
+            CargoId = usuario.CargoId;
+        }
+
         public long Id { get; set; }
         public string Nome { get; set; }
         public DateTime DataNascimento { get; set; }
@@ -16,5 +36,7 @@ namespace TeachMe.Repository.Entities
         public Guid CargoId { get; set; }
 
         public virtual Cargo Cargo { get; set; }
+        public virtual List<ProfessorDisciplina> ProfessorDisciplina { get; set; }
+        public virtual List<Disciplina> Disciplinas { get; set; }
     }
 }

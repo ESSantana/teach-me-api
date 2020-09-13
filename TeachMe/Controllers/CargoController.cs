@@ -10,7 +10,7 @@ using TeachMe.Core.Services.Interfaces;
 
 namespace TeachMe.API.Controllers
 {
-    [Route("api/cargo")]
+    [Route("api/v1/cargo")]
     [ApiController]
     public class CargoController : ControllerBase
     {
@@ -39,7 +39,7 @@ namespace TeachMe.API.Controllers
 
         [HttpGet]
         [Route("obterTodos")]
-        [Authorize(Roles = "administrator")]
+        [Authorize(Roles = "administrador")]
         public ActionResult<List<CargoDTO>> ObterCargos()
         {
             _logger.LogDebug("ObterTodos");

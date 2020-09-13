@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace TeachMe.API.Models.DTO
 {
@@ -15,5 +16,6 @@ namespace TeachMe.API.Models.DTO
         public string NuDocumento { get; set; }
         public string Token { get; set; }
         public CargoDTO Cargo { get; set; }
+        public List<DisciplinaDTO> Disciplinas { get; set; }
     }
 }

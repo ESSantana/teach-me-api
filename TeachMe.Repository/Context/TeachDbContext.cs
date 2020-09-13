@@ -15,6 +15,8 @@ namespace TeachMe.Repository.Context
 
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Cargo> Cargos { get; set; }
+        public DbSet<Disciplina> Disciplinas { get; set; }
+        public DbSet<ProfessorDisciplina> ProfessorDisciplinas { get; set; }
 
         public TeachDbContext(DbContextOptions<TeachDbContext> options, IOptionsMonitor<DbOptions> dbOptions, ILogger<TeachDbContext> logger) : base(options)
         {
