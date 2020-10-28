@@ -28,6 +28,7 @@
   <ItemGroup>
     <ProjectReference Include="..\TeachMe.Core\TeachMe.Core.csproj" />
     <ProjectReference Include="..\TeachMe.Repository\TeachMe.Repository.csproj" />
+    <ProjectReference Include="..\TeachMe.Service\TeachMe.Service.csproj" />
   </ItemGroup>
 
   <ItemGroup>
