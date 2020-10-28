@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
+using TeachMe.Core.Exceptions;
 using TeachMe.Repository.Context;
 using TeachMe.Repository.Entities;
 using TeachMe.Repository.Repositories.Interfaces;
@@ -43,16 +44,12 @@ namespace TeachMe.Repository.Repositories
 
                 return resultado;
             }
-            catch (DbException ex)
-            {
-                _logger.LogError(ex, $"VerificarExistencia Erro: {ex.Message}");
-                throw;
-            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"VerificarExistencia Erro: {ex.Message}");
-                throw;
+                throw new BusinessException(ex.Message);
             }
+            
         }
 
         public List<Usuario> ObterTodos()
