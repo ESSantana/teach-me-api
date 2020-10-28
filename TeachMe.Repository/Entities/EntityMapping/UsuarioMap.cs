@@ -60,6 +60,14 @@ namespace TeachMe.Repository.Entities.EntityMapping
                 .HasColumnName("CARGO_ID")
                 .HasMaxLength(36);
 
+            builder.Property(x => x.UF)
+                .HasColumnName("UF")
+                .HasMaxLength(36);
+
+            builder.Property(x => x.Cidade)
+                .HasColumnName("CIDADE")
+                .HasMaxLength(36);
+
             builder.HasOne(x => x.Cargo)
                 .WithMany(x => x.Usuarios)
                 .HasForeignKey(x => x.CargoId);

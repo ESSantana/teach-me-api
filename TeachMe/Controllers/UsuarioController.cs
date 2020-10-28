@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
 using TeachMe.API.Models.DTO;
+using TeachMe.API.Models.ViewModel;
 using TeachMe.Core.Services.Interfaces;
 using TeachMe.Repository.Entities;
 
@@ -28,7 +29,7 @@ namespace TeachMe.API.Controllers
         [HttpGet]
         [Route("obterTodos")]
         [Authorize]
-        public ActionResult<List<UsuarioDTO>> ObterTodos()
+        public ActionResult<List<UsuarioViewModel>> ObterTodos()
         {
             _logger.LogDebug("ObterTodos");
             var resultado = _servico.ObterTodos();
@@ -36,14 +37,14 @@ namespace TeachMe.API.Controllers
             _logger.LogDebug($"ObterTodos resultado: {resultado.Count} usuário(s)");
 
             return resultado.Count > 0
-                ? (ActionResult)Ok(resultado.Select(r => _mapper.Map<UsuarioDTO>(r)).ToList())
+                ? (ActionResult)Ok(resultado.Select(r => _mapper.Map<UsuarioViewModel>(r)).ToList())
                 : NoContent();
         }
 
         [HttpGet]
         [Route("obter/{id}")]
         [Authorize]
-        public ActionResult<UsuarioDTO> Obter(long id)
+        public ActionResult<UsuarioViewModel> Obter(long id)
         {
             _logger.LogDebug("Obter");
             var resultado = _servico.ObterPorId(id);
@@ -51,7 +52,7 @@ namespace TeachMe.API.Controllers
             _logger.LogDebug($"Obter usuário com sucesso? {resultado != null}");
 
             return resultado != null
-                ? (ActionResult)Ok(_mapper.Map<UsuarioDTO>(resultado))
+                ? (ActionResult)Ok(_mapper.Map<UsuarioViewModel>(resultado))
                 : NoContent();
         }
 
@@ -75,7 +76,7 @@ namespace TeachMe.API.Controllers
         [HttpPost]
         [Route("alterar")]
         [Authorize(Roles = "aluno,professor,administrador")]
-        public ActionResult<UsuarioDTO> Alterar(UsuarioDTO usuarioDto)
+        public ActionResult<UsuarioViewModel> Alterar(UsuarioDTO usuarioDto)
         {
             var exampleEntity = _mapper.Map<Usuario>(usuarioDto);
 
@@ -85,7 +86,7 @@ namespace TeachMe.API.Controllers
             _logger.LogDebug($"Alterado com sucesso? {resultado != null}");
 
             return resultado != null
-                ? (ActionResult)Ok(_mapper.Map<UsuarioDTO>(resultado))
+                ? (ActionResult)Ok(_mapper.Map<UsuarioViewModel>(resultado))
                 : NoContent();
         }
 

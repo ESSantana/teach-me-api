@@ -1,15 +1,17 @@
+using AutoMapper;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using TeachMe.API.Models.DTO;
+using TeachMe.API.Models.ViewModel;
+using TeachMe.Repository.Entities;
 
 namespace TeachMe.Authorization
 {
     public static class TokenHandler
     {
-        public static UsuarioDTO GenerateToken(UsuarioDTO usuario)
+        public static UsuarioViewModel GenerateToken(Usuario usuario, IMapper mapper)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(Settings.Secret);
@@ -26,8 +28,10 @@ namespace TeachMe.Authorization
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            usuario.Token = tokenHandler.WriteToken(token);
-            return usuario;
+
+            var usuarioAutenticado = mapper.Map<UsuarioViewModel>(usuario);
+            usuarioAutenticado.Token = tokenHandler.WriteToken(token);
+            return usuarioAutenticado;
         }
     }
 }

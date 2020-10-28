@@ -1,18 +1,18 @@
 ﻿using System;
 
-namespace TeachMe.API.Models.DTO
+namespace TeachMe.API.Models.ViewModel
 {
     /// <summary>
-    /// Usuario
+    /// Informações do usuário
     /// </summary>
-    public class UsuarioDTO
+    public class UsuarioViewModel
     {
         /// <summary>
-        /// Id
+        /// Id do usuário
         /// </summary>
         public long Id { get; set; }
         /// <summary>
-        /// Nome
+        /// Usuário
         /// </summary>
         public string Nome { get; set; }
         /// <summary>
@@ -20,29 +20,17 @@ namespace TeachMe.API.Models.DTO
         /// </summary>
         public DateTime DataNascimento { get; set; }
         /// <summary>
-        /// Email para contato
+        /// Email
         /// </summary>
         public string Email { get; set; }
         /// <summary>
-        /// Senha cadastrada
-        /// </summary>
-        public string Senha { get; set; }
-        /// <summary>
-        /// Telefone para contato
+        /// Telefone de Contato
         /// </summary>
         public string Telefone { get; set; }
         /// <summary>
-        /// Nivel de Escolaridade
+        /// Nível de Ensino
         /// </summary>
         public string Escolaridade { get; set; }
-        /// <summary>
-        /// Tipo do documento: CPF ou RG
-        /// </summary>
-        public string TipoDocumento { get; set; }
-        /// <summary>
-        /// Número do documento
-        /// </summary>
-        public string NuDocumento { get; set; }
         /// <summary>
         /// Estado onde vive
         /// </summary>
@@ -51,5 +39,9 @@ namespace TeachMe.API.Models.DTO
         /// Cidade onde reside
         /// </summary>
         public string Cidade { get; set; }
+        /// <summary>
+        /// Token de autenticação
+        /// </summary>
+        public string Token { get; set; }
     }
 }
