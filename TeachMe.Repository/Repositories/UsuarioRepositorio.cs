@@ -26,7 +26,7 @@ namespace TeachMe.Repository.Repositories
             {
                 var resultado = _contexto.Usuarios
                     .Include(x => x.Cargo)
-                    .FirstOrDefault(usr => usr.Email.Equals(email) && usr.Senha.Equals(senha));
+                    .FirstOrDefault(usr => (usr.Email.Equals(email) || usr.NuDocumento.Equals(email)) && usr.Senha.Equals(senha));
 
                 if (resultado != null)
                 {

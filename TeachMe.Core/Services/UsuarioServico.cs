@@ -37,6 +37,11 @@ namespace TeachMe.Core.Services
 
                 _logger.LogDebug($"Login: usuário existente? {resultado != null}");
                 return resultado;
+            } 
+            else if(long.TryParse(email, out long documento))
+            {
+                var resultado = _repositorio.Login(documento.ToString(), EncriptarSenha(senha));
+                return resultado;
             }
 
             throw new BusinessException(_resource.GetString("MISSING_PARAM"));

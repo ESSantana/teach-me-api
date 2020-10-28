@@ -22,6 +22,8 @@ namespace TeachMe.Repository.Entities
             TipoDocumento = usuario.TipoDocumento;
             NuDocumento = usuario.NuDocumento;
             CargoId = usuario.CargoId;
+            UF = usuario.UF;
+            Cidade = usuario.Cidade;
         }
 
         public long Id { get; set; }
@@ -33,6 +35,8 @@ namespace TeachMe.Repository.Entities
         public string Escolaridade { get; set; }
         public string TipoDocumento { get; set; }
         public string NuDocumento { get; set; }
+        public string UF { get; set; }
+        public string Cidade { get; set; }
         public Guid CargoId { get; set; }
 
         public virtual Cargo Cargo { get; set; }

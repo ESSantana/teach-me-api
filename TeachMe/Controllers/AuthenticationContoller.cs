@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using TeachMe.API.Models.DTO;
+using TeachMe.API.Models.ViewModel;
 using TeachMe.Authorization;
 using TeachMe.Core.Services.Interfaces;
 
@@ -25,7 +26,7 @@ namespace TeachMe.API.Controllers
         [HttpGet]
         [Route("login")]
         [AllowAnonymous]
-        public ActionResult<UsuarioDTO> Login([FromHeader] string email, [FromHeader] string senha)
+        public ActionResult<UsuarioViewModel> Login([FromHeader] string email, [FromHeader] string senha)
         {
             _logger.LogDebug("Authenticate");
 
@@ -36,7 +37,7 @@ namespace TeachMe.API.Controllers
                 return new NoContentResult();
             }
 
-            var usuarioAutenticado = TokenHandler.GenerateToken(_mapper.Map<UsuarioDTO>(usuario));
+            var usuarioAutenticado = TokenHandler.GenerateToken(usuario, _mapper);
 
             _logger.LogDebug("Usuário autenticado");
             return usuarioAutenticado;
