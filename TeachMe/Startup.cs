@@ -133,7 +133,7 @@ namespace TeachMe
                 .AddCheck<CustomHealthCheck>("applicationHealth", tags: new[] { "app_tag" });
             services.AddDbContext<TeachDbContext>(opt => opt.UseMySql(Configuration.GetConnectionString("DevConnection")));
 
-            #region Injeção de Dependência
+            #region Injeï¿½ï¿½o de Dependï¿½ncia
 
             services.AddScoped<TeachDbContext>();
             services.AddTransient<IResourceLocalizer, ResourceLocalizer>();
@@ -142,9 +142,11 @@ namespace TeachMe
             services.AddTransient<ICargoRepositorio, CargoRepositorio>();
             services.AddTransient<ICargoServico, CargoServico>();
             services.AddTransient<IDisciplinaRepositorio, DisciplinaRepositorio>();
-            services.AddTransient<IDisciplinaServico, DisciplinaServico>(); 
-            services.AddTransient<IProfessorRepositorio, ProfessorRepositorio>(); 
-            services.AddTransient<IProfessorServico, ProfessorServico>(); 
+            services.AddTransient<IDisciplinaServico, DisciplinaServico>();
+            services.AddTransient<IProfessorRepositorio, ProfessorRepositorio>();
+            services.AddTransient<IProfessorServico, ProfessorServico>();
+            services.AddTransient<IEmailRepositorio, EmailRepositorio>();
+            services.AddTransient<IValidacaoRepositorio, ValidacaoRepositorio>();
 
             #endregion
         }
@@ -178,6 +180,8 @@ namespace TeachMe
             });
 
             //app.UseHttpsRedirection();
+
+            app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
             app.UseRouting();
 

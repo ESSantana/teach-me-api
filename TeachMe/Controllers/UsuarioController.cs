@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TeachMe.API.Models.DTO;
@@ -59,7 +60,7 @@ namespace TeachMe.API.Controllers
         [HttpPost]
         [Route("cadastrar")]
         [AllowAnonymous]
-        public ActionResult<object> Cadastrar(UsuarioDTO usuarioDto)
+        public ActionResult<UsuarioViewModel> Cadastrar(UsuarioDTO usuarioDto)
         {
             var usuario = _mapper.Map<Usuario>(usuarioDto);
 
@@ -68,9 +69,22 @@ namespace TeachMe.API.Controllers
 
             _logger.LogDebug($"Cadastrar: {resultado} usuário cadastrado");
 
-            return resultado > 0
-                ? (ActionResult)Ok(new { UsuarioCadastrado = resultado > 0 })
+            return resultado != null
+                ? (ActionResult)Ok(_mapper.Map<UsuarioViewModel>(resultado))
                 : NoContent();
+        }
+
+        [HttpPost]
+        [Route("validarCadastro")]
+        [AllowAnonymous]
+        public ActionResult<object> ValidarCadastro(Guid cadastro)
+        {
+            _logger.LogDebug("ValidarCadastro");
+            var resultado = _servico.ValidarCadastro(cadastro);
+
+            _logger.LogDebug($"ValidarCadastro usuário validado? {resultado}");
+
+            return (ActionResult)Ok(new { usuarioValidad = resultado });
         }
 
         [HttpPost]

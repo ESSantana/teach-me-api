@@ -42,5 +42,6 @@ namespace TeachMe.Repository.Entities
         public virtual Cargo Cargo { get; set; }
         public virtual List<ProfessorDisciplina> ProfessorDisciplina { get; set; }
         public virtual List<Disciplina> Disciplinas { get; set; }
+        public EmailValidacao EmailValidacao { get; set; }
     }
 }

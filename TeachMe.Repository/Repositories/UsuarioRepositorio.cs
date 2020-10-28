@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
@@ -28,6 +29,13 @@ namespace TeachMe.Repository.Repositories
                     .Include(x => x.Cargo)
                     .FirstOrDefault(usr => (usr.Email.Equals(email) || usr.NuDocumento.Equals(email)) && usr.Senha.Equals(senha));
 
+                var validado = _contexto.EmailValidacoes.SingleOrDefault(x => x.UsuarioId == resultado.Id).Valido;
+
+                if (!validado)
+                {
+                    throw new Exception("Conta não validada, por favor verifique sua caixa de email.");
+                }
+
                 if (resultado != null)
                 {
                     resultado.Senha = string.Empty;
@@ -36,6 +44,11 @@ namespace TeachMe.Repository.Repositories
                 return resultado;
             }
             catch (DbException ex)
+            {
+                _logger.LogError(ex, $"VerificarExistencia Erro: {ex.Message}");
+                throw;
+            }
+            catch (Exception ex)
             {
                 _logger.LogError(ex, $"VerificarExistencia Erro: {ex.Message}");
                 throw;
@@ -86,7 +99,7 @@ namespace TeachMe.Repository.Repositories
             }
         }
 
-        public int Cadastrar(Usuario usuario)
+        public Usuario Cadastrar(Usuario usuario)
         {
             _logger.LogDebug("Cadastrar");
             try
@@ -102,9 +115,9 @@ namespace TeachMe.Repository.Repositories
                 {
                     _logger.LogDebug($"Cadastrar: {resultado} usuário alterado");
 
-                    return resultado;
+                    return usuario;
                 }
-                return 0;
+                return null;
             }
             catch (DbException ex)
             {

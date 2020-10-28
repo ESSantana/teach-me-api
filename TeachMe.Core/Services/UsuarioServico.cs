@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
@@ -16,10 +17,14 @@ namespace TeachMe.Core.Services
         private readonly ILogger<UsuarioServico> _logger;
         private readonly IResourceLocalizer _resource;
         private readonly IUsuarioRepositorio _repositorio;
+        private readonly IEmailRepositorio _emailRepositorio;
+        private readonly IValidacaoRepositorio _validacaoRepositorio;
 
-        public UsuarioServico(IUsuarioRepositorio repositorio, ILogger<UsuarioServico> logger, IResourceLocalizer resource)
+        public UsuarioServico(IUsuarioRepositorio repositorio, IEmailRepositorio emailRepositorio, IValidacaoRepositorio validacaoRepositorio, ILogger<UsuarioServico> logger, IResourceLocalizer resource)
         {
             _repositorio = repositorio;
+            _emailRepositorio = emailRepositorio;
+            _validacaoRepositorio = validacaoRepositorio;
             _logger = logger;
             _resource = resource;
         }
@@ -31,21 +36,33 @@ namespace TeachMe.Core.Services
             var emailParticionado = email.Split("@");
 
             //TO DO: Substituir por ReGex
-            if (emailParticionado.Length == 2 && emailParticionado[1].Split(".").Length == 2 && !string.IsNullOrEmpty(senha))
+            if ((emailParticionado.Length == 2 && emailParticionado[1].Split(".").Length == 2) || long.TryParse(email, out long _)
+              && !string.IsNullOrEmpty(senha))
             {
                 var resultado = _repositorio.Login(email, EncriptarSenha(senha));
 
                 _logger.LogDebug($"Login: usuário existente? {resultado != null}");
                 return resultado;
-            } 
-            else if(long.TryParse(email, out long documento))
-            {
-                var resultado = _repositorio.Login(documento.ToString(), EncriptarSenha(senha));
-                return resultado;
             }
 
             throw new BusinessException(_resource.GetString("MISSING_PARAM"));
         }
+
+        public bool ValidarCadastro(Guid validacaoId)
+        {
+            _logger.LogDebug("ValidarCadastro");
+
+            if (validacaoId == Guid.Empty)
+            {
+                return false;
+            }
+
+            var resultado = _validacaoRepositorio.ValidarCadastro(validacaoId);
+
+            _logger.LogDebug($"ValidarCadastro Usuario validado? {resultado}");
+            return resultado;
+        }
+
 
         public List<Usuario> ObterTodos()
         {
@@ -70,7 +87,7 @@ namespace TeachMe.Core.Services
             return resultado;
         }
 
-        public int Cadastrar(Usuario usuario)
+        public Usuario Cadastrar(Usuario usuario)
         {
             _logger.LogDebug("Cadastrar");
 
@@ -85,6 +102,19 @@ namespace TeachMe.Core.Services
             usuario.Senha = EncriptarSenha(usuario.Senha);
 
             var resultado = _repositorio.Cadastrar(usuario);
+
+            if (resultado != null)
+            {
+                var validacao = new EmailValidacao
+                {
+                    Id = Guid.NewGuid(),
+                    UsuarioId = resultado.Id,
+                    Valido = false
+                };
+
+                var idValidacao = _validacaoRepositorio.CriarValidador(validacao);
+                _emailRepositorio.NotificarCadastro(usuario.Email, usuario.Nome, idValidacao);
+            }
 
             _logger.LogDebug($"Cadastrar: {resultado} usuário cadastrado");
 

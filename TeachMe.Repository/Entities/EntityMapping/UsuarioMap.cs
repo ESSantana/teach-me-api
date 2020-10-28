@@ -20,6 +20,7 @@ namespace TeachMe.Repository.Entities.EntityMapping
             builder.HasKey(x => x.Id);
 
             builder.Ignore(x => x.Disciplinas);
+            builder.Ignore(x => x.EmailValidacao);
 
             builder.Property(x => x.Id)
                 .IsRequired()
