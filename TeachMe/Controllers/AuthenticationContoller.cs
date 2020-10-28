@@ -2,7 +2,6 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using TeachMe.API.Models.DTO;
 using TeachMe.API.Models.ViewModel;
 using TeachMe.Authorization;
 using TeachMe.Core.Services.Interfaces;

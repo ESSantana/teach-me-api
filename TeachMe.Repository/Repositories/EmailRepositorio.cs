@@ -8,68 +8,70 @@ using TeachMe.Repository.Repositories.Interfaces;
 
 namespace TeachMe.Repository.Repositories
 {
-  public class EmailRepositorio : IEmailRepositorio
-  {
-    private readonly string ARQUIVO_CONFIG = "appsettings.json";
-    private readonly string FRONTEND_URL = "AplicacaoConfig:Front";
-    private readonly string HOST = "EmailOptions:Host";
-    private readonly string PORTA = "EmailOptions:Porta";
-    private readonly string LOGIN = "EmailOptions:Login";
-    private readonly string SENHA = "EmailOptions:Senha";
-
-    public EmailRepositorio() { }
-
-    public void NotificarCadastro(string email, string nome, Guid validacaoId)
+    public class EmailRepositorio : IEmailRepositorio
     {
-      var parametros = ParametrosServidor();
-      var servidor = IniciarCliente(parametros);
-      MandarEmail(servidor, email, nome, parametros[LOGIN], validacaoId);
-    }
+        #region Constantes Email
+        private readonly string ARQUIVO_CONFIG = "appsettings.json";
+        private readonly string FRONTEND_URL = "AplicacaoConfig:Front";
+        private readonly string HOST = "EmailOptions:Host";
+        private readonly string PORTA = "EmailOptions:Porta";
+        private readonly string LOGIN = "EmailOptions:Login";
+        private readonly string SENHA = "EmailOptions:Senha";
+        private readonly string MENSAGEM_CADASTRO = "Seja bem vindo ao Teach Me {0}. Antes de continuar para o acesso a plataforma, confirme seu cadastro clicando no link a seguir <a href=\"{1}/validarCadastro?cadastro={2}\">Validar cadastro</a> ";
+        #endregion
 
-    private void MandarEmail(SmtpClient servidor, string email, string nome, string emailRemetente, Guid validacaoId)
-    {
-      MailMessage message = new MailMessage();
+        public EmailRepositorio() { }
 
-      message.From = new MailAddress(emailRemetente);
-      message.DeliveryNotificationOptions = DeliveryNotificationOptions.OnSuccess;
-      message.Priority = MailPriority.High;
+        public void NotificarCadastro(string email, string nome, Guid validacaoId)
+        {
+            var parametros = ParametrosServidor();
+            var servidor = IniciarCliente(parametros);
+            MandarEmail(servidor, email, nome, parametros[LOGIN], validacaoId);
+        }
 
-      message.To.Add(email);
+        private void MandarEmail(SmtpClient servidor, string email, string nome, string emailRemetente, Guid validacaoId)
+        {
+            MailMessage message = new MailMessage();
 
-      message.Subject = "Bem vindo ao Teach Me";
-      message.Body = $"Seja bem vindo ao Teach Me {nome}. Antes de continuar para o acesso a plataforma, confirme seu cadastro clicando no link: "
-          + $"{ParametrosServidor(FRONTEND_URL)[FRONTEND_URL]}/validarCadastro?cadastro={validacaoId}";
-      message.IsBodyHtml = true;
+            message.From = new MailAddress(emailRemetente);
+            message.DeliveryNotificationOptions = DeliveryNotificationOptions.OnSuccess;
+            message.Priority = MailPriority.High;
 
-      servidor.Send(message);
-    }
+            message.To.Add(email);
 
-    private SmtpClient IniciarCliente(IDictionary<string, string> parametros)
-    {
-      SmtpClient client = new SmtpClient();
-      client.Host = parametros[HOST];
-      client.Port = int.Parse(parametros[PORTA]);
-      client.UseDefaultCredentials = false;
-      client.EnableSsl = true;
-      client.DeliveryMethod = SmtpDeliveryMethod.Network;
-      client.Credentials = new NetworkCredential(parametros[LOGIN], parametros[SENHA]);
+            message.Subject = "Bem vindo ao Teach Me";
+            message.Body = string.Format(MENSAGEM_CADASTRO, nome, ParametrosServidor(FRONTEND_URL)[FRONTEND_URL], validacaoId);
+            message.IsBodyHtml = true;
 
-      return client;
-    }
+            servidor.Send(message);
+        }
 
-    private IDictionary<string, string> ParametrosServidor(string propriedade = "")
-    {
-      string directory = Directory.GetCurrentDirectory();
+        private SmtpClient IniciarCliente(IDictionary<string, string> parametros)
+        {
+            SmtpClient client = new SmtpClient();
+            client.Host = parametros[HOST];
+            client.Port = int.Parse(parametros[PORTA]);
+            client.UseDefaultCredentials = false;
+            client.EnableSsl = true;
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.Credentials = new NetworkCredential(parametros[LOGIN], parametros[SENHA]);
 
-      IConfigurationBuilder builder = new ConfigurationBuilder().SetBasePath(directory).AddJsonFile(ARQUIVO_CONFIG);
-      IConfigurationRoot configuration = builder.Build();
+            return client;
+        }
 
-      if (!string.IsNullOrEmpty(propriedade))
-      {
-        return new Dictionary<string, string> { { propriedade, configuration.GetSection(propriedade)?.Value } };
-      }
+        private IDictionary<string, string> ParametrosServidor(string propriedade = "")
+        {
+            string directory = Directory.GetCurrentDirectory();
 
-      IDictionary<string, string> configParametros = new Dictionary<string, string>
+            IConfigurationBuilder builder = new ConfigurationBuilder().SetBasePath(directory).AddJsonFile(ARQUIVO_CONFIG);
+            IConfigurationRoot configuration = builder.Build();
+
+            if (!string.IsNullOrEmpty(propriedade))
+            {
+                return new Dictionary<string, string> { { propriedade, configuration.GetSection(propriedade)?.Value } };
+            }
+
+            IDictionary<string, string> configParametros = new Dictionary<string, string>
             {
                 { HOST, configuration.GetSection(HOST)?.Value},
                 { PORTA, configuration.GetSection(PORTA)?.Value},
@@ -77,8 +79,8 @@ namespace TeachMe.Repository.Repositories
                 { SENHA, configuration.GetSection(SENHA)?.Value}
             };
 
-      return configParametros;
+            return configParametros;
+        }
     }
-  }
 
 }

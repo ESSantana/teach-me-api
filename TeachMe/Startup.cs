@@ -142,11 +142,11 @@ namespace TeachMe
             services.AddTransient<ICargoRepositorio, CargoRepositorio>();
             services.AddTransient<ICargoServico, CargoServico>();
             services.AddTransient<IDisciplinaRepositorio, DisciplinaRepositorio>();
-            services.AddTransient<IDisciplinaServico, DisciplinaServico>(); 
-            services.AddTransient<IProfessorRepositorio, ProfessorRepositorio>(); 
-            services.AddTransient<IProfessorServico, ProfessorServico>(); 
-            services.AddTransient<IEmailRepositorio, EmailRepositorio>(); 
-            services.AddTransient<IValidacaoRepositorio, ValidacaoRepositorio>(); 
+            services.AddTransient<IDisciplinaServico, DisciplinaServico>();
+            services.AddTransient<IProfessorRepositorio, ProfessorRepositorio>();
+            services.AddTransient<IProfessorServico, ProfessorServico>();
+            services.AddTransient<IEmailRepositorio, EmailRepositorio>();
+            services.AddTransient<IValidacaoRepositorio, ValidacaoRepositorio>();
 
             #endregion
         }
@@ -180,6 +180,8 @@ namespace TeachMe
             });
 
             //app.UseHttpsRedirection();
+
+            app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
             app.UseRouting();
 
