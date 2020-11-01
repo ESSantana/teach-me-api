@@ -3,6 +3,7 @@ using Moq;
 using NUnit.Framework;
 using System;
 using System.Linq;
+using TeachMe.Core.Dominio;
 using TeachMe.Core.Resources;
 using TeachMe.Core.Services;
 using TeachMe.Repository.Entities;
@@ -14,6 +15,8 @@ namespace TeachMe.Test.ServiceTests
     public class ExampleServiceTest
     {
         private Mock<IUsuarioRepositorio> repository;
+        private Mock<IEmailRepositorio> emailRepository;
+        private Mock<IValidacaoRepositorio> validacaoRepository;
         private UsuarioServico service;
 
         [SetUp]
@@ -22,14 +25,16 @@ namespace TeachMe.Test.ServiceTests
             var logger = new Mock<ILogger<UsuarioServico>>();
             var resource = new Mock<IResourceLocalizer>();
             repository = new Mock<IUsuarioRepositorio>();
+            emailRepository = new Mock<IEmailRepositorio>();
+            validacaoRepository = new Mock<IValidacaoRepositorio>();
 
             repository.Setup(r => r.ObterTodos()).Returns(ExampleMockResult.Get());
             repository.Setup(r => r.ObterPorId(It.IsAny<long>())).Returns(ExampleMockResult.Get().First());
-            repository.Setup(r => r.Cadastrar(It.IsAny<Usuario>())).Returns(1);
+            repository.Setup(r => r.Cadastrar(It.IsAny<Usuario>())).Returns(ExampleMockResult.Get().First());
             repository.Setup(r => r.Alterar(It.IsAny<Usuario>())).Returns(ExampleMockResult.Get().First());
             repository.Setup(r => r.Excluir(It.IsAny<long>())).Returns(1);
 
-            service = new UsuarioServico(repository.Object, logger.Object, resource.Object);
+            service = new UsuarioServico(repository.Object, emailRepository.Object, validacaoRepository.Object, logger.Object, resource.Object);
         }
 
         [Test]
@@ -90,7 +95,7 @@ namespace TeachMe.Test.ServiceTests
             Assert.Multiple(() =>
             {
                 repository.Verify(r => r.Cadastrar(It.IsAny<Usuario>()), Times.Once);
-                Assert.NotZero(result);
+                Assert.NotNull(result);
             });
         }
 

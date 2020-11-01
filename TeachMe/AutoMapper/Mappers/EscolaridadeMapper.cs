@@ -5,12 +5,12 @@ using TeachMe.Core.Dominio;
 
 namespace TeachMe.API.AutoMapper.Mappers
 {
-    public static class DisciplinaMapper
+    public static class EscolaridadeMapper
     {
         public static void Map(Profile profile)
         {
-            profile.CreateMap<DisciplinaDTO, Disciplina>();
-            profile.CreateMap<Disciplina, DisciplinaViewModel>();
+            profile.CreateMap<Escolaridade, EscolaridadeViewModel>();
+            profile.CreateMap<EscolaridadeDTO, Escolaridade>();
         }
     }
 }

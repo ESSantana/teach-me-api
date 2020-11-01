@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using TeachMe.Repository.Entities;
+using TeachMe.Core.Dominio;
 
 namespace TeachMe.Test.Configuration.Service
 {

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
+using TeachMe.API.Models.DTO;
 using TeachMe.API.Models.ViewModel;
-using TeachMe.Repository.Entities;
+using TeachMe.Core.Dominio;
 
 namespace TeachMe.API.AutoMapper.Mappers
 {
@@ -8,7 +9,8 @@ namespace TeachMe.API.AutoMapper.Mappers
     {
         public static void Map(Profile profile)
         {
-            profile.CreateMap<Usuario, ProfessorViewModel>();
+            profile.CreateMap<Professor, ProfessorViewModel>();
+            profile.CreateMap<ProfessorDTO, Professor>();
         }
     }
 }
