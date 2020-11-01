@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace TeachMe.Repository.Entities
+namespace TeachMe.Core.Dominio
 {
     public class Usuario
     {
@@ -39,9 +39,10 @@ namespace TeachMe.Repository.Entities
         public string Cidade { get; set; }
         public Guid CargoId { get; set; }
 
-        public virtual Cargo Cargo { get; set; }
-        public virtual List<ProfessorDisciplina> ProfessorDisciplina { get; set; }
-        public virtual List<Disciplina> Disciplinas { get; set; }
+        public Cargo Cargo { get; set; }
+        public List<Disciplina> Disciplinas { get; set; }
+        public List<ProfessorDisciplina> ProfessorDisciplina { get; set; }
         public EmailValidacao EmailValidacao { get; set; }
+        public Professor Professor { get; set; }
     }
 }

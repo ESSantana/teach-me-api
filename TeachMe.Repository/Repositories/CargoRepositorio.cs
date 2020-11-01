@@ -3,8 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
+using TeachMe.Core.Dominio;
 using TeachMe.Repository.Context;
-using TeachMe.Repository.Entities;
 using TeachMe.Repository.Repositories.Interfaces;
 
 namespace TeachMe.Repository.Repositories
@@ -25,7 +25,7 @@ namespace TeachMe.Repository.Repositories
             _logger.LogDebug("ObterCargos");
             try
             {
-                var resultado = _contexto.Cargos.Where(x => x.Ativo).ToList();
+                var resultado = _contexto.Set<Cargo>().Where(x => x.Ativo).ToList();
                 _logger.LogDebug($"ObterCargos resultado: {resultado.Count} cargos");
                 return resultado;
             }
@@ -41,7 +41,7 @@ namespace TeachMe.Repository.Repositories
             _logger.LogDebug("ObterCargoPorId");
             try
             {
-                var resultado = _contexto.Cargos.FirstOrDefault(x => x.Ativo && x.Id.Equals(id));
+                var resultado = _contexto.Set<Cargo>().FirstOrDefault(x => x.Ativo && x.Id.Equals(id));
                 _logger.LogDebug($"ObterCargoPorId resultado sucesso? {resultado != null}");
                 return resultado;
             }

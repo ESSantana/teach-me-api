@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using TeachMe.Core.Dominio;
 using TeachMe.Repository.Context;
 
 namespace TeachMe.Repository.Entities.EntityMapping
@@ -21,6 +22,8 @@ namespace TeachMe.Repository.Entities.EntityMapping
 
             builder.Ignore(x => x.Disciplinas);
             builder.Ignore(x => x.EmailValidacao);
+            builder.Ignore(x => x.Professor);
+            builder.Ignore(x => x.ProfessorDisciplina);
 
             builder.Property(x => x.Id)
                 .IsRequired()

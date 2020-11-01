@@ -5,14 +5,14 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
 using System.Linq.Expressions;
+using TeachMe.Core.Dominio;
 using TeachMe.Repository.Context;
-using TeachMe.Repository.Entities;
 using TeachMe.Repository.Repositories.Interfaces;
 using TeachMe.Repository.Utils;
 
 namespace TeachMe.Repository.Repositories
 {
-    public class ProfessorRepositorio : IProfessorRepositorio
+    public class ProfessorRepositorio : IProfessorRepositorio   
     {
         private readonly TeachDbContext _contexto;
         private readonly ILogger<ProfessorRepositorio> _logger;
@@ -23,7 +23,7 @@ namespace TeachMe.Repository.Repositories
             _logger = logger;
         }
 
-        public List<Usuario> ObterProfessores(long id = 0, string nome = null, string disciplina = null)
+        public List<Professor> ObterProfessores(long id = 0, string nome = null, string disciplina = null)
         {
             _logger.LogDebug("ObterProfessores");
             try
@@ -33,23 +33,27 @@ namespace TeachMe.Repository.Repositories
                 predicado = FiltrarDisciplina(disciplina, predicado);
                 predicado = FiltrarId(id, predicado);
 
-                var resultado = _contexto.ProfessorDisciplinas
+                var resultado = _contexto.Set<ProfessorDisciplina>()
                     .Include(prof => prof.Professor)
+                        .ThenInclude(usr => usr.Usuario)
+                    .Include(prof => prof.Professor)
+                        .ThenInclude(mod => mod.ModalidadeEnsino)
+                    .Include(prof => prof.Professor)
+                        .ThenInclude(esc => esc.EscolaridaPubAlvo)
                     .Include(disc => disc.Disciplina)
                     .Where(predicado)
                     .AsNoTracking()
                     .ToList();
 
                 var professores = resultado.GroupBy(x => x.ProfessorId)
-                    .Select(y => new Usuario(y.ToList().FirstOrDefault(x => x.Professor != null).Professor)
+                    .Select(y => new Professor(y.ToList().FirstOrDefault(x => x.Professor != null).Professor)
                     {
                         Disciplinas = y.ToList().Select(xy => xy.Disciplina).ToList()
                     }).ToList();
 
-                professores.ForEach(x => x.Senha = string.Empty);
+                professores.ForEach(x => x.Usuario.Senha = string.Empty);
 
                 return professores;
-
             }
             catch (DbException ex)
             {
@@ -58,11 +62,49 @@ namespace TeachMe.Repository.Repositories
             }
         }
 
+        public Professor TornarProfessor(Professor professor)
+        {
+            _logger.LogDebug("TornarProfessor");
+            try
+            {
+                var professorId = _contexto.Set<Cargo>().SingleOrDefault(x => x.Descricao.ToUpper().Equals("PROFESSOR")).Id;
+                var usuario = _contexto.Set<Usuario>().SingleOrDefault(x => x.Id.Equals(professor.UsuarioId));
+                usuario.CargoId = professorId;
+
+                _contexto.Update(usuario);
+                _contexto.Add(professor);
+
+                _contexto.SaveChanges();
+
+                if(professor.Id != 0)
+                {
+                    professor.Disciplinas.ForEach(disc =>
+                    {
+                        _contexto.Add(new ProfessorDisciplina
+                        {
+                            DisciplinaId = disc.Id,
+                            ProfessorId = professor.Id
+                        });
+                    });
+                }
+
+                _contexto.SaveChanges();
+
+                return professor;
+            }
+            catch (DbException ex)
+            {
+                _logger.LogError(ex, $"TornarProfessor Erro: {ex.Message}");
+                _contexto.Database.RollbackTransaction();
+                throw;
+            }
+        }
+
         private Expression<Func<ProfessorDisciplina, bool>> FiltrarNome(string nome, Expression<Func<ProfessorDisciplina, bool>> predicado)
         {
             if (!string.IsNullOrEmpty(nome))
             {
-                predicado = predicado.And(x => x.Professor.Nome.ToUpper().Contains(nome.ToUpper()));
+                predicado = predicado.And(x => x.Professor.Usuario.Nome.ToUpper().Contains(nome.ToUpper()));
             }
 
             return predicado;
@@ -82,7 +124,7 @@ namespace TeachMe.Repository.Repositories
         {
             if (Id > 0)
             {
-                predicado = predicado.And(x => x.Professor.Id.Equals(Id));
+                predicado = predicado.And(x => x.Professor.Usuario.Id.Equals(Id));
             }
 
             return predicado;

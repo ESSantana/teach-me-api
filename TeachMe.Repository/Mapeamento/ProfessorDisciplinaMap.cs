@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using TeachMe.Core.Dominio;
 
 namespace TeachMe.Repository.Entities.EntityMapping
 {
@@ -12,10 +13,11 @@ namespace TeachMe.Repository.Entities.EntityMapping
             builder.HasKey(x => x.Id);
 
             builder.Property(x => x.Id)
-                .HasColumnName("PROFESSOR_DISCIPLINA_ID");
+                .HasColumnName("PROFESSOR_DISCIPLINA_ID")
+                .ValueGeneratedOnAdd();
 
             builder.Property(x => x.ProfessorId)
-                .HasColumnName("PROFESSOR_ID");
+                .HasColumnName("PROFESSOR_DADOS_ID");
 
             builder.Property(x => x.DisciplinaId)
                 .HasColumnName("DISCIPLINA_ID");

@@ -11,6 +11,8 @@ namespace TeachMe.API
             CargoMapper.Map(this);
             DisciplinaMapper.Map(this);
             ProfessorMapper.Map(this);
+            EscolaridadeMapper.Map(this);
+            ModalidadeEnsinoMapper.Map(this);
         }
     }
 }

@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using TeachMe.Core.Dominio;
 using TeachMe.Core.Exceptions;
 using TeachMe.Core.Resources;
 using TeachMe.Core.Services.Interfaces;
-using TeachMe.Repository.Entities;
 using TeachMe.Repository.Repositories.Interfaces;
 
 namespace TeachMe.Core.Services

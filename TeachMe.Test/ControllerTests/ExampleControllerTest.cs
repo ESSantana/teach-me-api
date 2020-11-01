@@ -8,8 +8,8 @@ using System.Collections.Generic;
 using System.Linq;
 using TeachMe.API.Controllers;
 using TeachMe.API.Models.DTO;
+using TeachMe.Core.Dominio;
 using TeachMe.Core.Services.Interfaces;
-using TeachMe.Repository.Entities;
 using TeachMe.Test.Configuration.Service;
 
 namespace TeachMe.Test.ControllerTests
@@ -28,7 +28,7 @@ namespace TeachMe.Test.ControllerTests
 
             service.Setup(r => r.ObterTodos()).Returns(ExampleMockResult.Get());
             service.Setup(r => r.ObterPorId(It.IsAny<long>())).Returns(ExampleMockResult.Get().First());
-            service.Setup(r => r.Cadastrar(It.IsAny<Usuario>())).Returns(1);
+            service.Setup(r => r.Cadastrar(It.IsAny<Usuario>())).Returns(ExampleMockResult.Get().First());
             service.Setup(r => r.Alterar(It.IsAny<Usuario>())).Returns(ExampleMockResult.Get().First());
             service.Setup(r => r.Excluir(It.IsAny<long>())).Returns(1);
 
@@ -120,7 +120,7 @@ namespace TeachMe.Test.ControllerTests
         [Test]
         public void Create_ShouldReturn_NoContentResult()
         {
-            service.Setup(r => r.Cadastrar(It.IsAny<Usuario>())).Returns(0);
+            service.Setup(r => r.Cadastrar(It.IsAny<Usuario>())).Returns((Usuario)null);
 
             var entity = new UsuarioDTO
             {

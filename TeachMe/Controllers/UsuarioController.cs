@@ -7,8 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using TeachMe.API.Models.DTO;
 using TeachMe.API.Models.ViewModel;
+using TeachMe.Core.Dominio;
 using TeachMe.Core.Services.Interfaces;
-using TeachMe.Repository.Entities;
 
 namespace TeachMe.API.Controllers
 {
