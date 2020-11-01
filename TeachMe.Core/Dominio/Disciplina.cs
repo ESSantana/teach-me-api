@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace TeachMe.Core.Dominio
+namespace TeachMe.Repository.Entities
 {
     public class Disciplina
     {

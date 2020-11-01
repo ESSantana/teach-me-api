@@ -4,9 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
-using TeachMe.API.Models.DTO;
 using TeachMe.API.Models.ViewModel;
-using TeachMe.Core.Dominio;
 using TeachMe.Core.Services.Interfaces;
 
 namespace TeachMe.API.Controllers
@@ -35,18 +33,6 @@ namespace TeachMe.API.Controllers
 
             return resultado.Count > 0
                 ? (ActionResult)Ok(resultado.Select(r => _mapper.Map<ProfessorViewModel>(r)).ToList())
-                : NoContent();
-        }
-
-        [HttpPost]
-        [Authorize]
-        public ActionResult<ProfessorViewModel> TornaProfessor(ProfessorDTO professor)
-        {
-            _logger.LogDebug("ObterProfessores");
-            var resultado = _servico.TornarProfessor(_mapper.Map<Professor>(professor), professor.Email, professor.Senha);
-
-            return resultado != null
-                ? (ActionResult)Ok(_mapper.Map<ProfessorViewModel>(resultado))
                 : NoContent();
         }
     }

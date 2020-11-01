@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using TeachMe.API.Models.DTO;
-using TeachMe.Core.Dominio;
+using TeachMe.Repository.Entities;
 
 namespace TeachMe.API.AutoMapper.Mappers
 {

@@ -1,7 +1,7 @@
 using AutoMapper;
 using TeachMe.API.Models.DTO;
 using TeachMe.API.Models.ViewModel;
-using TeachMe.Core.Dominio;
+using TeachMe.Repository.Entities;
 
 public static class UsuarioMapper
 {

@@ -1,6 +1,6 @@
 using System;
 
-namespace TeachMe.Core.Dominio
+namespace TeachMe.Repository.Entities
 {
     public class EmailValidacao
     {

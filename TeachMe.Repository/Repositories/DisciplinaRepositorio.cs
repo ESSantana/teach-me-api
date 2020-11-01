@@ -3,8 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
-using TeachMe.Core.Dominio;
 using TeachMe.Repository.Context;
+using TeachMe.Repository.Entities;
 using TeachMe.Repository.Repositories.Interfaces;
 
 namespace TeachMe.Repository.Repositories
@@ -25,7 +25,7 @@ namespace TeachMe.Repository.Repositories
             _logger.LogDebug("ObterDisciplinas");
             try
             {
-                var resultado = _contexto.Set<Disciplina>().Where(x => x.Ativo).ToList();
+                var resultado = _contexto.Disciplinas.Where(x => x.Ativo).ToList();
                 _logger.LogDebug($"ObterDisciplinas resultado: {resultado.Count} disciplinas");
                 return resultado;
             }
@@ -41,7 +41,7 @@ namespace TeachMe.Repository.Repositories
             _logger.LogDebug("ObterDisciplinaPorId");
             try
             {
-                var resultado = _contexto.Set<Disciplina>().FirstOrDefault(x => x.Ativo && x.Id.Equals(id));
+                var resultado = _contexto.Disciplinas.FirstOrDefault(x => x.Ativo && x.Id.Equals(id));
                 _logger.LogDebug($"ObterDisciplinaPorId resultado sucesso? {resultado != null}");
                 return resultado;
             }

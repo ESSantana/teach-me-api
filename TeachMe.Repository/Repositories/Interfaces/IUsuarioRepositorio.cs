@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using TeachMe.Core.Dominio;
+using TeachMe.Repository.Entities;
 
 namespace TeachMe.Repository.Repositories.Interfaces
 {
@@ -7,7 +7,7 @@ namespace TeachMe.Repository.Repositories.Interfaces
     {
         Usuario Login(string email, string senha);
         List<Usuario> ObterTodos();
-        Usuario ObterPorId(long Id, bool processoInterno = false);
+        Usuario ObterPorId(long Id);
         Usuario Cadastrar(Usuario usuario);
         bool VerificarExistencia(string email, string nudocumento);
         Usuario Alterar(Usuario usuario);

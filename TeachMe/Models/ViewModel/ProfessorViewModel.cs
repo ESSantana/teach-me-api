@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using TeachMe.API.Models.DTO;
 
 namespace TeachMe.API.Models.ViewModel
 {
@@ -8,28 +10,40 @@ namespace TeachMe.API.Models.ViewModel
     public class ProfessorViewModel
     {
         /// <summary>
-        /// Id
+        /// Id do Professor
         /// </summary>
         public long Id { get; set; }
         /// <summary>
-        /// Descrição
+        /// Usuário
         /// </summary>
-        public string Descricao { get; set; }
+        public string Nome { get; set; }
         /// <summary>
-        /// Dados do usuário
+        /// Data de Nascimento
         /// </summary>
-        public UsuarioViewModel Usuario { get; set; }
+        public DateTime DataNascimento { get; set; }
         /// <summary>
-        /// Modalidade de ensino
+        /// Email
         /// </summary>
-        public ModalidadeEnsinoViewModel ModalidadeEnsino { get; set; }
+        public string Email { get; set; }
         /// <summary>
-        /// Escolaridade do público alvo
+        /// Telefone de Contato
         /// </summary>
-        public EscolaridadeViewModel EscolaridaPubAlvo { get; set; }
+        public string Telefone { get; set; }
+        /// <summary>
+        /// Nível de Ensino
+        /// </summary>
+        public string Escolaridade { get; set; }
+        /// <summary>
+        /// Estado onde vive
+        /// </summary>
+        public string UF { get; set; }
+        /// <summary>
+        /// Cidade onde reside
+        /// </summary>
+        public string Cidade { get; set; }
         /// <summary>
         /// Disciplinas lecionadas
         /// </summary>
-        public List<DisciplinaViewModel> Disciplinas { get; set; }
+        public List<DisciplinaDTO> Disciplinas { get; set; }
     }
 }

@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
-using TeachMe.Core.Dominio;
 using TeachMe.Core.Exceptions;
 using TeachMe.Repository.Context;
+using TeachMe.Repository.Entities;
 using TeachMe.Repository.Repositories.Interfaces;
 
 namespace TeachMe.Repository.Repositories
@@ -26,11 +26,11 @@ namespace TeachMe.Repository.Repositories
         {
             try
             {
-                var resultado = _contexto.Set<Usuario>()
+                var resultado = _contexto.Usuarios
                     .Include(x => x.Cargo)
                     .FirstOrDefault(usr => (usr.Email.Equals(email) || usr.NuDocumento.Equals(email)) && usr.Senha.Equals(senha));
 
-                var validado = _contexto.Set<EmailValidacao>().SingleOrDefault(x => x.UsuarioId == resultado.Id).Valido;
+                var validado = _contexto.EmailValidacoes.SingleOrDefault(x => x.UsuarioId == resultado.Id).Valido;
 
                 if (!validado)
                 {
@@ -57,7 +57,7 @@ namespace TeachMe.Repository.Repositories
             _logger.LogDebug("ObterTodos");
             try
             {
-                var resultado = _contexto.Set<Usuario>()
+                var resultado = _contexto.Usuarios
                     .AsNoTracking()
                     .Include(x => x.Cargo)
                     .ToList();
@@ -74,22 +74,19 @@ namespace TeachMe.Repository.Repositories
             }
         }
 
-        public Usuario ObterPorId(long Id, bool processoInterno = false)
+        public Usuario ObterPorId(long Id)
         {
             _logger.LogDebug("ObterPorId");
             try
             {
-                var resultado = _contexto.Set<Usuario>()
+                var resultado = _contexto.Usuarios
                     .AsNoTracking()
                     .Include(x => x.Cargo)
                     .FirstOrDefault(x => x.Id == Id);
 
                 _logger.LogDebug($"ObterPorId com sucesso? {resultado != null}");
 
-                if (!processoInterno)
-                {
-                    resultado.Senha = string.Empty;
-                }
+                resultado.Senha = string.Empty;
                 return resultado;
             }
             catch (DbException ex)
@@ -104,10 +101,10 @@ namespace TeachMe.Repository.Repositories
             _logger.LogDebug("Cadastrar");
             try
             {
-                var alunoId = _contexto.Set<Cargo>().FirstOrDefault(x => x.Descricao.ToUpper().Equals("ALUNO")).Id;
+                var alunoId = _contexto.Cargos.FirstOrDefault(x => x.Descricao.ToUpper().Equals("ALUNO")).Id;
 
                 usuario.CargoId = alunoId;
-                _contexto.Add(usuario);
+                _contexto.Usuarios.Add(usuario);
 
                 var resultado = _contexto.SaveChanges();
 
@@ -130,7 +127,7 @@ namespace TeachMe.Repository.Repositories
         {
             try
             {
-                var resultado = _contexto.Set<Usuario>().FirstOrDefault(usr => usr.Email.Equals(email) || usr.NuDocumento.Equals(nudocumento));
+                var resultado = _contexto.Usuarios.FirstOrDefault(usr => usr.Email.Equals(email) || usr.NuDocumento.Equals(nudocumento));
 
                 return resultado != null;
             }
@@ -146,7 +143,7 @@ namespace TeachMe.Repository.Repositories
             _logger.LogDebug("Delete");
             try
             {
-                _contexto.Remove(ObterPorId(Id));
+                _contexto.Usuarios.Remove(ObterPorId(Id));
                 var result = _contexto.SaveChanges();
 
                 _logger.LogDebug($"Delete: entity with id({Id}) deleted");
@@ -175,7 +172,7 @@ namespace TeachMe.Repository.Repositories
                 usuarioAtual.Telefone = usuario.Telefone;
                 usuarioAtual.TipoDocumento = usuario.TipoDocumento;
 
-                _contexto.Update(usuarioAtual);
+                _contexto.Usuarios.Update(usuarioAtual);
                 var resultado = _contexto.SaveChanges();
 
                 _logger.LogDebug($"Alterar: {resultado} usuario alterado");

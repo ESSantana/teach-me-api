@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using TeachMe.Core.Dominio;
 
 namespace TeachMe.Repository.Entities.EntityMapping
 {

@@ -5,7 +5,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using TeachMe.API.Models.ViewModel;
-using TeachMe.Core.Dominio;
+using TeachMe.Repository.Entities;
 
 namespace TeachMe.Authorization
 {

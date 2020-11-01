@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 
-namespace TeachMe.Core.Dominio
+namespace TeachMe.Repository.Entities
 {
     public class ProfessorDisciplina
     {
@@ -8,7 +9,7 @@ namespace TeachMe.Core.Dominio
         public long ProfessorId { get; set; }
         public Guid DisciplinaId { get; set; }
 
-        public virtual Professor Professor { get; set; }
+        public virtual Usuario Professor { get; set; }
         public virtual Disciplina Disciplina { get; set; }
     }
 }
