@@ -50,7 +50,10 @@ namespace TeachMe
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc()
-                .AddFluentValidation(fvc => fvc.RegisterValidatorsFromAssembly(Assembly.Load("TeachMe.API")))
+                .AddFluentValidation(fvc => {
+                    fvc.RegisterValidatorsFromAssembly(Assembly.Load("TeachMe.API"));
+                    fvc.ImplicitlyValidateChildProperties = true;
+                })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
                 .AddDataAnnotationsLocalization(options =>
                 {
@@ -151,6 +154,10 @@ namespace TeachMe
             services.AddTransient<IValidacaoRepositorio, ValidacaoRepositorio>();
             services.AddTransient<IAulaRepositorio, AulaRepositorio>();
             services.AddTransient<IAulaServico, AulaServico>();
+            services.AddTransient<IEscolaridadeRepositorio, EscolaridadeRepositorio>();
+            services.AddTransient<IEscolaridadeServico, EscolaridadeServico>();
+            services.AddTransient<IModalidadeEnsinoRepositorio, ModalidadeEnsinoRepositorio>();
+            services.AddTransient<IModalidadeEnsinoServico, ModalidadeEnsinoServico>();
 
             #endregion
         }
