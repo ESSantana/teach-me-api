@@ -73,7 +73,7 @@ namespace TeachMe.Core.Services
             return resultado;
         }
 
-        public Usuario ObterPorId(long Id)
+        public Usuario ObterPorId(long Id, bool processoInterno = false)
         {
             _logger.LogDebug("ObterPorId");
             if (Id < 1)
@@ -81,7 +81,7 @@ namespace TeachMe.Core.Services
                 throw new BusinessException(_resource.GetString("INVALID_ID"));
             }
 
-            var resultado = _repositorio.ObterPorId(Id);
+            var resultado = _repositorio.ObterPorId(Id, processoInterno);
 
             _logger.LogDebug($"ObterPorId resultado com sucesso? {resultado != null}");
             return resultado;

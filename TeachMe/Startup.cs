@@ -32,6 +32,8 @@ using TeachMe.Core.Services.Interfaces;
 using TeachMe.Repository.Context;
 using TeachMe.Repository.Repositories;
 using TeachMe.Repository.Repositories.Interfaces;
+using TeachMe.Service.Services;
+using TeachMe.Service.Services.Interfaces;
 
 namespace TeachMe
 {
@@ -133,7 +135,7 @@ namespace TeachMe
                 .AddCheck<CustomHealthCheck>("applicationHealth", tags: new[] { "app_tag" });
             services.AddDbContext<TeachDbContext>(opt => opt.UseMySql(Configuration.GetConnectionString("DevConnection")));
 
-            #region Inje��o de Depend�ncia
+            #region Injeção de Dependência
 
             services.AddScoped<TeachDbContext>();
             services.AddTransient<IResourceLocalizer, ResourceLocalizer>();
@@ -147,6 +149,8 @@ namespace TeachMe
             services.AddTransient<IProfessorServico, ProfessorServico>();
             services.AddTransient<IEmailRepositorio, EmailRepositorio>();
             services.AddTransient<IValidacaoRepositorio, ValidacaoRepositorio>();
+            services.AddTransient<IAulaRepositorio, AulaRepositorio>();
+            services.AddTransient<IAulaServico, AulaServico>();
 
             #endregion
         }

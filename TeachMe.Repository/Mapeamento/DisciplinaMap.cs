@@ -12,6 +12,8 @@ namespace TeachMe.Repository.Entities.EntityMapping
 
             builder.HasKey(x => x.Id);
 
+            builder.Ignore(x => x.ProfessorDisciplina);
+
             builder.Property(x => x.Id)
                 .HasColumnName("DISCIPLINA_ID");
 
