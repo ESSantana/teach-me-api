@@ -3,10 +3,10 @@ using TeachMe.Core.Resources;
 
 namespace TeachMe.API.Models.DTO.Validators
 {
-    public class UsuarioValidator : AbstractValidator<UsuarioDTO>
+    public class UsuarioValidador : AbstractValidator<UsuarioDTO>
     {
         private readonly IResourceLocalizer _localizer;
-        public UsuarioValidator(IResourceLocalizer localizer)
+        public UsuarioValidador(IResourceLocalizer localizer)
         {
             _localizer = localizer;
 
