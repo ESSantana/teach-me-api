@@ -13,6 +13,7 @@ namespace TeachMe.API
             ProfessorMapper.Map(this);
             EscolaridadeMapper.Map(this);
             ModalidadeEnsinoMapper.Map(this);
+            ContratoAulaMapper.Map(this);
         }
     }
 }

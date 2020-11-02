@@ -1,19 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TeachMe.Core.Dominio;
-using TeachMe.Repository.Context;
 
 namespace TeachMe.Repository.Entities.EntityMapping
 {
     public class UsuarioMap : IEntityTypeConfiguration<Usuario>
     {
-        public readonly DbOptions _dbOptions;
-
-        public UsuarioMap(DbOptions dbOptions)
-        {
-            _dbOptions = dbOptions;
-        }
-
         public void Configure(EntityTypeBuilder<Usuario> builder)
         {
             builder.ToTable("Usuario");
@@ -21,9 +13,9 @@ namespace TeachMe.Repository.Entities.EntityMapping
             builder.HasKey(x => x.Id);
 
             builder.Ignore(x => x.Disciplinas);
+            builder.Ignore(x => x.ProfessorDisciplina);
             builder.Ignore(x => x.EmailValidacao);
             builder.Ignore(x => x.Professor);
-            builder.Ignore(x => x.ProfessorDisciplina);
 
             builder.Property(x => x.Id)
                 .IsRequired()
@@ -75,6 +67,10 @@ namespace TeachMe.Repository.Entities.EntityMapping
             builder.HasOne(x => x.Cargo)
                 .WithMany(x => x.Usuarios)
                 .HasForeignKey(x => x.CargoId);
+
+            builder.HasMany(x => x.ContratoAulas)
+                .WithOne(x => x.Aluno)
+                .HasForeignKey(x => x.AlunoId);
         }
     }
 }

@@ -124,7 +124,7 @@ namespace TeachMe.Repository.Repositories
         {
             if (Id > 0)
             {
-                predicado = predicado.And(x => x.Professor.Usuario.Id.Equals(Id));
+                predicado = predicado.And(x => x.Professor.Id.Equals(Id));
             }
 
             return predicado;

@@ -44,5 +44,6 @@ namespace TeachMe.Core.Dominio
         public List<ProfessorDisciplina> ProfessorDisciplina { get; set; }
         public EmailValidacao EmailValidacao { get; set; }
         public Professor Professor { get; set; }
-    }
+        public List<ContratoAula> ContratoAulas { get; set; }
+}
 }

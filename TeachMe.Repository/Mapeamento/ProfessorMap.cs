@@ -33,19 +33,19 @@ namespace TeachMe.Repository.Mapeamento
 
             builder.HasOne(x => x.Usuario)
                 .WithOne(x => x.Professor)
-                .HasForeignKey<Professor>(x => x.UsuarioId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .HasForeignKey<Professor>(x => x.UsuarioId);
 
             builder.HasOne(x => x.ModalidadeEnsino)
                 .WithOne(x => x.Professor)
-                .HasForeignKey<Professor>(x => x.ModalidadeEnsinoId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .HasForeignKey<Professor>(x => x.ModalidadeEnsinoId);
 
             builder.HasOne(x => x.EscolaridaPubAlvo)
                 .WithOne(x => x.Professor)
-                .HasForeignKey<Professor>(x => x.EscolaridaPubAlvoId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .HasForeignKey<Professor>(x => x.EscolaridaPubAlvoId);
 
+            builder.HasMany(x => x.ContratoAulas)
+                .WithOne(x => x.Professor)
+                .HasForeignKey(x => x.ProfessorId);
         }
     }
 }

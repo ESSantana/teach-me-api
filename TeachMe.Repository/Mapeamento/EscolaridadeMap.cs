@@ -16,6 +16,7 @@ namespace TeachMe.Repository.Mapeamento
             builder.Property(x => x.Id)
                 .HasColumnName("ESCOLARIDADE_ID")
                 .IsRequired();
+
             builder.Property(x => x.Descricao)
                 .HasColumnName("DESCRICAO")
                 .HasMaxLength(50);
