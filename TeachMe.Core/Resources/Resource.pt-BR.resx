@@ -141,6 +141,9 @@
   <data name="MISSING_PARAM" xml:space="preserve">
     <value>Preencha todos os campos obrigatórios</value>
   </data>
+  <data name="RATING_REQUIRED" xml:space="preserve">
+    <value>O campo nota é obrigatória e deve estar entre 1 e 10</value>
+  </data>
   <data name="SIZE_RULE" xml:space="preserve">
     <value>O campo {0} deve ter tamanho menor ou igual a {1} caracteres</value>
   </data>

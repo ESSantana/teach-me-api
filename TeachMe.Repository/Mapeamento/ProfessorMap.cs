@@ -46,6 +46,10 @@ namespace TeachMe.Repository.Mapeamento
             builder.HasMany(x => x.ContratoAulas)
                 .WithOne(x => x.Professor)
                 .HasForeignKey(x => x.ProfessorId);
+
+            builder.HasMany(x => x.AvaliacaoProfessor)
+                .WithOne(x => x.Professor)
+                .HasForeignKey(x => x.ProfessorId);
         }
     }
 }

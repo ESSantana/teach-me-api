@@ -5,8 +5,8 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using TeachMe.API.Models.DTO;
-using TeachMe.Core.Services.Interfaces;
+using TeachMe.API.Models.ViewModel;
+using TeachMe.Service.Services.Interfaces;
 
 namespace TeachMe.API.Controllers
 {
@@ -27,26 +27,26 @@ namespace TeachMe.API.Controllers
         [HttpGet]
         [Route("obter/{id}")]
         [Authorize]
-        public ActionResult<CargoDTO> ObterCargoPorId(Guid id)
+        public ActionResult<CargoViewModel> ObterCargoPorId(Guid id)
         {
             _logger.LogDebug("ObterCargoPorId");
             var resultado = _servico.ObterCargoPorId(id);
 
             return resultado != null
-                ? (ActionResult)Ok(_mapper.Map<CargoDTO>(resultado))
+                ? (ActionResult)Ok(_mapper.Map<CargoViewModel>(resultado))
                 : NoContent();
         }
 
         [HttpGet]
         [Route("obterTodos")]
         [Authorize(Roles = "administrador")]
-        public ActionResult<List<CargoDTO>> ObterCargos()
+        public ActionResult<List<CargoViewModel>> ObterCargos()
         {
             _logger.LogDebug("ObterTodos");
             var resultado = _servico.ObterCargos();
 
             return resultado.Count > 0
-                ? (ActionResult)Ok(resultado.Select(r => _mapper.Map<CargoDTO>(r)).ToList())
+                ? (ActionResult)Ok(resultado.Select(r => _mapper.Map<CargoViewModel>(r)).ToList())
                 : NoContent();
         }
     }

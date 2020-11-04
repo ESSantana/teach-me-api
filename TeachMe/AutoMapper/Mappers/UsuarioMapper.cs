@@ -3,11 +3,14 @@ using TeachMe.API.Models.DTO;
 using TeachMe.API.Models.ViewModel;
 using TeachMe.Core.Dominio;
 
-public static class UsuarioMapper
+namespace TeachMe.API.AutoMapper.Mappers
 {
-    public static void Map(Profile profile)
+    public static class UsuarioMapper
     {
-        profile.CreateMap<UsuarioDTO, Usuario>();
-        profile.CreateMap<Usuario, UsuarioViewModel>();
+        public static void Map(Profile profile)
+        {
+            profile.CreateMap<UsuarioDTO, Usuario>();
+            profile.CreateMap<Usuario, UsuarioViewModel>();
+        }
     }
 }

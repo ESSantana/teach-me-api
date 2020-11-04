@@ -5,14 +5,13 @@ using System;
 using System.Linq;
 using TeachMe.Core.Dominio;
 using TeachMe.Core.Resources;
-using TeachMe.Core.Services;
-using TeachMe.Repository.Entities;
 using TeachMe.Repository.Repositories.Interfaces;
+using TeachMe.Service.Services;
 using TeachMe.Test.Configuration.Service;
 
 namespace TeachMe.Test.ServiceTests
 {
-    public class ExampleServiceTest
+  public class ExampleServiceTest
     {
         private Mock<IUsuarioRepositorio> repository;
         private Mock<IEmailRepositorio> emailRepository;
@@ -29,7 +28,7 @@ namespace TeachMe.Test.ServiceTests
             validacaoRepository = new Mock<IValidacaoRepositorio>();
 
             repository.Setup(r => r.ObterTodos()).Returns(ExampleMockResult.Get());
-            repository.Setup(r => r.ObterPorId(It.IsAny<long>())).Returns(ExampleMockResult.Get().First());
+            repository.Setup(r => r.ObterPorId(It.IsAny<long>(), It.IsAny<bool>())).Returns(ExampleMockResult.Get().First());
             repository.Setup(r => r.Cadastrar(It.IsAny<Usuario>())).Returns(ExampleMockResult.Get().First());
             repository.Setup(r => r.Alterar(It.IsAny<Usuario>())).Returns(ExampleMockResult.Get().First());
             repository.Setup(r => r.Excluir(It.IsAny<long>())).Returns(1);
@@ -57,7 +56,7 @@ namespace TeachMe.Test.ServiceTests
 
             Assert.Multiple(() =>
             {
-                repository.Verify(r => r.ObterPorId(It.IsAny<long>()), Times.Once);
+                repository.Verify(r => r.ObterPorId(It.IsAny<long>(), It.IsAny<bool>()), Times.Once);
                 Assert.True(!string.IsNullOrEmpty(result.Nome));
             });
         }
@@ -69,7 +68,7 @@ namespace TeachMe.Test.ServiceTests
 
             Assert.Multiple(() =>
             {
-                repository.Verify(r => r.ObterPorId(It.IsAny<long>()), Times.Never);
+                repository.Verify(r => r.ObterPorId(It.IsAny<long>(), It.IsAny<bool>()), Times.Never);
                 Assert.Null(result);
             });
         }
@@ -133,7 +132,7 @@ namespace TeachMe.Test.ServiceTests
         [Test]
         public void DeleteExample_WithInvalidId_ShouldReturn_Zero()
         {
-            repository.Setup(x => x.ObterPorId(It.IsAny<long>())).Returns((Usuario)null);
+            repository.Setup(x => x.ObterPorId(It.IsAny<long>(), It.IsAny<bool>())).Returns((Usuario)null);
 
             var result = service.Excluir(3);
 
@@ -171,7 +170,7 @@ namespace TeachMe.Test.ServiceTests
         [Test]
         public void ModifyExample_WithInvalidId_ShouldReturn_Null()
         {
-            repository.Setup(x => x.ObterPorId(It.IsAny<long>())).Returns((Usuario)null);
+            repository.Setup(x => x.ObterPorId(It.IsAny<long>(), It.IsAny<bool>())).Returns((Usuario)null);
 
             var usuario = new Usuario
             {

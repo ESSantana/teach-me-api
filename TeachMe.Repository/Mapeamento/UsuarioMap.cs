@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TeachMe.Core.Dominio;
 
-namespace TeachMe.Repository.Entities.EntityMapping
+namespace TeachMe.Repository.Mapeamento
 {
     public class UsuarioMap : IEntityTypeConfiguration<Usuario>
     {

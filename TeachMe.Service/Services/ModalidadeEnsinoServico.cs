@@ -27,7 +27,7 @@ namespace TeachMe.Service.Services
             _logger.LogDebug("ObterModalidadePorId");
             if (Id == null || Id == Guid.Empty)
             {
-                throw new BusinessException(string.Format(_resource.GetString("FIELD_REQUIRED"),"Id"));
+                throw new BusinessException(string.Format(_resource.GetString("FIELD_REQUIRED"), "Id"));
             }
 
             var resultado = _repositorio.ObterModalidadePorId(Id);

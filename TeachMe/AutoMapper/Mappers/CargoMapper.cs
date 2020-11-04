@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using TeachMe.API.Models.DTO;
+using TeachMe.API.Models.ViewModel;
 using TeachMe.Core.Dominio;
 
 namespace TeachMe.API.AutoMapper.Mappers
@@ -9,7 +10,7 @@ namespace TeachMe.API.AutoMapper.Mappers
         public static void Map(Profile profile)
         {
             profile.CreateMap<CargoDTO, Cargo>();
-            profile.CreateMap<Cargo, CargoDTO>();
+            profile.CreateMap<Cargo, CargoViewModel>();
         }
     }
 }

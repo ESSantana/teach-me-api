@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using System;
 using TeachMe.Core.Resources;
-using TeachMe.Core.Services.Interfaces;
+using TeachMe.Service.Services.Interfaces;
 
 namespace TeachMe.API.Models.DTO.Validators
 {

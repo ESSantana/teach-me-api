@@ -12,6 +12,8 @@ namespace TeachMe.Repository.Mapeamento
 
             builder.HasKey(x => x.Id);
 
+            builder.Ignore(x => x.AvaliacaoProfessor);
+
             builder.Property(x => x.Id)
                 .HasColumnName("CONTRATO_AULA_ID")
                 .IsRequired()

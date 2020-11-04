@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using TeachMe.Core.Exceptions;
-using TeachMe.Core.Resources;
 using System.Data.Common;
 using System.Net;
+using TeachMe.Core.Exceptions;
+using TeachMe.Core.Resources;
 
 namespace TeachMe.API.Filters
 {

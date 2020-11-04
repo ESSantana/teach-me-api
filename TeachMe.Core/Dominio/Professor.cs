@@ -31,5 +31,6 @@ namespace TeachMe.Core.Dominio
         public List<Disciplina> Disciplinas { get; set; }
         public List<ProfessorDisciplina> ProfessorDisciplina { get; set; }
         public List<ContratoAula> ContratoAulas { get; set; }
+        public List<AvaliacaoProfessor> AvaliacaoProfessor { get; set; }
     }
 }

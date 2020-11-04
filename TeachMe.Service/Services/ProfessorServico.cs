@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using TeachMe.Core.Dominio;
 using TeachMe.Core.Exceptions;
-using TeachMe.Core.Services.Interfaces;
 using TeachMe.Core.Utils;
-using TeachMe.Repository.Entities;
 using TeachMe.Repository.Repositories.Interfaces;
+using TeachMe.Service.Services.Interfaces;
 
-namespace TeachMe.Core.Services
+namespace TeachMe.Service.Services
 {
     public class ProfessorServico : IProfessorServico
     {
@@ -41,7 +40,7 @@ namespace TeachMe.Core.Services
                 throw new BusinessException("");
             }
 
-            return _repositorio.TornarProfessor(professor); 
+            return _repositorio.TornarProfessor(professor);
         }
     }
 }

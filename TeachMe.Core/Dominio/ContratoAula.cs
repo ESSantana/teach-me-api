@@ -16,5 +16,6 @@ namespace TeachMe.Core.Dominio
 
         public virtual Usuario Aluno { get; set; }
         public virtual Professor Professor { get; set; }
+        public virtual AvaliacaoProfessor AvaliacaoProfessor { get; set; }
     }
 }

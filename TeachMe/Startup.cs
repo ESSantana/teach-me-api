@@ -27,8 +27,6 @@ using TeachMe.API;
 using TeachMe.API.Filters;
 using TeachMe.Authorization;
 using TeachMe.Core.Resources;
-using TeachMe.Core.Services;
-using TeachMe.Core.Services.Interfaces;
 using TeachMe.Repository.Context;
 using TeachMe.Repository.Repositories;
 using TeachMe.Repository.Repositories.Interfaces;
@@ -50,7 +48,8 @@ namespace TeachMe
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc()
-                .AddFluentValidation(fvc => {
+                .AddFluentValidation(fvc =>
+                {
                     fvc.RegisterValidatorsFromAssembly(Assembly.Load("TeachMe.API"));
                     fvc.ImplicitlyValidateChildProperties = true;
                 })

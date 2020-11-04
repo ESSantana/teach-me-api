@@ -6,13 +6,13 @@ using System.Data.Common;
 using System.Linq;
 using System.Linq.Expressions;
 using TeachMe.Core.Dominio;
+using TeachMe.Core.Utils;
 using TeachMe.Repository.Context;
 using TeachMe.Repository.Repositories.Interfaces;
-using TeachMe.Repository.Utils;
 
 namespace TeachMe.Repository.Repositories
 {
-    public class ProfessorRepositorio : IProfessorRepositorio   
+    public class ProfessorRepositorio : IProfessorRepositorio
     {
         private readonly TeachDbContext _contexto;
         private readonly ILogger<ProfessorRepositorio> _logger;
@@ -76,7 +76,7 @@ namespace TeachMe.Repository.Repositories
 
                 _contexto.SaveChanges();
 
-                if(professor.Id != 0)
+                if (professor.Id != 0)
                 {
                     professor.Disciplinas.ForEach(disc =>
                     {

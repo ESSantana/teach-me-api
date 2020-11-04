@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using TeachMe.API.Models.ViewModel;
 using TeachMe.Authorization;
-using TeachMe.Core.Services.Interfaces;
+using TeachMe.Service.Services.Interfaces;
 
 namespace TeachMe.API.Controllers
 {

@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using TeachMe.Core.Resources;
-using TeachMe.Core.Services.Interfaces;
 using TeachMe.Core.Utils;
 using TeachMe.Service.Services.Interfaces;
 

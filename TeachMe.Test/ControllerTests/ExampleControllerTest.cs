@@ -9,12 +9,12 @@ using System.Linq;
 using TeachMe.API.Controllers;
 using TeachMe.API.Models.DTO;
 using TeachMe.Core.Dominio;
-using TeachMe.Core.Services.Interfaces;
+using TeachMe.Service.Services.Interfaces;
 using TeachMe.Test.Configuration.Service;
 
 namespace TeachMe.Test.ControllerTests
 {
-    public class ExampleControllerTest
+  public class ExampleControllerTest
     {
         private UsuarioController controller;
         private Mock<IUsuarioServico> service;
@@ -27,7 +27,7 @@ namespace TeachMe.Test.ControllerTests
             service = new Mock<IUsuarioServico>();
 
             service.Setup(r => r.ObterTodos()).Returns(ExampleMockResult.Get());
-            service.Setup(r => r.ObterPorId(It.IsAny<long>())).Returns(ExampleMockResult.Get().First());
+            service.Setup(r => r.ObterPorId(It.IsAny<long>(), It.IsAny<bool>())).Returns(ExampleMockResult.Get().First());
             service.Setup(r => r.Cadastrar(It.IsAny<Usuario>())).Returns(ExampleMockResult.Get().First());
             service.Setup(r => r.Alterar(It.IsAny<Usuario>())).Returns(ExampleMockResult.Get().First());
             service.Setup(r => r.Excluir(It.IsAny<long>())).Returns(1);
@@ -70,7 +70,7 @@ namespace TeachMe.Test.ControllerTests
 
             Assert.Multiple(() =>
             {
-                service.Verify(s => s.ObterPorId(It.IsAny<long>()), Times.Once);
+                service.Verify(s => s.ObterPorId(It.IsAny<long>(), It.IsAny<bool>()), Times.Once);
                 Assert.NotNull(result);
                 Assert.IsInstanceOf(typeof(OkObjectResult), result.Result);
             });
@@ -79,13 +79,13 @@ namespace TeachMe.Test.ControllerTests
         [Test]
         public void GetByID_ShouldReturn_NoContentResult()
         {
-            service.Setup(r => r.ObterPorId(It.IsAny<long>())).Returns((Usuario)null);
+            service.Setup(r => r.ObterPorId(It.IsAny<long>(), It.IsAny<bool>())).Returns((Usuario)null);
 
             var result = controller.Obter(1);
 
             Assert.Multiple(() =>
             {
-                service.Verify(s => s.ObterPorId(It.IsAny<long>()), Times.Once);
+                service.Verify(s => s.ObterPorId(It.IsAny<long>(), It.IsAny<bool>()), Times.Once);
                 Assert.NotNull(result);
                 Assert.IsInstanceOf(typeof(NoContentResult), result.Result);
             });
