@@ -8,7 +8,7 @@ using System.Linq;
 using TeachMe.API.Models.DTO;
 using TeachMe.API.Models.ViewModel;
 using TeachMe.Core.Dominio;
-using TeachMe.Core.Services.Interfaces;
+using TeachMe.Service.Services.Interfaces;
 
 namespace TeachMe.API.Controllers
 {
@@ -89,7 +89,7 @@ namespace TeachMe.API.Controllers
 
         [HttpPost]
         [Route("alterar")]
-        [Authorize(Roles = "aluno,professor,administrador")]
+        [Authorize]
         public ActionResult<UsuarioViewModel> Alterar(UsuarioDTO usuarioDto)
         {
             var exampleEntity = _mapper.Map<Usuario>(usuarioDto);

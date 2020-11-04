@@ -7,10 +7,10 @@ using System.Text;
 using TeachMe.Core.Dominio;
 using TeachMe.Core.Exceptions;
 using TeachMe.Core.Resources;
-using TeachMe.Core.Services.Interfaces;
 using TeachMe.Repository.Repositories.Interfaces;
+using TeachMe.Service.Services.Interfaces;
 
-namespace TeachMe.Core.Services
+namespace TeachMe.Service.Services
 {
     public class UsuarioServico : IUsuarioServico
     {

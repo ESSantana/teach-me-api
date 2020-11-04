@@ -49,7 +49,7 @@ namespace TeachMe.Repository.Repositories
                 _logger.LogError(ex, $"VerificarExistencia Erro: {ex.Message}");
                 throw new BusinessException(ex.Message);
             }
-            
+
         }
 
         public List<Usuario> ObterTodos()

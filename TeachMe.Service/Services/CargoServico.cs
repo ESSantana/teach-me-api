@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using TeachMe.Core.Dominio;
 using TeachMe.Core.Exceptions;
 using TeachMe.Core.Resources;
-using TeachMe.Core.Services.Interfaces;
 using TeachMe.Repository.Repositories.Interfaces;
+using TeachMe.Service.Services.Interfaces;
 
-namespace TeachMe.Core.Services
+namespace TeachMe.Service.Services
 {
     public class CargoServico : ICargoServico
     {
@@ -34,7 +34,7 @@ namespace TeachMe.Core.Services
         {
             _logger.LogDebug("ObterCargoPorId");
 
-            if(id == null || id == Guid.Empty)
+            if (id == null || id == Guid.Empty)
             {
                 _logger.LogWarning("ObterCargoPorId com Id inválido");
                 throw new BusinessException(_resource.GetString("INVALID_ID"));

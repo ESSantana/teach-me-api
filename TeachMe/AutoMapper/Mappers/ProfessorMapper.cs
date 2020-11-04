@@ -9,8 +9,8 @@ namespace TeachMe.API.AutoMapper.Mappers
     {
         public static void Map(Profile profile)
         {
-            profile.CreateMap<Professor, ProfessorViewModel>();
             profile.CreateMap<ProfessorDTO, Professor>();
+            profile.CreateMap<Professor, ProfessorViewModel>();
         }
     }
 }

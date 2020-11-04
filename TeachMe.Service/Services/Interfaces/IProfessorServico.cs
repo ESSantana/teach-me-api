@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using TeachMe.Core.Dominio;
-using TeachMe.Repository.Entities;
 
-namespace TeachMe.Core.Services.Interfaces
+namespace TeachMe.Service.Services.Interfaces
 {
     public interface IProfessorServico
     {

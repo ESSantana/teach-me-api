@@ -7,7 +7,7 @@ using System.Linq;
 using TeachMe.API.Models.DTO;
 using TeachMe.API.Models.ViewModel;
 using TeachMe.Core.Dominio;
-using TeachMe.Core.Services.Interfaces;
+using TeachMe.Service.Services.Interfaces;
 
 namespace TeachMe.API.Controllers
 {
@@ -39,6 +39,7 @@ namespace TeachMe.API.Controllers
         }
 
         [HttpPost]
+        [Route("aplicarParaProfessor")]
         [Authorize]
         public ActionResult<ProfessorViewModel> TornaProfessor(ProfessorDTO professor)
         {
