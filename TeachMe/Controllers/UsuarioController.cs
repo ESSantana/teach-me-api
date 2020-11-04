@@ -28,8 +28,7 @@ namespace TeachMe.API.Controllers
         }
 
         /// <summary>
-        /// Obter todos os usuários presentes na base de dados
-        /// Necessita autenticação do usuário
+        /// Obter todos os usuários presentes na base de dados (Necessita de token de autenticação)
         /// </summary>
         /// <returns>Lista de Usuários cadastrados</returns>
         [HttpGet]
@@ -48,8 +47,7 @@ namespace TeachMe.API.Controllers
         }
 
         /// <summary>
-        /// Obter usuário utilizando seu id
-        /// Necessita autenticação do usuário
+        /// Obter usuário utilizando seu id (Necessita de token de autenticação)
         /// </summary>
         /// <param name="id">Id do usuário</param>
         /// <returns>Usuário referente ao id fornecido</returns>
@@ -69,8 +67,7 @@ namespace TeachMe.API.Controllers
         }
 
         /// <summary>
-        /// Cadastrar usuário dado os parametros fornecidos
-        /// Permite acesso sem autenticação
+        /// Cadastrar usuário dado os parametros fornecidos (Permite acesso sem autenticação)
         /// </summary>
         /// <param name="usuarioDto">Informações do Usuário</param>
         /// <returns>Usuário cadastrado</returns>
@@ -92,8 +89,7 @@ namespace TeachMe.API.Controllers
         }
 
         /// <summary>
-        /// Valida cadastro a partir do id da url enviada para o e-mail
-        /// Permite acesso sem autenticação
+        /// Valida cadastro a partir do id da url enviada para o e-mail (Permite acesso sem autenticação)
         /// </summary>
         /// <param name="cadastro">Id presente na url enviada por e-mail</param>
         /// <returns>usuarioValidado: boolean</returns>
@@ -111,8 +107,7 @@ namespace TeachMe.API.Controllers
         }
 
         /// <summary>
-        /// Altera informações do usuário informado
-        /// Necessita autenticação do usuário
+        /// Altera informações do usuário informado (Necessita de token de autenticação)
         /// </summary>
         /// <param name="usuarioDto">Informações do usuário para salvar</param>
         /// <returns>Estado do usuário após ser alterado</returns>
@@ -134,8 +129,7 @@ namespace TeachMe.API.Controllers
         }
 
         /// <summary>
-        /// Exclui o usuário identificado pelo id fornecido
-        /// Acesso só para administrador
+        /// Exclui o usuário identificado pelo id fornecido (Acesso só para administrador)
         /// </summary>
         /// <param name="id">Id do usuário</param>
         /// <returns>UsuarioDeletado: boolean</returns>

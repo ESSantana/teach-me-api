@@ -22,6 +22,12 @@ namespace TeachMe.API.Controllers
             _servico = servico;
         }
 
+        /// <summary>
+        /// Login na plataforma para obter token de autorização
+        /// </summary>
+        /// <param name="email">Email cadastrado</param>
+        /// <param name="senha">Senha cadastrada</param>
+        /// <returns>Informações do usuário e token de autenticação</returns>
         [HttpGet]
         [Route("login")]
         [AllowAnonymous]
@@ -38,10 +44,14 @@ namespace TeachMe.API.Controllers
 
             var usuarioAutenticado = TokenHandler.GenerateToken(usuario, _mapper);
 
-            _logger.LogDebug("Usu�rio autenticado");
+            _logger.LogDebug("Usu�rio autenticado");
             return usuarioAutenticado;
         }
 
+        /// <summary>
+        /// Testar se o token é válido
+        /// </summary>
+        /// <returns>String</returns>
         [HttpGet]
         [Route("validateToken")]
         [Authorize]

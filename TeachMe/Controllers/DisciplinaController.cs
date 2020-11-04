@@ -24,19 +24,28 @@ namespace TeachMe.API.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Obter disciplina por Id (Necessita de token de autenticação)
+        /// </summary>
+        /// <param name="Id">Id da disciplina</param>
+        /// <returns>Disciplina</returns>
         [HttpGet]
         [Route("obter/{id}")]
         [Authorize]
-        public ActionResult<DisciplinaViewModel> ObterDisciplinaPorId(Guid id)
+        public ActionResult<DisciplinaViewModel> ObterDisciplinaPorId(Guid Id)
         {
             _logger.LogDebug("ObterDisciplinaPorId");
-            var resultado = _servico.ObterDisciplinaPorId(id);
+            var resultado = _servico.ObterDisciplinaPorId(Id);
 
             return resultado != null
                 ? (ActionResult)Ok(_mapper.Map<DisciplinaViewModel>(resultado))
                 : NoContent();
         }
 
+        /// <summary>
+        /// Obter todas disciplinas cadastradas (Necessita de token de autenticação)
+        /// </summary>
+        /// <returns>Lista de disciplinas</returns>
         [HttpGet]
         [Route("obterTodos")]
         [Authorize]
