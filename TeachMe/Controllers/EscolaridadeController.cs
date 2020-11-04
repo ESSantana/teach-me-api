@@ -25,6 +25,10 @@ namespace TeachMe.API.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Obter todas escolaridades cadastradas (Necessita de token de autenticação)
+        /// </summary>
+        /// <returns>Lista de escolaridade</returns>
         [HttpGet]
         [Authorize]
         public ActionResult<List<EscolaridadeViewModel>> ObterTodasEscolaridades()
@@ -37,6 +41,11 @@ namespace TeachMe.API.Controllers
                 : NoContent();
         }
 
+        /// <summary>
+        /// Obter escolaridade por Id (Necessita de token de autenticação)
+        /// </summary>
+        /// <param name="Id">Id da escolaridade</param>
+        /// <returns>Escolaridade</returns>
         [HttpGet]
         [Route("porId")]
         [Authorize]

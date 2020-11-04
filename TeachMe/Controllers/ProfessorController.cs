@@ -26,6 +26,14 @@ namespace TeachMe.API.Controllers
             _mapper = mapper;
         }
 
+
+        /// <summary>
+        /// Pesquisar professor (Necessita de token de autenticação)
+        /// </summary>
+        /// <param name="id">Opcional: id do professor</param>
+        /// <param name="nome">Opcional: nome do professor</param>
+        /// <param name="disciplina">Opcional: nome da disciplina</param>
+        /// <returns>Lista de professores filtrado pelos parametros</returns>
         [HttpGet]
         [Authorize]
         public ActionResult<List<ProfessorViewModel>> ObterProfessores(long id = 0, string nome = null, string disciplina = null)
@@ -38,6 +46,11 @@ namespace TeachMe.API.Controllers
                 : NoContent();
         }
 
+        /// <summary>
+        /// Aplicar para se tornar um professor (Necessita de token de autenticação)
+        /// </summary>
+        /// <param name="professor">Dados necessários para se tornar um professor</param>
+        /// <returns>Cadastro do usuário como professor na plataforma</returns>
         [HttpPost]
         [Route("aplicarParaProfessor")]
         [Authorize]

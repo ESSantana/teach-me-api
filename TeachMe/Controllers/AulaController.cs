@@ -26,6 +26,11 @@ namespace TeachMe.API.Controllers
             _logger = logger;
         }
 
+        /// <summary>
+        /// Contratar serviço de aula (Necessita de token de autenticação)
+        /// </summary>
+        /// <param name="contrato">Dados da contratação de aula</param>
+        /// <returns>Dados Aula Contratada</returns>
         [HttpPost]
         [Route("contratarAula")]
         [Authorize]
@@ -39,6 +44,11 @@ namespace TeachMe.API.Controllers
                 : NoContent();
         }
 
+        /// <summary>
+        /// Verificar se existe alguma aula para avaliar (Necessita de token de autenticação)
+        /// </summary>
+        /// <param name="alunoId">Id do aluno</param>
+        /// <returns>Lista de aulas com avaliação pendente</returns>
         [HttpGet]
         [Route("pendenciaAvaliacao")]
         [Authorize]
@@ -52,6 +62,11 @@ namespace TeachMe.API.Controllers
                 : NoContent();
         }
 
+        /// <summary>
+        /// Avaliar professor em uma aula específica (Necessita de token de autenticação)
+        /// </summary>
+        /// <param name="avaliacao">Dados da avaliação do professor</param>
+        /// <returns>Avaliação feita</returns>
         [HttpPost]
         [Route("avaliarProfessor")]
         [Authorize]

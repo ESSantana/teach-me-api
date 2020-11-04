@@ -27,6 +27,10 @@ namespace TeachMe.API.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Obter todos os usuários presentes na base de dados (Necessita de token de autenticação)
+        /// </summary>
+        /// <returns>Lista de Usuários cadastrados</returns>
         [HttpGet]
         [Route("obterTodos")]
         [Authorize]
@@ -42,6 +46,11 @@ namespace TeachMe.API.Controllers
                 : NoContent();
         }
 
+        /// <summary>
+        /// Obter usuário utilizando seu id (Necessita de token de autenticação)
+        /// </summary>
+        /// <param name="id">Id do usuário</param>
+        /// <returns>Usuário referente ao id fornecido</returns>
         [HttpGet]
         [Route("obter/{id}")]
         [Authorize]
@@ -57,6 +66,11 @@ namespace TeachMe.API.Controllers
                 : NoContent();
         }
 
+        /// <summary>
+        /// Cadastrar usuário dado os parametros fornecidos (Permite acesso sem autenticação)
+        /// </summary>
+        /// <param name="usuarioDto">Informações do Usuário</param>
+        /// <returns>Usuário cadastrado</returns>
         [HttpPost]
         [Route("cadastrar")]
         [AllowAnonymous]
@@ -74,6 +88,11 @@ namespace TeachMe.API.Controllers
                 : NoContent();
         }
 
+        /// <summary>
+        /// Valida cadastro a partir do id da url enviada para o e-mail (Permite acesso sem autenticação)
+        /// </summary>
+        /// <param name="cadastro">Id presente na url enviada por e-mail</param>
+        /// <returns>usuarioValidado: boolean</returns>
         [HttpPost]
         [Route("validarCadastro")]
         [AllowAnonymous]
@@ -84,9 +103,14 @@ namespace TeachMe.API.Controllers
 
             _logger.LogDebug($"ValidarCadastro usuário validado? {resultado}");
 
-            return (ActionResult)Ok(new { usuarioValidad = resultado });
+            return (ActionResult)Ok(new { usuarioValidado = resultado });
         }
 
+        /// <summary>
+        /// Altera informações do usuário informado (Necessita de token de autenticação)
+        /// </summary>
+        /// <param name="usuarioDto">Informações do usuário para salvar</param>
+        /// <returns>Estado do usuário após ser alterado</returns>
         [HttpPost]
         [Route("alterar")]
         [Authorize]
@@ -104,6 +128,11 @@ namespace TeachMe.API.Controllers
                 : NoContent();
         }
 
+        /// <summary>
+        /// Exclui o usuário identificado pelo id fornecido (Acesso só para administrador)
+        /// </summary>
+        /// <param name="id">Id do usuário</param>
+        /// <returns>UsuarioDeletado: boolean</returns>
         [HttpDelete]
         [Route("excluir/{id}")]
         [Authorize(Roles = "administrador")]
