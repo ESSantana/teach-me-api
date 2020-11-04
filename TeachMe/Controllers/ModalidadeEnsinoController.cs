@@ -25,6 +25,10 @@ namespace TeachMe.API.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Obter todas as modalidades de ensino cadastradas (Necessita de token de autenticação)
+        /// </summary>
+        /// <returns>Lista de modalidade de ensino</returns>
         [HttpGet]
         [Authorize]
         public ActionResult<List<ModalidadeEnsinoViewModel>> ObterTodasModalidades()
@@ -37,6 +41,11 @@ namespace TeachMe.API.Controllers
                 : NoContent();
         }
 
+        /// <summary>
+        /// Obter modalidade de ensino por Id (Necessita de token de autenticação)
+        /// </summary>
+        /// <param name="Id">Id da modalidade de ensino</param>
+        /// <returns>Modalidade de ensino</returns>
         [HttpGet]
         [Route("porId")]
         [Authorize]

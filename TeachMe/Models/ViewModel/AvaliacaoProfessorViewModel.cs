@@ -13,7 +13,7 @@
         /// Id do Professor
         /// </summary>
         public int ProfessorId { get; set; }
-        // <summary>
+        /// <summary>
         /// Id da Aula
         /// </summary>
         public long AulaId { get; set; }
