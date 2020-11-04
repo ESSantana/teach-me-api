@@ -10,12 +10,12 @@ namespace TeachMe.API.Controllers
 {
     [Route("api/v1/auth")]
     [ApiController]
-    public class AuthenticationContoller : ControllerBase
+    public class AuthenticationController : ControllerBase
     {
         private readonly ILogger<UsuarioController> _logger;
         private readonly IUsuarioServico _servico;
         private readonly IMapper _mapper;
-        public AuthenticationContoller(IMapper mapper, ILogger<UsuarioController> logger, IUsuarioServico servico)
+        public AuthenticationController(IMapper mapper, ILogger<UsuarioController> logger, IUsuarioServico servico)
         {
             _mapper = mapper;
             _logger = logger;
