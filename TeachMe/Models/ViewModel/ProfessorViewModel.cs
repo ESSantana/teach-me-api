@@ -16,6 +16,10 @@ namespace TeachMe.API.Models.ViewModel
         /// </summary>
         public string Descricao { get; set; }
         /// <summary>
+        /// Valor cobrado por hora/aula
+        /// </summary>
+        public decimal ValorHora { get; set; }
+        /// <summary>
         /// Dados do usuário
         /// </summary>
         public UsuarioViewModel Usuario { get; set; }

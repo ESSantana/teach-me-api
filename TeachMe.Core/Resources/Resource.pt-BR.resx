@@ -151,6 +151,9 @@
     <value>A aplicação está com problemas</value>
   </data>
   <data name="USER_EXISTING" xml:space="preserve">
-    <value>Documento ou email já cadastrado, caso necessário solicite uma nova senha.</value>
+    <value>Documento ou email já cadastrado, caso necessário solicite uma nova senha</value>
+  </data>
+  <data name="VALUE_HOUR_RULE" xml:space="preserve">
+    <value>O valor por hora/aula deve estar na faixa entre {0} e {1} reais</value>
   </data>
 </root>

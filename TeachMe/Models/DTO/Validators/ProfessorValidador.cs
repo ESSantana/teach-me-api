@@ -51,6 +51,13 @@ namespace TeachMe.API.Models.DTO.Validators
                 .NotNull()
                 .NotEmpty()
                 .WithMessage(string.Format(_resource.GetString("FIELD_REQUIRED"), "Senha"));
+
+            RuleFor(x => x.ValorHora)
+                .NotNull()
+                .NotEmpty()
+                .WithMessage(string.Format(_resource.GetString("FIELD_REQUIRED"), "Valor por hora/aula"))
+                .Must(x => x >= 10 && x <= 200)
+                .WithMessage(string.Format(_resource.GetString("VALUE_HOUR_RULE"), "10", "200"));
         }
     }
 }

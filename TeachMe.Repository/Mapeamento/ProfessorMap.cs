@@ -31,6 +31,10 @@ namespace TeachMe.Repository.Mapeamento
             builder.Property(x => x.Descricao)
                 .HasColumnName("DESCRICAO");
 
+            builder.Property(x => x.ValorHora)
+                .HasColumnName("VALOR_HORA")
+                .IsRequired();
+
             builder.HasOne(x => x.Usuario)
                 .WithOne(x => x.Professor)
                 .HasForeignKey<Professor>(x => x.UsuarioId);

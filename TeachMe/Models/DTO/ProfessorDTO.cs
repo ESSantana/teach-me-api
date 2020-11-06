@@ -36,5 +36,9 @@ namespace TeachMe.API.Models.DTO
         /// Descrição opcional do professor
         /// </summary>
         public string Descricao { get; set; }
+        /// <summary>
+        /// Valor cobrado por hora/aula
+        /// </summary>
+        public decimal ValorHora { get; set; }
     }   
 }

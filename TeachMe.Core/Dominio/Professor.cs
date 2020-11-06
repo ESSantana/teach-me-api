@@ -23,6 +23,7 @@ namespace TeachMe.Core.Dominio
         public Guid ModalidadeEnsinoId { get; set; }
         public Guid EscolaridaPubAlvoId { get; set; }
         public string Descricao { get; set; }
+        public decimal ValorHora { get; set; }
 
         public Usuario Usuario { get; set; }
         public ModalidadeEnsino ModalidadeEnsino { get; set; }
