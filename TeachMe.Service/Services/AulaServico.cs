@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using TeachMe.Core.Dominio;
 using TeachMe.Core.Exceptions;
@@ -25,7 +26,10 @@ namespace TeachMe.Service.Services
         {
             _logger.LogDebug("ContratarAula");
 
+            contrato.DataContrato = DateTime.Now;
             contrato.DataFimPrestacao = contrato.DataInicioPrestacao.Value.AddHours(contrato.HorasContratadas);
+            contrato.ValorTotal = contrato.ValorHora * contrato.HorasContratadas;
+            contrato.Avaliado = false;
 
             var contratoSalvo = _repositorio.ContratarAula(contrato);
 

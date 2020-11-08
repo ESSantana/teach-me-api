@@ -138,6 +138,9 @@
   <data name="INVALID_ID" xml:space="preserve">
     <value>Id inválido</value>
   </data>
+  <data name="MINIMUM_HOUR_RESTRICT" xml:space="preserve">
+    <value>A quantidade de hora(s) mínima para uma aula é de {0} hora(s).</value>
+  </data>
   <data name="MISSING_PARAM" xml:space="preserve">
     <value>Preencha todos os campos obrigatórios</value>
   </data>

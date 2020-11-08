@@ -12,6 +12,7 @@ namespace TeachMe.Repository.Mapeamento
 
             builder.HasKey(x => x.Id);
             builder.Ignore(x => x.Professor);
+            //builder.Ignore(x => x.Usuarios);
 
             builder.Property(x => x.Id)
                 .HasColumnName("ESCOLARIDADE_ID")
@@ -20,6 +21,10 @@ namespace TeachMe.Repository.Mapeamento
             builder.Property(x => x.Descricao)
                 .HasColumnName("DESCRICAO")
                 .HasMaxLength(50);
+
+            builder.HasMany(x => x.Usuarios)
+                .WithOne(x => x.Escolaridade)
+                .HasForeignKey(x => x.EscolaridadeId);
         }
     }
 }

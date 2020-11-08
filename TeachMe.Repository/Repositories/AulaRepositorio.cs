@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
@@ -59,7 +60,9 @@ namespace TeachMe.Repository.Repositories
             try
             {
                 var aulas = _contexto.Set<ContratoAula>()
-                    .Where(x => x.AlunoId == alunoId && !x.Avaliado)
+                    .Where(x => x.AlunoId == alunoId 
+                        && DateTime.Now > x.DataFimPrestacao 
+                        && !x.Avaliado)
                     .ToList();
 
                 return aulas;

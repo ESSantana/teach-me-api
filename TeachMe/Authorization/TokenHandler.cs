@@ -24,7 +24,7 @@ namespace TeachMe.Authorization
                     new Claim(ClaimTypes.Role, usuario.Cargo.Descricao)
                 }),
                 
-                Expires = DateTime.UtcNow.AddHours(3),
+                Expires =  DateTime.UtcNow.AddDays(3),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);

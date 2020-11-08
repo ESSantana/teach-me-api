@@ -40,6 +40,10 @@ namespace TeachMe.API.Models.ViewModel
         /// </summary>
         public decimal ValorHora { get; set; }
         /// <summary>
+        /// Valor total do contrato de aula
+        /// </summary>
+        public decimal ValorTotal { get; set; }
+        /// <summary>
         /// O serviço foi prestado?
         /// </summary>
         public bool Avaliado { get; set; }

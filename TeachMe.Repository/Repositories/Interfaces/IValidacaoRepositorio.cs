@@ -7,5 +7,6 @@ namespace TeachMe.Repository.Repositories.Interfaces
     {
         Guid CriarValidador(EmailValidacao validacao);
         bool ValidarCadastro(Guid validacaoId);
+        bool ExcluirValidador(Guid validacaoId);
     }
 }

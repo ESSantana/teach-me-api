@@ -35,6 +35,28 @@ namespace TeachMe.Repository.Repositories
             return validacao.Id;
         }
 
+        public bool ExcluirValidador(Guid idValidacao)
+        {
+            try
+            {
+                var validacao = _contexto.Set<EmailValidacao>().SingleOrDefault(x => x.Id == idValidacao);
+
+                if (validacao != null)
+                {
+                    _contexto.Remove(validacao);
+                    _contexto.SaveChanges();
+                    return true;
+                }
+
+                return false;
+            }
+            catch (DbUpdateException ex)
+            {
+                _logger.LogError(ex, $"CriarValidador: {ex.Message}");
+                throw;
+            }
+        }
+
         public bool ValidarCadastro(Guid validacaoId)
         {
             try

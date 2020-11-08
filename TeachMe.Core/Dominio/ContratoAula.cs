@@ -12,6 +12,7 @@ namespace TeachMe.Core.Dominio
         public DateTime? DataFimPrestacao { get; set; }
         public int HorasContratadas { get; set; }
         public decimal ValorHora { get; set; }
+        public decimal ValorTotal { get; set; }
         public bool Avaliado { get; set; }
 
         public virtual Usuario Aluno { get; set; }

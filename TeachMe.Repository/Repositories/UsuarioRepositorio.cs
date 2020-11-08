@@ -28,6 +28,7 @@ namespace TeachMe.Repository.Repositories
             {
                 var resultado = _contexto.Set<Usuario>()
                     .Include(x => x.Cargo)
+                    .Include(x => x.Escolaridade)
                     .FirstOrDefault(usr => (usr.Email.Equals(email) || usr.NuDocumento.Equals(email)) && usr.Senha.Equals(senha));
 
                 var validado = _contexto.Set<EmailValidacao>().SingleOrDefault(x => x.UsuarioId == resultado.Id).Valido;
@@ -60,6 +61,7 @@ namespace TeachMe.Repository.Repositories
                 var resultado = _contexto.Set<Usuario>()
                     .AsNoTracking()
                     .Include(x => x.Cargo)
+                    .Include(x => x.Escolaridade)
                     .ToList();
 
                 _logger.LogDebug($"ObterTodos resultado: {resultado.Count}");
@@ -82,6 +84,7 @@ namespace TeachMe.Repository.Repositories
                 var resultado = _contexto.Set<Usuario>()
                     .AsNoTracking()
                     .Include(x => x.Cargo)
+                    .Include(x => x.Escolaridade)
                     .FirstOrDefault(x => x.Id == Id);
 
                 _logger.LogDebug($"ObterPorId com sucesso? {resultado != null}");
@@ -169,7 +172,7 @@ namespace TeachMe.Repository.Repositories
                 usuarioAtual.Nome = usuario.Nome;
                 usuarioAtual.DataNascimento = usuario.DataNascimento;
                 usuarioAtual.Email = usuario.Email;
-                usuarioAtual.Escolaridade = usuario.Escolaridade;
+                usuarioAtual.EscolaridadeId = usuario.EscolaridadeId;
                 usuarioAtual.NuDocumento = usuario.NuDocumento;
                 usuarioAtual.Senha = usuario.Senha;
                 usuarioAtual.Telefone = usuario.Telefone;

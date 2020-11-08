@@ -30,7 +30,7 @@ namespace TeachMe.API.Controllers
         /// </summary>
         /// <returns>Lista de escolaridade</returns>
         [HttpGet]
-        [Authorize]
+        [AllowAnonymous]
         public ActionResult<List<EscolaridadeViewModel>> ObterTodasEscolaridades()
         {
             _logger.LogDebug("ObterTodasEscolaridades");

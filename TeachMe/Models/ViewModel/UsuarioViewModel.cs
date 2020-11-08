@@ -30,7 +30,7 @@ namespace TeachMe.API.Models.ViewModel
         /// <summary>
         /// Nível de Ensino
         /// </summary>
-        public string Escolaridade { get; set; }
+        public EscolaridadeViewModel Escolaridade { get; set; }
         /// <summary>
         /// Estado onde vive
         /// </summary>

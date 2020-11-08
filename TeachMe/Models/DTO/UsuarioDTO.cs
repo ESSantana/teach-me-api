@@ -34,7 +34,7 @@ namespace TeachMe.API.Models.DTO
         /// <summary>
         /// Nivel de Escolaridade
         /// </summary>
-        public string Escolaridade { get; set; }
+        public Guid EscolaridadeId { get; set; }
         /// <summary>
         /// Tipo do documento: CPF ou RG
         /// </summary>

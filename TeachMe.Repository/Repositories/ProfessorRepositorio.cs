@@ -36,6 +36,7 @@ namespace TeachMe.Repository.Repositories
                 var resultado = _contexto.Set<ProfessorDisciplina>()
                     .Include(prof => prof.Professor)
                         .ThenInclude(usr => usr.Usuario)
+                            .ThenInclude(esc => esc.Escolaridade)
                     .Include(prof => prof.Professor)
                         .ThenInclude(mod => mod.ModalidadeEnsino)
                     .Include(prof => prof.Professor)

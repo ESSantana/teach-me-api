@@ -32,7 +32,7 @@ namespace TeachMe.Core.Dominio
         public string Email { get; set; }
         public string Senha { get; set; }
         public string Telefone { get; set; }
-        public string Escolaridade { get; set; }
+        public Guid EscolaridadeId { get; set; }
         public string TipoDocumento { get; set; }
         public string NuDocumento { get; set; }
         public string UF { get; set; }
@@ -40,6 +40,7 @@ namespace TeachMe.Core.Dominio
         public Guid CargoId { get; set; }
 
         public Cargo Cargo { get; set; }
+        public Escolaridade Escolaridade { get; set; }
         public List<Disciplina> Disciplinas { get; set; }
         public List<ProfessorDisciplina> ProfessorDisciplina { get; set; }
         public EmailValidacao EmailValidacao { get; set; }

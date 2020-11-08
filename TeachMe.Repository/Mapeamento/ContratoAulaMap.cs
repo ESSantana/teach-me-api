@@ -42,6 +42,9 @@ namespace TeachMe.Repository.Mapeamento
             builder.Property(x => x.ValorHora)
                 .HasColumnName("VALOR_AULA");
 
+            builder.Property(x => x.ValorTotal)
+                .HasColumnName("VALOR_TOTAL");
+
             builder.Property(x => x.Avaliado)
                 .HasColumnName("AVALIADO")
                 .IsRequired();

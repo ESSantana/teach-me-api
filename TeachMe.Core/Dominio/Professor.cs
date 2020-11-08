@@ -16,6 +16,7 @@ namespace TeachMe.Core.Dominio
             EscolaridaPubAlvoId = professor.EscolaridaPubAlvoId;
             EscolaridaPubAlvo = professor.EscolaridaPubAlvo;
             Descricao = professor.Descricao;
+            ValorHora = professor.ValorHora;
         }
 
         public long Id { get; set; }

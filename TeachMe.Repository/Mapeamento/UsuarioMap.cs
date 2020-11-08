@@ -40,7 +40,7 @@ namespace TeachMe.Repository.Mapeamento
                 .HasColumnName("TELEFONE")
                 .HasMaxLength(11);
 
-            builder.Property(x => x.Escolaridade)
+            builder.Property(x => x.EscolaridadeId)
                 .HasColumnName("ESCOLARIDADE")
                 .HasMaxLength(100);
 
@@ -63,6 +63,10 @@ namespace TeachMe.Repository.Mapeamento
             builder.Property(x => x.Cidade)
                 .HasColumnName("CIDADE")
                 .HasMaxLength(36);
+
+            builder.HasOne(x => x.Escolaridade)
+                .WithMany(x => x.Usuarios)
+                .HasForeignKey(x => x.EscolaridadeId);
 
             builder.HasOne(x => x.Cargo)
                 .WithMany(x => x.Usuarios)
