@@ -104,7 +104,7 @@ namespace TeachMe.Test.ControllerTests
                 NuDocumento = "111111111111",
                 Telefone = "71999887744",
                 TipoDocumento = "CPF",
-                Escolaridade = "Escolaridade Mock 1"
+                EscolaridadeId = new Guid("1916d92a-5d17-a345-bb86-7dded4ddc27d")
             };
 
             var result = controller.Cadastrar(usuario);
@@ -131,7 +131,7 @@ namespace TeachMe.Test.ControllerTests
                 NuDocumento = "111111111111",
                 Telefone = "71999887744",
                 TipoDocumento = "CPF",
-                Escolaridade = "Escolaridade Mock 1"
+                EscolaridadeId = new Guid("1916d92a-5d17-a345-bb86-7dded4ddc27d")
             };
 
             var result = controller.Cadastrar(entity);
@@ -157,7 +157,7 @@ namespace TeachMe.Test.ControllerTests
                 NuDocumento = "111111111111",
                 Telefone = "71999887744",
                 TipoDocumento = "CPF",
-                Escolaridade = "Escolaridade Mock 1"
+                EscolaridadeId = new Guid("1916d92a-5d17-a345-bb86-7dded4ddc27d")
             };
 
             var result = controller.Alterar(usuario);
@@ -185,7 +185,7 @@ namespace TeachMe.Test.ControllerTests
                 NuDocumento = "111111111111",
                 Telefone = "71999887744",
                 TipoDocumento = "CPF",
-                Escolaridade = "Escolaridade Mock 1"
+                EscolaridadeId = new Guid("1916d92a-5d17-a345-bb86-7dded4ddc27d")
             };
 
             var result = controller.Alterar(usuario);

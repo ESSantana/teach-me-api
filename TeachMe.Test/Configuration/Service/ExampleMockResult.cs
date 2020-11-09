@@ -20,7 +20,7 @@ namespace TeachMe.Test.Configuration.Service
                     NuDocumento="111111111111",
                     Telefone="71999887744",
                     TipoDocumento = "CPF",
-                    Escolaridade = "Escolaridade Mock 1"
+                    EscolaridadeId = new Guid("2755849d-af9a-7a4a-bb6a-d70c5edea77d")
                 },
                 new Usuario
                 {
@@ -32,7 +32,7 @@ namespace TeachMe.Test.Configuration.Service
                     NuDocumento="111111111111",
                     Telefone="71999887744",
                     TipoDocumento = "CPF",
-                    Escolaridade = "Escolaridade Mock 2"
+                    EscolaridadeId = new Guid("edcb1b45-2052-0e48-b618-c5ae51c42e46")
                 },
                 new Usuario
                 {
@@ -44,7 +44,7 @@ namespace TeachMe.Test.Configuration.Service
                     NuDocumento="111111111111",
                     Telefone="71999887744",
                     TipoDocumento = "CPF",
-                    Escolaridade = "Escolaridade Mock 3"
+                    EscolaridadeId = new Guid("0bacfd5f-d7c8-264b-ae04-7447ad12002f")
                 }
             };
         }

@@ -26,7 +26,7 @@ namespace TeachMe.API.Controllers
         }
 
         /// <summary>
-        /// Obter todas escolaridades cadastradas (Necessita de token de autenticação)
+        /// Obter todas escolaridades cadastradas (Permite acesso sem autenticação)
         /// </summary>
         /// <returns>Lista de escolaridade</returns>
         [HttpGet]

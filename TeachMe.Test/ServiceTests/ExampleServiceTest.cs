@@ -85,7 +85,7 @@ namespace TeachMe.Test.ServiceTests
                 NuDocumento = "111111111111",
                 Telefone = "71999887744",
                 TipoDocumento = "CPF",
-                Escolaridade = "Escolaridade Mock 1"
+                EscolaridadeId = new Guid("1916d92a-5d17-a345-bb86-7dded4ddc27d")
 
             };
 
@@ -155,7 +155,7 @@ namespace TeachMe.Test.ServiceTests
                 NuDocumento = "111111111111",
                 Telefone = "71999887744",
                 TipoDocumento = "CPF",
-                Escolaridade = "Escolaridade Mock 1"
+                EscolaridadeId = new Guid("1916d92a-5d17-a345-bb86-7dded4ddc27d")
             };
 
             var result = service.Alterar(usuario);
@@ -182,7 +182,7 @@ namespace TeachMe.Test.ServiceTests
                 NuDocumento = "111111111111",
                 Telefone = "71999887744",
                 TipoDocumento = "CPF",
-                Escolaridade = "Escolaridade Mock 1"
+                EscolaridadeId = new Guid("1916d92a-5d17-a345-bb86-7dded4ddc27d")
             };
 
             var result = service.Alterar(usuario);
@@ -207,7 +207,7 @@ namespace TeachMe.Test.ServiceTests
                 NuDocumento = "111111111111",
                 Telefone = "71999887744",
                 TipoDocumento = "CPF",
-                Escolaridade = "Escolaridade Mock 1"
+                EscolaridadeId = new Guid("1916d92a-5d17-a345-bb86-7dded4ddc27d")
             };
 
             var result = service.Alterar(usuario);

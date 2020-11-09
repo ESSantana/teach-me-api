@@ -1,38 +1,22 @@
 using AutoMapper;
 using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
-using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using TeachMe.API;
+using TeachMe.API.Extensions;
 using TeachMe.API.Filters;
-using TeachMe.Authorization;
 using TeachMe.Core.Resources;
 using TeachMe.Repository.Context;
-using TeachMe.Repository.Repositories;
-using TeachMe.Repository.Repositories.Interfaces;
-using TeachMe.Service.Services;
-using TeachMe.Service.Services.Interfaces;
 
 namespace TeachMe
 {
@@ -64,13 +48,6 @@ namespace TeachMe
                     };
                 });
 
-            services.AddLocalization(options => options.ResourcesPath = "Resources");
-
-            services.AddMvc(config =>
-            {
-                config.Filters.Add(typeof(ExceptionFilter));
-            });
-
             services.Configure<RequestLocalizationOptions>(
                 options =>
                 {
@@ -86,84 +63,20 @@ namespace TeachMe
                     options.RequestCultureProviders.Insert(0, new QueryStringRequestCultureProvider());
                 });
 
-            services.Configure<DbOptions>(Configuration.GetSection("DbOptions"));
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
+            services.AddMvc(config => config.Filters.Add(typeof(ExceptionFilter)));
 
             services.AddControllers();
             services.AddCors();
 
-            var key = Encoding.ASCII.GetBytes(Settings.Secret);
-            services.AddAuthentication(x =>
-            {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(x =>
-            {
-                x.RequireHttpsMetadata = false;
-                x.SaveToken = true;
-                x.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
-                };
-            });
-
-            services.AddSwaggerGen();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo
-                {
-                    Version = "v1",
-                    Title = "Example API",
-                    Description = "An API example to use as a template",
-                    TermsOfService = new Uri("https://example.com/terms"),
-                    Contact = new OpenApiContact
-                    {
-                        Name = "Example Name",
-                        Email = "example@mail.com",
-                        Url = new Uri("https://example.com"),
-                    },
-                    License = new OpenApiLicense
-                    {
-                        Name = "Use under ExampleLicense",
-                        Url = new Uri("https://example.com/license"),
-                    }
-                });
-
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                c.IncludeXmlComments(xmlPath);
-            });
+            services.Configure<DbOptions>(Configuration.GetSection("DbOptions"));
             services.AddAutoMapper(new Assembly[] { typeof(AutoMapperProfile).GetTypeInfo().Assembly });
-
-            services.AddHealthChecks()
-                .AddCheck<CustomHealthCheck>("applicationHealth", tags: new[] { "app_tag" });
+            services.AddHealthChecks().AddCheck<CustomHealthCheck>("applicationHealth", tags: new[] { "app_tag" });
             services.AddDbContext<TeachDbContext>(opt => opt.UseMySql(Configuration.GetConnectionString("DevConnection")));
 
-            #region Injeção de Dependência
-
-            services.AddScoped<TeachDbContext>();
-            services.AddTransient<IResourceLocalizer, ResourceLocalizer>();
-            services.AddTransient<IUsuarioRepositorio, UsuarioRepositorio>();
-            services.AddTransient<IUsuarioServico, UsuarioServico>();
-            services.AddTransient<ICargoRepositorio, CargoRepositorio>();
-            services.AddTransient<ICargoServico, CargoServico>();
-            services.AddTransient<IDisciplinaRepositorio, DisciplinaRepositorio>();
-            services.AddTransient<IDisciplinaServico, DisciplinaServico>();
-            services.AddTransient<IProfessorRepositorio, ProfessorRepositorio>();
-            services.AddTransient<IProfessorServico, ProfessorServico>();
-            services.AddTransient<IEmailRepositorio, EmailRepositorio>();
-            services.AddTransient<IValidacaoRepositorio, ValidacaoRepositorio>();
-            services.AddTransient<IAulaRepositorio, AulaRepositorio>();
-            services.AddTransient<IAulaServico, AulaServico>();
-            services.AddTransient<IEscolaridadeRepositorio, EscolaridadeRepositorio>();
-            services.AddTransient<IEscolaridadeServico, EscolaridadeServico>();
-            services.AddTransient<IModalidadeEnsinoRepositorio, ModalidadeEnsinoRepositorio>();
-            services.AddTransient<IModalidadeEnsinoServico, ModalidadeEnsinoServico>();
-
-            #endregion
+            services.ConfigureServiceSwagger();
+            services.ConfigureServiceAuthentication();
+            services.ConfigureServiceDependencyInjection();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -174,25 +87,15 @@ namespace TeachMe
                 app.UseDeveloperExceptionPage();
             }
 
-            var supportedCultures = new[] { new CultureInfo("pt-BR") };
-
             var localization = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
             app.UseRequestLocalization(localization.Value);
 
             app.UseAuthorization();
             app.UseAuthentication();
 
-            app.UseHealthChecks("/healthy", new HealthCheckOptions()
-            {
-                Predicate = (check) => check.Tags.Contains("app_tag"),
-                ResponseWriter = WriteResponse
-            });
+            app.ConfigureHealthCheck();
 
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Example API");
-            });
+            app.ConfigureAppSwagger();
 
             //app.UseHttpsRedirection();
 
@@ -202,29 +105,7 @@ namespace TeachMe
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
-        }
-
-        private async static Task WriteResponse(HttpContext context, HealthReport report)
-        {
-            context.Response.ContentType = "application/json; charset=utf-8";
-            var result = JsonConvert.SerializeObject(
-                new
-                {
-                    statusApplication = report.Status.ToString(),
-                    healthChecks = report.Entries.Select(e => new
-                    {
-                        check = e.Key,
-                        ErrorMessage = e.Value.Exception?.Message,
-                        statusMessage = e.Value.Description,
-                        status = Enum.GetName(typeof(HealthStatus), e.Value.Status)
-                    })
-                });
-
-            await context.Response.WriteAsync(result);
+            app.UseEndpoints(endpoints => endpoints.MapControllers());
         }
     }
 }

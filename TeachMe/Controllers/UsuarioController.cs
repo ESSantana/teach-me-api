@@ -32,7 +32,6 @@ namespace TeachMe.API.Controllers
         /// </summary>
         /// <returns>Lista de Usuários cadastrados</returns>
         [HttpGet]
-        [Route("obterTodos")]
         [Authorize]
         public ActionResult<List<UsuarioViewModel>> ObterTodos()
         {
@@ -52,7 +51,7 @@ namespace TeachMe.API.Controllers
         /// <param name="id">Id do usuário</param>
         /// <returns>Usuário referente ao id fornecido</returns>
         [HttpGet]
-        [Route("obter/{id}")]
+        [Route("porId")]
         [Authorize]
         public ActionResult<UsuarioViewModel> Obter(long id)
         {
@@ -93,7 +92,7 @@ namespace TeachMe.API.Controllers
         /// </summary>
         /// <param name="cadastro">Id presente na url enviada por e-mail</param>
         /// <returns>usuarioValidado: boolean</returns>
-        [HttpPost]
+        [HttpGet]
         [Route("validarCadastro")]
         [AllowAnonymous]
         public ActionResult<object> ValidarCadastro(Guid cadastro)

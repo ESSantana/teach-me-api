@@ -25,29 +25,10 @@ namespace TeachMe.API.Controllers
         }
 
         /// <summary>
-        /// Obter disciplina por Id (Necessita de token de autenticação)
-        /// </summary>
-        /// <param name="Id">Id da disciplina</param>
-        /// <returns>Disciplina</returns>
-        [HttpGet]
-        [Route("obter/{id}")]
-        [Authorize]
-        public ActionResult<DisciplinaViewModel> ObterDisciplinaPorId(Guid Id)
-        {
-            _logger.LogDebug("ObterDisciplinaPorId");
-            var resultado = _servico.ObterDisciplinaPorId(Id);
-
-            return resultado != null
-                ? (ActionResult)Ok(_mapper.Map<DisciplinaViewModel>(resultado))
-                : NoContent();
-        }
-
-        /// <summary>
         /// Obter todas disciplinas cadastradas (Necessita de token de autenticação)
         /// </summary>
         /// <returns>Lista de disciplinas</returns>
         [HttpGet]
-        [Route("obterTodos")]
         [Authorize]
         public ActionResult<List<DisciplinaViewModel>> ObterDisciplinas()
         {
@@ -56,6 +37,24 @@ namespace TeachMe.API.Controllers
 
             return resultado.Count > 0
                 ? (ActionResult)Ok(resultado.Select(r => _mapper.Map<DisciplinaViewModel>(r)).ToList())
+                : NoContent();
+        }
+
+        /// <summary>
+        /// Obter disciplina por Id (Necessita de token de autenticação)
+        /// </summary>
+        /// <param name="Id">Id da disciplina</param>
+        /// <returns>Disciplina</returns>
+        [HttpGet]
+        [Route("porId")]
+        [Authorize]
+        public ActionResult<DisciplinaViewModel> ObterDisciplinaPorId(Guid Id)
+        {
+            _logger.LogDebug("ObterDisciplinaPorId");
+            var resultado = _servico.ObterDisciplinaPorId(Id);
+
+            return resultado != null
+                ? (ActionResult)Ok(_mapper.Map<DisciplinaViewModel>(resultado))
                 : NoContent();
         }
     }

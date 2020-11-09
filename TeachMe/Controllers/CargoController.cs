@@ -25,29 +25,10 @@ namespace TeachMe.API.Controllers
         }
 
         /// <summary>
-        /// Obter cargo por Id (Necessita de token de autenticação)
-        /// </summary>
-        /// <param name="Id">Id do Cargo</param>
-        /// <returns>Cargo</returns>
-        [HttpGet]
-        [Route("obter/{id}")]
-        [Authorize]
-        public ActionResult<CargoViewModel> ObterCargoPorId(Guid Id)
-        {
-            _logger.LogDebug("ObterCargoPorId");
-            var resultado = _servico.ObterCargoPorId(Id);
-
-            return resultado != null
-                ? (ActionResult)Ok(_mapper.Map<CargoViewModel>(resultado))
-                : NoContent();
-        }
-
-        /// <summary>
         /// Obter todos os cargos cadastrados (Acesso só para administrador)
         /// </summary>
         /// <returns>Lista de Cargos</returns>
         [HttpGet]
-        [Route("obterTodos")]
         [Authorize(Roles = "administrador")]
         public ActionResult<List<CargoViewModel>> ObterCargos()
         {
@@ -56,6 +37,24 @@ namespace TeachMe.API.Controllers
 
             return resultado.Count > 0
                 ? (ActionResult)Ok(resultado.Select(r => _mapper.Map<CargoViewModel>(r)).ToList())
+                : NoContent();
+        }
+
+        /// <summary>
+        /// Obter cargo por Id (Necessita de token de autenticação)
+        /// </summary>
+        /// <param name="Id">Id do Cargo</param>
+        /// <returns>Cargo</returns>
+        [HttpGet]
+        [Route("porId")]
+        [Authorize]
+        public ActionResult<CargoViewModel> ObterCargoPorId(Guid Id)
+        {
+            _logger.LogDebug("ObterCargoPorId");
+            var resultado = _servico.ObterCargoPorId(Id);
+
+            return resultado != null
+                ? (ActionResult)Ok(_mapper.Map<CargoViewModel>(resultado))
                 : NoContent();
         }
     }
