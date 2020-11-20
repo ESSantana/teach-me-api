@@ -41,6 +41,8 @@ namespace TeachMe.Repository.Repositories
                         .ThenInclude(mod => mod.ModalidadeEnsino)
                     .Include(prof => prof.Professor)
                         .ThenInclude(esc => esc.EscolaridaPubAlvo)
+                    .Include(prof => prof.Professor)
+                        .ThenInclude(ava => ava.AvaliacaoProfessor)
                     .Include(disc => disc.Disciplina)
                     .Where(predicado)
                     .AsNoTracking()

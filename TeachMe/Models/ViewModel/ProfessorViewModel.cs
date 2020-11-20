@@ -35,5 +35,13 @@ namespace TeachMe.API.Models.ViewModel
         /// Disciplinas lecionadas
         /// </summary>
         public List<DisciplinaViewModel> Disciplinas { get; set; }
+        ///<summary>
+        /// Nota Média do professor
+        ///</summary>
+        public float NotaMedia { get; set; }
+        ///<summary>
+        /// Quantidade de avaliações
+        ///</summary>
+        public int QtdAvaliacoes { get; set; }
     }
 }
