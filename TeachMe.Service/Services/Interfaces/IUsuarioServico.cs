@@ -13,5 +13,6 @@ namespace TeachMe.Service.Services.Interfaces
         Usuario Cadastrar(Usuario usuario);
         Usuario Alterar(Usuario usuario);
         int Excluir(long Id);
+        bool RecuperarSenha(string email, string tipoDocumento, string documento);
     }
 }

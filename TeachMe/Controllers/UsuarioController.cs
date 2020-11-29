@@ -144,5 +144,19 @@ namespace TeachMe.API.Controllers
 
             return Ok(new { UsuarioDeletado = resultado > 0 });
         }
+
+        /// <summary>
+        /// Recuperar senha usada para login
+        /// </summary>
+        /// <param name="dado">Informações necessárias para mudar senha</param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("recuperarSenha")]
+        [AllowAnonymous]
+        public ActionResult<bool> AlterarSenha([FromBody] AlteracaoSenhaDTO dado)
+        {
+            var resultado = _servico.RecuperarSenha(dado.Email, dado.TipoDocumento, dado.Documento);
+            return Ok(resultado);
+        }
     }
 }

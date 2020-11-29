@@ -12,12 +12,14 @@ namespace TeachMe.Service.Services
     {
         private readonly IProfessorRepositorio _repositorio;
         private readonly IUsuarioRepositorio _usuarioRepositorio;
+        private readonly IEmailRepositorio _emailRepositorio;
         private readonly ILogger<ProfessorServico> _logger;
 
-        public ProfessorServico(IProfessorRepositorio repositorio, IUsuarioRepositorio usuarioRepositorio, ILogger<ProfessorServico> logger)
+        public ProfessorServico(IProfessorRepositorio repositorio, IUsuarioRepositorio usuarioRepositorio, IEmailRepositorio emailRepositorio, ILogger<ProfessorServico> logger)
         {
             _repositorio = repositorio;
             _usuarioRepositorio = usuarioRepositorio;
+            _emailRepositorio = emailRepositorio;
             _logger = logger;
         }
 
@@ -40,7 +42,14 @@ namespace TeachMe.Service.Services
                 throw new BusinessException("");
             }
 
-            return _repositorio.TornarProfessor(professor);
+            var resultado = _repositorio.TornarProfessor(professor);
+
+            if(resultado != null)
+            {
+                _emailRepositorio.NotificarMudancaPerfilProfessor(usuarioDB.Email, usuarioDB.Nome);  
+            }
+
+            return resultado;
         }
     }
 }

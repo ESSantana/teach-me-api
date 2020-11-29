@@ -63,7 +63,6 @@ namespace TeachMe.Service.Services
             return resultado;
         }
 
-
         public List<Usuario> ObterTodos()
         {
             _logger.LogDebug("ObterTodos");
@@ -163,6 +162,60 @@ namespace TeachMe.Service.Services
 
             return resultado;
 
+        }
+
+        public bool RecuperarSenha(string email, string tipoDocumento, string documento)
+        {
+            try
+            {
+                var rand = new Random();
+
+                List<int> getCharCode(int min, int max, int amount)
+                {
+                    var result = new List<int>();
+
+                    for (int i = 0; i < amount; i++)
+                    {
+                        result.Add(rand.Next(min, max));
+                    }
+                    return result;
+                };
+
+                var usuarioResult = _repositorio.Obter(x => x.Email.Equals(email) && x.TipoDocumento.Equals(tipoDocumento.ToUpper()) && x.NuDocumento.Equals(documento));
+
+                if (usuarioResult.Count != 1)
+                {
+                    throw new BusinessException(string.Format(_resource.GetString("INEXISTENT_ID"), "Usuário"));
+                }
+
+                var usuario = usuarioResult[0];
+
+                var listCharCode = new List<int>();
+                listCharCode.AddRange(getCharCode(97, 122, 2));
+                listCharCode.AddRange(getCharCode(65, 90, 2));
+                listCharCode.AddRange(getCharCode(48, 57, 2));
+                listCharCode.AddRange(getCharCode(97, 122, 2));
+                listCharCode.AddRange(getCharCode(65, 90, 2));
+
+                var novaSenha = string.Join("", listCharCode.Select(x => Convert.ToChar(x)));
+
+                usuario.Senha = EncriptarSenha(novaSenha);
+
+                var usuarioAlterado = _repositorio.Alterar(usuario);
+
+                if (usuarioAlterado != null)
+                {
+                    _emailRepositorio.NotificarAlteracaoSenha(email, novaSenha);
+                    return true;
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"{typeof(UsuarioServico)} - {nameof(RecuperarSenha)}: {ex.Message}");
+                throw new BusinessException(ex.Message);
+            }
         }
 
         private string EncriptarSenha(string senha)

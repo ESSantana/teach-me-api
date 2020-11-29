@@ -147,6 +147,9 @@
   <data name="RATING_REQUIRED" xml:space="preserve">
     <value>O campo nota é obrigatória e deve estar entre 1 e 10</value>
   </data>
+  <data name="REGISTER_VALIDATION_MESSAGE" xml:space="preserve">
+    <value>Seja bem vindo ao Teach Me Sr(a).{0}. Antes de acessar a nossa plataforma, confirme seu cadastro clicando no link a abaixo.\nValide seu cadastro clicando &lt;a href=\"{1}/validarCadastro?cadastro={2}\"&gt;aqui&lt;/a&gt;!</value>
+  </data>
   <data name="SIZE_RULE" xml:space="preserve">
     <value>O campo {0} deve ter tamanho menor ou igual a {1} caracteres</value>
   </data>

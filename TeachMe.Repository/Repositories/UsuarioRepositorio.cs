@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
+using System.Linq.Expressions;
 using TeachMe.Core.Dominio;
 using TeachMe.Core.Exceptions;
 using TeachMe.Repository.Context;
@@ -51,6 +52,20 @@ namespace TeachMe.Repository.Repositories
                 throw new BusinessException(ex.Message);
             }
 
+        }
+
+        public List<Usuario> Obter(params Expression<Func<Usuario, bool>>[] filters)
+        {
+            var resultado = _contexto.Set<Usuario>().AsNoTracking().AsQueryable();
+
+            if (filters.Length > 0)
+            {
+                foreach (var filter in filters) {
+                    resultado = resultado.Where(filter);
+                }
+            }
+
+            return resultado.ToList();
         }
 
         public List<Usuario> ObterTodos()
