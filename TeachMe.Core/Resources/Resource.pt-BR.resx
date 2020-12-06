@@ -153,6 +153,9 @@
   <data name="SIZE_RULE" xml:space="preserve">
     <value>O campo {0} deve ter tamanho menor ou igual a {1} caracteres</value>
   </data>
+  <data name="UNAVAILABLE_PERIOD" xml:space="preserve">
+    <value>Professor indisponível no período requisitado</value>
+  </data>
   <data name="UNHEALTHY_STATUS" xml:space="preserve">
     <value>A aplicação está com problemas</value>
   </data>

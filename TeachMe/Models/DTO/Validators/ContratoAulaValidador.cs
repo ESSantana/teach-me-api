@@ -43,7 +43,7 @@ namespace TeachMe.API.Models.DTO.Validators
                 .NotNull()
                 .NotEmpty()
                 .WithMessage(string.Format(_resource.GetString("FIELD_REQUIRED"), "Horas Contratadas"))
-                .Must(x => x > 1)
+                .Must(x => x >= 1)
                 .WithMessage(string.Format(_resource.GetString("MINIMUM_HOUR_RESTRICT"), "1"));
         }
     }

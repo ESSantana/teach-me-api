@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TeachMe.Core.Dominio;
 
 namespace TeachMe.Repository.Repositories.Interfaces
@@ -10,5 +11,6 @@ namespace TeachMe.Repository.Repositories.Interfaces
         List<ContratoAula> ObterAulaParaAvaliar(long alunoId);
         AvaliacaoProfessor AvaliarProfessor(AvaliacaoProfessor avaliacao);
         bool AulaParaAvaliacao(long alunoId, long professorId, long aulaId);
+        bool IsProfessorDisponivel(long professorId, DateTime InicioAula, DateTime FimAula);
     }
 }

@@ -60,8 +60,8 @@ namespace TeachMe.Repository.Repositories
             try
             {
                 var aulas = _contexto.Set<ContratoAula>()
-                    .Where(x => x.AlunoId == alunoId 
-                        && DateTime.Now > x.DataFimPrestacao 
+                    .Where(x => x.AlunoId == alunoId
+                        && DateTime.Now > x.DataFimPrestacao
                         && !x.Avaliado)
                     .ToList();
 
@@ -113,6 +113,37 @@ namespace TeachMe.Repository.Repositories
             {
                 _logger.LogError(ex, $"AulaParaAvaliacao error: {ex.Message}");
                 throw;
+            }
+        }
+
+        public bool IsProfessorDisponivel(long professorId, DateTime InicioAula, DateTime FimAula)
+        {
+            var aulas = _contexto.Set<ContratoAula>().Where(x => x.ProfessorId == professorId && x.DataInicioPrestacao > DateTime.Now)
+                .OrderBy(x => x.DataInicioPrestacao).ToList();
+
+            bool entreAulas()
+            {
+                for (int i = 0; i < aulas.Count() - 1; i++)
+                {
+                    if (InicioAula > aulas[i].DataFimPrestacao
+                        && FimAula < aulas[i+1].DataInicioPrestacao)
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            if (aulas.Count() < 1
+                || aulas.All(x => x.DataInicioPrestacao > FimAula)
+                || aulas.All(x => x.DataFimPrestacao < InicioAula)
+                || entreAulas())
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
     }

@@ -10,7 +10,8 @@ namespace TeachMe.API.AutoMapper.Mappers
         public static void Map(Profile profile)
         {
             profile.CreateMap<UsuarioDTO, Usuario>();
-            profile.CreateMap<Usuario, UsuarioViewModel>();
+            profile.CreateMap<Usuario, UsuarioViewModel>()
+                .ForMember(dest => dest.Cargo, opt => opt.MapFrom(src => src.Cargo.Descricao));
         }
     }
 }

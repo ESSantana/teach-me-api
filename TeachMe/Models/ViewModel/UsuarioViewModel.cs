@@ -40,6 +40,10 @@ namespace TeachMe.API.Models.ViewModel
         /// </summary>
         public string Cidade { get; set; }
         /// <summary>
+        /// Cargo do usuário
+        /// </summary>
+        public string Cargo { get; set; }
+        /// <summary>
         /// Token de autenticação
         /// </summary>
         public string Token { get; set; }

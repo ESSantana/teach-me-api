@@ -58,6 +58,18 @@ namespace TeachMe.Repository.Repositories
             Servidor = IniciarCliente(Parametros);
         }
 
+
+        public void EnviarEmail(string email, string titulo, string mensagem)
+        {
+            MailMessage message = new MailMessage();
+
+            message.To.Add(email);
+            message.Subject = titulo;
+            message.Body = mensagem;
+
+            MandarEmail(message);
+        }
+
         public void NotificarCadastro(string email, string nome, Guid validacaoId)
         {
             MailMessage message = new MailMessage();
