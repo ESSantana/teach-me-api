@@ -12,8 +12,6 @@ namespace TeachMe.Repository.Mapeamento
 
             builder.HasKey(x => x.Id);
 
-            // builder.Ignore(x => x.AvaliacaoProfessor);
-
             builder.Property(x => x.Id)
                 .HasColumnName("CONTRATO_AULA_ID")
                 .IsRequired()
@@ -59,7 +57,7 @@ namespace TeachMe.Repository.Mapeamento
 
             builder.HasOne(x => x.AvaliacaoProfessor)
                 .WithOne(x => x.ContratoAula)
-                .HasForeignKey<ContratoAula>(x => x.Id);
+                .HasForeignKey<AvaliacaoProfessor>(x => x.AulaId);
         }
     }
 }

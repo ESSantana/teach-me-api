@@ -29,7 +29,7 @@ namespace TeachMe.API.Models.DTO.Validators
                 .WithMessage(string.Format(_resource.GetString("INEXISTENT_ID"), "Aluno"));
 
             RuleFor(x => x.ProfessorId)
-                .Must(professorId => _professorServico.ObterProfessores(professorId).Count == 1)
+                .Must(professorId => _professorServico.ObterProfessores(0, professorId).Count == 1)
                 .WithMessage(string.Format(_resource.GetString("INEXISTENT_ID"), "Professor"));
 
             RuleFor(x => x.ValorHora)

@@ -135,6 +135,9 @@
   <data name="INEXISTENT_ID" xml:space="preserve">
     <value>O id informado não está associado a nenhum {0}.</value>
   </data>
+  <data name="INVALID_CREDENTIALS" xml:space="preserve">
+    <value>As credenciais informadas não correspondem ao usuário com o id fornecido</value>
+  </data>
   <data name="INVALID_ID" xml:space="preserve">
     <value>Id inválido</value>
   </data>

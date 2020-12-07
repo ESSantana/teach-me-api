@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TeachMe.Core.Dominio;
 using TeachMe.Core.Exceptions;
+using TeachMe.Core.Resources;
 using TeachMe.Core.Utils;
 using TeachMe.Repository.Repositories.Interfaces;
 using TeachMe.Service.Services.Interfaces;
@@ -14,13 +15,15 @@ namespace TeachMe.Service.Services
         private readonly IUsuarioRepositorio _usuarioRepositorio;
         private readonly IEmailRepositorio _emailRepositorio;
         private readonly ILogger<ProfessorServico> _logger;
+        private readonly IResourceLocalizer _resource;
 
-        public ProfessorServico(IProfessorRepositorio repositorio, IUsuarioRepositorio usuarioRepositorio, IEmailRepositorio emailRepositorio, ILogger<ProfessorServico> logger)
+        public ProfessorServico(IProfessorRepositorio repositorio, IUsuarioRepositorio usuarioRepositorio, IEmailRepositorio emailRepositorio, ILogger<ProfessorServico> logger, IResourceLocalizer resource)
         {
             _repositorio = repositorio;
             _usuarioRepositorio = usuarioRepositorio;
             _emailRepositorio = emailRepositorio;
             _logger = logger;
+            _resource = resource;
         }
 
         public List<Professor> ObterProfessores(long requisitanteId, long id = 0, string nome = null, string disciplina = null)
@@ -39,15 +42,29 @@ namespace TeachMe.Service.Services
 
             if (!credenciaisValidas)
             {
-                throw new BusinessException("");
+                throw new BusinessException(_resource.GetString("INVALID_CREDENTIALS"));
             }
 
             var resultado = _repositorio.TornarProfessor(professor);
 
-            if(resultado != null)
+            if (resultado != null)
             {
-                _emailRepositorio.NotificarMudancaPerfilProfessor(usuarioDB.Email, usuarioDB.Nome);  
+                _emailRepositorio.NotificarMudancaPerfilProfessor(usuarioDB.Email, usuarioDB.Nome);
             }
+
+            return resultado;
+        }
+
+        public List<AvaliacaoProfessor> ObterAvaliacaoPorIdProfessor(long professorId)
+        {
+            _logger.LogInformation(nameof(ObterAvaliacaoPorIdProfessor));
+
+            if (professorId < 1)
+            {
+                throw new BusinessException(_resource.GetString("INVALID_ID"));
+            }
+
+            var resultado = _repositorio.ObterAvaliacaoPorIdProfessor(professorId);
 
             return resultado;
         }

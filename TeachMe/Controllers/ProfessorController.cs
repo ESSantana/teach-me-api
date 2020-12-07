@@ -67,5 +67,23 @@ namespace TeachMe.API.Controllers
                 ? (ActionResult)Ok(_mapper.Map<ProfessorViewModel>(resultado))
                 : NoContent();
         }
+
+        /// <summary>
+        /// Obter avaliações feitas para o professor com o id informado
+        /// </summary>
+        /// <param name="professorId">Id do Professor</param>
+        /// <returns>Lista de avaliações do professor</returns>
+        [HttpGet]
+        [Route("avaliacaoPorProfessor")]
+        [Authorize]
+        public ActionResult<List<AvaliacaoProfessor>> ObterAvaliacaoPorIdProfessor(long professorId)
+        {
+            _logger.LogDebug("ObterAvaliacaoPorIdProfessor");
+            var resultado = _servico.ObterAvaliacaoPorIdProfessor(professorId);
+
+            return resultado.Count > 0
+                ? (ActionResult)Ok(resultado.Select(x => _mapper.Map<AvaliacaoProfessorViewModel>(x)).ToList())
+                : NoContent();
+        }
     }
 }

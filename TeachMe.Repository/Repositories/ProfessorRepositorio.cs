@@ -65,6 +65,26 @@ namespace TeachMe.Repository.Repositories
             }
         }
 
+        public List<AvaliacaoProfessor> ObterAvaliacaoPorIdProfessor(long professorId)
+        {
+            _logger.LogInformation(nameof(ObterAvaliacaoPorIdProfessor));
+            try
+            {
+                var resultado = _contexto.Set<AvaliacaoProfessor>()
+                    .Include(x => x.ContratoAula)
+                        .ThenInclude(x => x.Aluno)
+                    .Where(x => x.ProfessorId == professorId)
+                    .ToList();
+
+                return resultado;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"{nameof(ObterAvaliacaoPorIdProfessor)} ERROR: {ex.Message}");
+                throw;
+            }
+        }
+
         public Professor TornarProfessor(Professor professor)
         {
             _logger.LogDebug("TornarProfessor");

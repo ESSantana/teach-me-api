@@ -10,7 +10,12 @@ namespace TeachMe.API.AutoMapper.Mappers
         public static void Map(Profile profile)
         {
             profile.CreateMap<AvaliacaoProfessorDTO, AvaliacaoProfessor>();
-            profile.CreateMap<AvaliacaoProfessor, AvaliacaoProfessorViewModel>();
+            profile.CreateMap<AvaliacaoProfessor, AvaliacaoProfessorViewModel>()
+                .ForMember(dest => dest.Aluno, opt => 
+                {
+                    opt.PreCondition(x => x.ContratoAula != null && x.ContratoAula.Aluno != null);
+                    opt.MapFrom(x => x.ContratoAula.Aluno.Nome);
+                });
         }
     }
 }

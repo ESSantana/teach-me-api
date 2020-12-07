@@ -18,6 +18,10 @@
         /// </summary>
         public long AulaId { get; set; }
         /// <summary>
+        /// Aluno que fez a avaliação
+        /// </summary>
+        public string Aluno { get; set; }
+        /// <summary>
         /// Nota do professor
         /// </summary>
         public int Nota { get; set; }
