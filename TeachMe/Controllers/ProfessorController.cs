@@ -39,7 +39,11 @@ namespace TeachMe.API.Controllers
         public ActionResult<List<ProfessorViewModel>> ObterProfessores(long id = 0, string nome = null, string disciplina = null)
         {
             _logger.LogDebug("ObterProfessores");
-            var resultado = _servico.ObterProfessores(id, nome, disciplina);
+
+            var identityContent = User.Identity as System.Security.Claims.ClaimsIdentity;
+            long requisitanteId = long.Parse(identityContent.Claims.First(x => x.Type.Equals("id")).Value);
+
+            var resultado = _servico.ObterProfessores(requisitanteId, id, nome, disciplina);
 
             return resultado.Count > 0
                 ? (ActionResult)Ok(resultado.Select(r => _mapper.Map<ProfessorViewModel>(r)).ToList())

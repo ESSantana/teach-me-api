@@ -23,10 +23,10 @@ namespace TeachMe.Service.Services
             _logger = logger;
         }
 
-        public List<Professor> ObterProfessores(long id = 0, string nome = null, string disciplina = null)
+        public List<Professor> ObterProfessores(long requisitanteId, long id = 0, string nome = null, string disciplina = null)
         {
             _logger.LogDebug("ObterProfessores");
-            var resultado = _repositorio.ObterProfessores(id, nome, disciplina);
+            var resultado = _repositorio.ObterProfessores(requisitanteId, id, nome, disciplina);
 
             _logger.LogDebug($"ObterProfessores resultado: {resultado.Count} professores encontradores");
             return resultado;

@@ -11,8 +11,10 @@ namespace TeachMe.Authorization
 {
     public static class TokenHandler
     {
+        private const string IdRole = "id";
         public static UsuarioViewModel GenerateToken(Usuario usuario, IMapper mapper)
         {
+            
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(Settings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
@@ -21,7 +23,8 @@ namespace TeachMe.Authorization
                 {
                     new Claim(ClaimTypes.Name, usuario.Nome),
                     new Claim(ClaimTypes.Email, usuario.Email),
-                    new Claim(ClaimTypes.Role, usuario.Cargo.Descricao)
+                    new Claim(ClaimTypes.Role, usuario.Cargo.Descricao),
+                    new Claim(IdRole, usuario.Id.ToString())
                 }),
                 
                 Expires =  DateTime.UtcNow.AddDays(3),

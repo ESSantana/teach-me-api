@@ -15,10 +15,9 @@ namespace TeachMe.API.AutoMapper.Mappers
                 .ForMember(x => x.QtdAvaliacoes, opt => opt.MapFrom(
                     src => src.AvaliacaoProfessor.Count
                 ))
-
                 .ForMember(x => x.NotaMedia, opt =>
                 {
-                    opt.PreCondition(x => x.AvaliacaoProfessor.Count > 0);
+                    opt.PreCondition(x => x.AvaliacaoProfessor != null && x.AvaliacaoProfessor.Count > 0);
                     opt.MapFrom(src => src.AvaliacaoProfessor.Sum(x => x.Nota) / src.AvaliacaoProfessor.Count);
                 });
         }

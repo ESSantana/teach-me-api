@@ -5,7 +5,7 @@ namespace TeachMe.Repository.Repositories.Interfaces
 {
     public interface IProfessorRepositorio
     {
-        List<Professor> ObterProfessores(long id = 0, string nome = null, string disciplina = null);
+        List<Professor> ObterProfessores(long requisitanteId, long id = 0, string nome = null, string disciplina = null);
         Professor TornarProfessor(Professor professor);
     }
 }
