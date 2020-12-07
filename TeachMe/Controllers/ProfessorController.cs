@@ -76,7 +76,7 @@ namespace TeachMe.API.Controllers
         [HttpGet]
         [Route("avaliacaoPorProfessor")]
         [Authorize]
-        public ActionResult<List<AvaliacaoProfessor>> ObterAvaliacaoPorIdProfessor(long professorId)
+        public ActionResult<List<AvaliacaoProfessorViewModel>> ObterAvaliacaoPorIdProfessor(long professorId)
         {
             _logger.LogDebug("ObterAvaliacaoPorIdProfessor");
             var resultado = _servico.ObterAvaliacaoPorIdProfessor(professorId);
